@@ -1,0 +1,16 @@
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+	<CheckBoxPreference
+		android:key="agentEnabled"
+		android:title="Enable the ferret"
+		android:summary="Will ask about your mood regularily"
+		/>
+	<ListPreference
+		android:key="agentFrequency"
+		android:title="Ferret frequency"
+		android:summary="How often should it ask questions?"
+		android:entries="@array/ferretFrequencies"
+		android:entryValues="@array/ferretFrequenciesValues"
+		android:dialogTitle="Frequency"
+		/>
+</PreferenceScreen>

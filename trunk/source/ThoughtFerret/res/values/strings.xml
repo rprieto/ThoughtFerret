@@ -3,4 +3,19 @@
     <string name="hello">Hello World, MoodQuestion!</string>
     <string name="app_name">ThoughtFerret</string>
 <string name="moodQuestion">How are you feeling?</string>
+<string name="homeUpdate">Update mood</string>
+<string name="homeGraph">Mood graph</string>
+<string name="homeWords">Happy words</string>
+<string name="homePreferences">Preferences</string>
+
+<string-array name="ferretFrequencies"><item>Never</item>
+<item>Demo mode</item>
+<item>Every few hours</item>
+<item>Every few days</item>
+</string-array>
+<string-array name="ferretFrequenciesValues"><item>never</item>
+<item>demo</item>
+<item>everyfewhours</item>
+<item>everyfewdays</item>
+</string-array>
 </resources>

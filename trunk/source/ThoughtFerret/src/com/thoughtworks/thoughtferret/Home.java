@@ -1,7 +1,9 @@
 package com.thoughtworks.thoughtferret;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 public class Home extends Activity {
 
@@ -9,6 +11,22 @@ public class Home extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+	}
+	
+	public void updateClick(View view) {
+		startActivity(new Intent(this, MoodUpdate.class));
+	}
+
+	public void graphClick(View view) {
+		startActivity(new Intent(this, MoodGraph.class));
+	}
+	
+	public void wordsClick(View view) {
+		startActivity(new Intent(this, HappyWords.class));
+	}
+	
+	public void preferencesClick(View view) {
+		startActivity(new Intent(this, EditPreferences.class));
 	}
 	
 }

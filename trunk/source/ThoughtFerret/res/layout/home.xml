@@ -4,10 +4,29 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     >
-	<TextView  
+	<Button
 	    android:layout_width="fill_parent" 
-	    android:layout_height="wrap_content" 
-	    android:text="@string/hello"
-	    />
+	    android:layout_height="wrap_content"
+	    android:text="@string/homeUpdate"
+	    android:onClick="updateClick"
+		/>
+	<Button
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="@string/homeGraph"
+	    android:onClick="graphClick"
+		/>
+	<Button
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="@string/homeWords"
+	    android:onClick="wordsClick"
+		/>
+	<Button
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="@string/homePreferences"
+	    android:onClick="preferencesClick"
+		/>
 </LinearLayout>
 
