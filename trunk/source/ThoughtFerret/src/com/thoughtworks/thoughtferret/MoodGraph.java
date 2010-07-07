@@ -6,87 +6,94 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.view.View;
 
 public class MoodGraph extends Activity {
 
-	Paint linePaint;
-	Paint lineBorderPaint;
-	
-	int happyColor = 0xFF00FF00;
-	int happyColorBorder = 0xFF009900; 
-	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	 	createPaintBrushes();
 	 	setContentView(new Panel(this));
 	 }
 	
-	private void createPaintBrushes() {
-		linePaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setColor(happyColor);
-			}};
-
-		lineBorderPaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(3.0f);
-				setStrokeCap(Cap.ROUND);
-				setColor(happyColorBorder);
-			}};
-	}
-	
-//	private int interpolateColor(int value, int min, int max) {
-//		float ratio = (max - min) / (float)value;
-//		return (int) (sadColor + (happyColor - sadColor) * ratio);
-//	}
-	
 
 	 class Panel extends View {
+		 
+			int happyColor = 0xFF00FF00;
+			int happyColorBorder = 0xFF009900; 
+			int sadColor = 0xFFFF0000;
+		 
+			Paint gradientPaint;
+		 
 		    public Panel(Context context) {
 		        super(context);
+		        
+		        gradientPaint = new Paint() {{
+					setStyle(Paint.Style.FILL);
+					setAntiAlias(true);
+					setStrokeWidth(3.0f);
+					setStrokeCap(Cap.ROUND);
+					setColor(0xff800000);
+				}};
 		    }
 		 
 		    @Override
 		    public void onDraw(Canvas canvas) {
 		    	
 		    	canvas.drawColor(0xFF000000);
+	
+		    	int xBase = 0;
 		    	
-	        	Path p = new Path();
-	        	Point mid = new Point();
-	        	
+	        	Path path = new Path();	        	
 	        	List<Point> points = new ArrayList<Point>();
+
+	        	points.add(new Point(100, 0));
+	        	points.add(new Point(150, 50));
+	        	points.add(new Point(210,100));
+	        	points.add(new Point(120,150));
+	        	points.add(new Point(195,200));
+	        	points.add(new Point(140,250));
+	        	points.add(new Point(260,300));
+	        	points.add(new Point(210,350));
+	        	points.add(new Point(100,400));
+	        	points.add(new Point(150,430));
 	        	
-	        	points.add(new Point(0, 200));
-	        	points.add(new Point(50, 120));
-	        	points.add(new Point(100, 80));
-	        	points.add(new Point(150, 160));
-	        	points.add(new Point(200, 150));
-	        	points.add(new Point(250, 100));
-	        	points.add(new Point(300, 185));
+	        	Point first = points.get(0);
+	        	Point last = points.get(points.size() - 1);
+	        	
+	        	path.moveTo(xBase, first.y);
+	        	path.lineTo(first.x, first.y);
 	        	
 	        	for (int i=0; i<points.size() - 1; i++) {
-	        		Point start = points.get(i);
-	        		Point end = points.get(i+1);
 	        		
-		        	mid.set((start.x + end.x) / 2, (start.y + end.y) / 2);
+	        		Point current = points.get(i);
+	        		Point next = points.get(i+1);
+	        		Point mid = new Point((current.x + next.x) / 2, (current.y + next.y) / 2);
+	        		
+	        		Point controlPoint1 = new Point(current.x, mid.y);
+	        		Point controlPoint2 = new Point(next.x, mid.y);
+	        		
+	        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+	        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
+	        		
+	        		//path.lineTo(next.x, next.y);
+	        	}
+	        	
+	        	path.lineTo(xBase, last.y);
+	        	path.close();
+	        	
+	        	canvas.drawPath(path, gradientPaint); 
+       	
 
-		        	p.reset();
-		        	p.moveTo(start.x, start.y);
-		        	p.quadTo((start.x + mid.x) / 2, start.y, mid.x, mid.y);
-		        	p.quadTo((mid.x + end.x) / 2, end.y, end.x, end.y);
-
-		        	canvas.drawPath(p, lineBorderPaint);
-		        	canvas.drawPath(p, linePaint);	        		
-	        	} 	
+	        	
+	        	
+	        	
 		    }
 		}
 	 
