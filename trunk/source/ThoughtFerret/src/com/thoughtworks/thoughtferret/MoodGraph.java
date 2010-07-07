@@ -21,6 +21,7 @@ import android.view.View;
 public class MoodGraph extends Activity {
 	
 	int pointSpacing = 30;
+	int yBase = 350;
 	
 	@Override
 	 public void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,11 @@ public class MoodGraph extends Activity {
     	Random rnd = new Random();
 		List<Point> points = new ArrayList<Point>();
 
-    	int pointY = 0;
+    	int pointX = 0;
     	for (int i = 0; i < nbPoints; i++) {
-    		int pointX = (rnd.nextInt(5) + 1) * 50;
+    		int pointY = yBase - (rnd.nextInt(5) + 1) * 50;
     		points.add(new Point(pointX, pointY));
-    		pointY += pointSpacing;
+    		pointX += pointSpacing;
     	}
     	
     	return points;
@@ -54,32 +55,51 @@ public class MoodGraph extends Activity {
 			List<Point> points;
 			
 			Paint gradientPaint;
+			Paint textPaint;
+			Paint bottomPanelPaint;
 		 
-			int maxBufferSizeX = 320;
-			int maxBufferSizeY = 1000;
+			int maxBufferSizeX = 1000;
+			int maxBufferSizeY = 430;
 			
 			Bitmap bufferBitmap;
 		    Canvas bufferCanvas;
 		    
-		    float lastTouchY;
-		    int scrollPosY;
+		    float lastTouchX;
+		    int scrollPosX;
 
 			
 		    public Panel(Context context, List<Point> points) {
 		        super(context);
 		        
 		        this.points = points;
-		        this.maxBufferSizeY = points.size() * pointSpacing;
+		        
+		        this.maxBufferSizeX = (points.size() - 1) * pointSpacing;
 		        
 		        gradientPaint = new Paint() {{
 					setStyle(Paint.Style.FILL);
 					setAntiAlias(true);
 					setStrokeWidth(1.0f);
 					setStrokeCap(Cap.ROUND);
+					setColor(0xFF000000);
+				}};
+				
+				gradientPaint.setShader(new LinearGradient(0, yBase, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
+				
+				textPaint = new Paint() {{
+					setStyle(Paint.Style.STROKE);
+					setAntiAlias(true);
+					setStrokeWidth(1.0f);
+					setStrokeCap(Cap.BUTT);
 					setColor(0xFFFFFFFF);
 				}};
 				
-				gradientPaint.setShader(new LinearGradient(0, 0, 300, 0, sadColor, happyColor, Shader.TileMode.CLAMP));
+				bottomPanelPaint = new Paint() {{
+					setStyle(Paint.Style.FILL);
+					setAntiAlias(true);
+					setStrokeWidth(1.0f);
+					setStrokeCap(Cap.BUTT);
+					setColor(0xFF000000);
+				}};
 				
 				bufferBitmap = Bitmap.createBitmap(maxBufferSizeX, maxBufferSizeY, Bitmap.Config.ARGB_8888);
 			    bufferCanvas = new Canvas(bufferBitmap);
@@ -90,20 +110,20 @@ public class MoodGraph extends Activity {
 		    	final int action = event.getAction();
 		        switch (action) {
 			        case MotionEvent.ACTION_DOWN: {
-			            lastTouchY = event.getY();
+			            lastTouchX = event.getX();
 			            break;
 			        }			            
 			        case MotionEvent.ACTION_MOVE: {
-			            scrollPosY += lastTouchY - event.getY();
+			            scrollPosX += lastTouchX - event.getX();
 			            
-			            if (scrollPosY < 0) {
-			            	scrollPosY = 0;
+			            if (scrollPosX < 0) {
+			            	scrollPosX = 0;
 			            }
-			            if (scrollPosY > maxBufferSizeY - getHeight()) {
-			            	scrollPosY = maxBufferSizeY - getHeight();
+			            if (scrollPosX > maxBufferSizeX - getWidth()) {
+			            	scrollPosX = maxBufferSizeX - getWidth();
 			            }
 			            
-			            lastTouchY = event.getY();
+			            lastTouchX = event.getX();
 			            invalidate();
 			            break;
 			        }
@@ -115,10 +135,9 @@ public class MoodGraph extends Activity {
 		    @Override
 		    public void onDraw(Canvas canvas) {
 		    	super.onDraw(canvas);
-
 		    	drawGraph(bufferCanvas);
 		    	
-		    	Rect source = new Rect(0, scrollPosY, getWidth(), scrollPosY + getHeight());
+		    	Rect source = new Rect(scrollPosX, 0, scrollPosX + getWidth(), getHeight());
 		    	Rect dest = new Rect(0, 0, getWidth(), getHeight());
 		    	canvas.drawBitmap(bufferBitmap, source, dest, null);		    	
 		    }
@@ -126,15 +145,16 @@ public class MoodGraph extends Activity {
 		    private void drawGraph(Canvas canvas) {
 		    	
 		    	canvas.drawColor(backgroundColor);
-	
-		    	int xBase = 0;
+		    
+		    	canvas.drawRect(0, yBase, maxBufferSizeX, getHeight(), bottomPanelPaint);
+		    	canvas.drawText("March 2010", 150, 400, textPaint);
 		    	
 	        	Path path = new Path();	        	
 	        	
 	        	Point first = points.get(0);
 	        	Point last = points.get(points.size() - 1);
 	        	
-	        	path.moveTo(xBase, first.y);
+	        	path.moveTo(first.x, yBase);
 	        	path.lineTo(first.x, first.y);
 	        	
 	        	for (int i=0; i<points.size() - 1; i++) {
@@ -143,15 +163,15 @@ public class MoodGraph extends Activity {
 	        		Point next = points.get(i+1);
 	        		Point mid = new Point((current.x + next.x) / 2, (current.y + next.y) / 2);
 	        		
-	        		Point controlPoint1 = new Point(current.x, mid.y);
-	        		Point controlPoint2 = new Point(next.x, mid.y);
+	        		Point controlPoint1 = new Point(mid.x, current.y);
+	        		Point controlPoint2 = new Point(mid.x, next.y);
 	        		
 	        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
 	        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
 	        		//path.lineTo(next.x, next.y);
 	        	}
 	        	
-	        	path.lineTo(xBase, last.y);
+	        	path.lineTo(last.x, yBase);
 	        	path.close();
 	        	
 	        	canvas.drawPath(path, gradientPaint); 
