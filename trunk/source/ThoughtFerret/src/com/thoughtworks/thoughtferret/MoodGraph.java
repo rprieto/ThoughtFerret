@@ -6,17 +6,13 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
 
 public class MoodGraph extends Activity {
 	
@@ -46,7 +42,7 @@ public class MoodGraph extends Activity {
     	return points;
 	}
 	
-	 class Panel extends View  {
+	 class Panel extends ScrollablePanel  {
 		 
 		 	int backgroundColor = 0xFF333333;
 			int happyColor = 0xFF00FF00;
@@ -60,16 +56,10 @@ public class MoodGraph extends Activity {
 		 
 			int maxBufferSizeX = 1000;
 			int maxBufferSizeY = 430;
-			
-			Bitmap bufferBitmap;
-		    Canvas bufferCanvas;
-		    
-		    float lastTouchX;
-		    int scrollPosX;
 
 			
 		    public Panel(Context context, List<Point> points) {
-		        super(context);
+		        super(context, 1000, 430);
 		        
 		        this.points = points;
 		        
@@ -101,49 +91,10 @@ public class MoodGraph extends Activity {
 					setColor(0xFF000000);
 				}};
 				
-				bufferBitmap = Bitmap.createBitmap(maxBufferSizeX, maxBufferSizeY, Bitmap.Config.ARGB_8888);
-			    bufferCanvas = new Canvas(bufferBitmap);
+
 		    }
 		    
-		    @Override
-		    public boolean onTouchEvent(MotionEvent event) {
-		    	final int action = event.getAction();
-		        switch (action) {
-			        case MotionEvent.ACTION_DOWN: {
-			            lastTouchX = event.getX();
-			            break;
-			        }			            
-			        case MotionEvent.ACTION_MOVE: {
-			            scrollPosX += lastTouchX - event.getX();
-			            
-			            if (scrollPosX < 0) {
-			            	scrollPosX = 0;
-			            }
-			            if (scrollPosX > maxBufferSizeX - getWidth()) {
-			            	scrollPosX = maxBufferSizeX - getWidth();
-			            }
-			            
-			            lastTouchX = event.getX();
-			            invalidate();
-			            break;
-			        }
-		        }
-		        
-		        return true;
-		    }
-		    		    
-		    @Override
-		    public void onDraw(Canvas canvas) {
-		    	super.onDraw(canvas);
-		    	drawGraph(bufferCanvas);
-		    	
-		    	Rect source = new Rect(scrollPosX, 0, scrollPosX + getWidth(), getHeight());
-		    	Rect dest = new Rect(0, 0, getWidth(), getHeight());
-		    	canvas.drawBitmap(bufferBitmap, source, dest, null);		    	
-		    }
-		    
-		    private void drawGraph(Canvas canvas) {
-		    	
+		    protected void drawFullCanvas(Canvas canvas) {
 		    	canvas.drawColor(backgroundColor);
 		    
 		    	canvas.drawRect(0, yBase, maxBufferSizeX, getHeight(), bottomPanelPaint);
@@ -161,7 +112,7 @@ public class MoodGraph extends Activity {
 	        		
 	        		Point current = points.get(i);
 	        		Point next = points.get(i+1);
-	        		Point mid = new Point((current.x + next.x) / 2, (current.y + next.y) / 2);
+	        		Point mid = MathUtils.getMiddle(current, next);
 	        		
 	        		Point controlPoint1 = new Point(mid.x, current.y);
 	        		Point controlPoint2 = new Point(mid.x, next.y);
