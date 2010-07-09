@@ -27,7 +27,6 @@ public class Scroll extends View implements OnGestureListener {
 	private Paint mBorderPaint;
 	private Paint mTextPaint;
 	private GestureDetector mGestureDetector;
-	private float mScale;
 	
 	private float flingSpeed = 0.75f;
 	
@@ -51,7 +50,6 @@ public class Scroll extends View implements OnGestureListener {
 		
 		mGestureDetector = new GestureDetector(this);
 		mGestureDetector.setIsLongpressEnabled(false);
-		mScale = 1;
 	
 		mTextPaint.setColor(0xff000000);
 	}
@@ -66,15 +64,18 @@ public class Scroll extends View implements OnGestureListener {
 			invalidate();
 		}
 		
-		canvas.scale(mScale, mScale);
-		float dx = mX - (getWidth() / mScale) * (mX / WIDTH);
-		float dy = mY - (getHeight() / mScale) * (mY / HEIGHT);
+		float dx = mX - getWidth() * (mX / WIDTH);
+		float dy = mY - getHeight() * (mY / HEIGHT);
 		canvas.translate(dx, dy);
-		
-		canvas.drawRect(0, 0, WIDTH, HEIGHT, mPaint);
-		canvas.drawRect(0, 0, WIDTH, HEIGHT, mBorderPaint);
+
+		drawFullCanvas(canvas);
 		
 		canvas.restore();
+	}
+	
+	protected void drawFullCanvas(Canvas canvas) {
+		canvas.drawRect(0, 0, WIDTH, HEIGHT, mPaint);
+		canvas.drawRect(0, 0, WIDTH, HEIGHT, mBorderPaint);
 	}
 	
 	@Override
@@ -83,8 +84,8 @@ public class Scroll extends View implements OnGestureListener {
 	}
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		mX -= distanceX / mScale;
-		mY -= distanceY / mScale;
+		mX -= distanceX;
+		mY -= distanceY;
 		mX = Math.max(-WIDTH, Math.min(0, mX));
 		mY = Math.max(-HEIGHT, Math.min(0, mY));
 		invalidate();
