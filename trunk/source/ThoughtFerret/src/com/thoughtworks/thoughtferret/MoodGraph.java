@@ -6,6 +6,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -16,17 +17,32 @@ import android.os.Bundle;
 
 public class MoodGraph extends Activity {
 	
-	int pointSpacing = 30;
+	int pointSpacing = 40;
 	int yBase = 350;
+	private Panel panel;
 	
 	@Override
-	 public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
-		List<Point> points = createPoints(60);
-	 	setContentView(new Panel(this, points));
-	 }
-
+		List<Point> points = createPoints(200);
+		panel = new Panel(this, points);
+		setContentView(panel);
+	}
+    
+    @Override
+    protected void onPause() {
+    	super.onPause();
+    	panel.recycleResources();
+    }
+    
+    @Override
+    protected void onResume() {
+    	super.onResume();
+    	//panel.init(sizeX, sizeY);
+    }
+    
 	private List<Point> createPoints(int nbPoints) {
 		
     	Random rnd = new Random();
@@ -42,91 +58,109 @@ public class MoodGraph extends Activity {
     	return points;
 	}
 	
-	 class Panel extends ScrollablePanel  {
+	class Panel extends ScrollablePanel  {
 		 
-		 	int backgroundColor = 0xFF333333;
-			int happyColor = 0xFF00FF00;
-			int sadColor = 0xFFFF0000;
-		 
-			List<Point> points;
+		private int backgroundColor = 0xFFAAAAAA;
+		private int happyColor = 0x6600FF00;
+		private int sadColor = 0x66FF6600;
+	 
+		private List<Point> points;
+		
+		private Paint gradientPaint;
+		private Paint textPaint;
+		private Paint bottomPanelPaint;
+		private Paint contourPaint;
+	 
+		private int fullSizeX = 0;
+		
+	    public Panel(Context context, List<Point> points) {
+	        super(context);
+	        
+	        this.points = points;
+	        this.fullSizeX = (points.size() - 1) * pointSpacing;
+	        
+	        gradientPaint = new Paint() {{
+				setStyle(Paint.Style.FILL);
+				setAntiAlias(true);
+				setStrokeWidth(1.0f);
+				setStrokeCap(Cap.ROUND);
+				setColor(0xFF000000);
+			}};
 			
-			Paint gradientPaint;
-			Paint textPaint;
-			Paint bottomPanelPaint;
-		 
-			int maxBufferSizeX = 1000;
-			int maxBufferSizeY = 430;
-
+			gradientPaint.setShader(new LinearGradient(0, yBase, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
 			
-		    public Panel(Context context, List<Point> points) {
-		        super(context, 1000, 430);
-		        
-		        this.points = points;
-		        
-		        this.maxBufferSizeX = (points.size() - 1) * pointSpacing;
-		        
-		        gradientPaint = new Paint() {{
-					setStyle(Paint.Style.FILL);
-					setAntiAlias(true);
-					setStrokeWidth(1.0f);
-					setStrokeCap(Cap.ROUND);
-					setColor(0xFF000000);
-				}};
-				
-				gradientPaint.setShader(new LinearGradient(0, yBase, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
-				
-				textPaint = new Paint() {{
-					setStyle(Paint.Style.STROKE);
-					setAntiAlias(true);
-					setStrokeWidth(1.0f);
-					setStrokeCap(Cap.BUTT);
-					setColor(0xFFFFFFFF);
-				}};
-				
-				bottomPanelPaint = new Paint() {{
-					setStyle(Paint.Style.FILL);
-					setAntiAlias(true);
-					setStrokeWidth(1.0f);
-					setStrokeCap(Cap.BUTT);
-					setColor(0xFF000000);
-				}};
-				
-
-		    }
-		    
-		    protected void drawFullCanvas(Canvas canvas) {
-		    	canvas.drawColor(backgroundColor);
-		    
-		    	canvas.drawRect(0, yBase, maxBufferSizeX, getHeight(), bottomPanelPaint);
-		    	canvas.drawText("March 2010", 150, 400, textPaint);
-		    	
-	        	Path path = new Path();	        	
-	        	
-	        	Point first = points.get(0);
-	        	Point last = points.get(points.size() - 1);
-	        	
-	        	path.moveTo(first.x, yBase);
-	        	path.lineTo(first.x, first.y);
-	        	
-	        	for (int i=0; i<points.size() - 1; i++) {
-	        		
-	        		Point current = points.get(i);
-	        		Point next = points.get(i+1);
-	        		Point mid = MathUtils.getMiddle(current, next);
-	        		
-	        		Point controlPoint1 = new Point(mid.x, current.y);
-	        		Point controlPoint2 = new Point(mid.x, next.y);
-	        		
-	        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-	        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-	        		//path.lineTo(next.x, next.y);
-	        	}
-	        	
-	        	path.lineTo(last.x, yBase);
-	        	path.close();
-	        	
-	        	canvas.drawPath(path, gradientPaint); 
-		    }
-		}
+			textPaint = new Paint() {{
+				setStyle(Paint.Style.STROKE);
+				setAntiAlias(true);
+				setStrokeWidth(1.0f);
+				setStrokeCap(Cap.BUTT);
+				setColor(0xFFFFFFFF);
+			}};
+			
+			contourPaint = new Paint() {{
+				setStyle(Paint.Style.STROKE);
+				setAntiAlias(true);
+				setStrokeWidth(2.0f);
+				setStrokeCap(Cap.BUTT);
+				setColor(0xFF000000);
+			}};
+			
+			bottomPanelPaint = new Paint() {{
+				setStyle(Paint.Style.FILL);
+				setAntiAlias(true);
+				setStrokeWidth(1.0f);
+				setStrokeCap(Cap.BUTT);
+				setColor(0xFF000000);
+			}};
+	    }
+	    
+	    @Override
+	    public void onSizeChanged(int w, int h, int oldw, int oldh) {
+	    	super.init(fullSizeX, h);
+	    	super.onSizeChanged(w, h, oldw, oldh);
+	    }
+	    
+	    @Override
+	    protected void drawFullCanvas(Canvas canvas) {
+	    	canvas.drawColor(backgroundColor);
+	    
+	    	canvas.drawRect(0, yBase, fullSizeX, getHeight(), bottomPanelPaint);
+	    	canvas.drawText("March 2010", 150, 400, textPaint);
+	    	
+        	Path path = new Path();	 
+        	Path contour = new Path();
+        	
+        	Point first = points.get(0);
+        	Point last = points.get(points.size() - 1);
+        	
+        	path.moveTo(first.x, yBase);
+        	path.lineTo(first.x, first.y);
+        	contour.moveTo(first.x, first.y);
+        	
+        	for (int i=0; i<points.size() - 1; i++) {
+        		
+        		Point current = points.get(i);
+        		Point next = points.get(i+1);
+        		Point mid = MathUtils.getMiddle(current, next);
+        		
+        		Point controlPoint1 = new Point(mid.x, current.y);
+        		Point controlPoint2 = new Point(mid.x, next.y);
+        		
+        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
+        		
+        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+        		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
+        		
+        		//path.lineTo(next.x, next.y);
+        	}
+        	
+        	path.lineTo(last.x, yBase);
+        	path.close();
+        	
+        	canvas.drawPath(path, gradientPaint); 
+        	canvas.drawPath(contour, contourPaint);
+	    }
+	}
 	 
 }
