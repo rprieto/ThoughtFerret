@@ -1,13 +1,10 @@
 package com.thoughtworks.thoughtferret;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.Typeface;
 import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;
@@ -15,11 +12,10 @@ import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.widget.Scroller;
 
-public class Scroll extends View implements OnGestureListener, OnDoubleTapListener {
+public class Scroll extends View implements OnGestureListener {
 
 	private static final int WIDTH = 1000;
 	private static final int HEIGHT = 1500;
@@ -115,18 +111,6 @@ public class Scroll extends View implements OnGestureListener, OnDoubleTapListen
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
-	}
-
-	public boolean onDoubleTap(MotionEvent e) {
-		return false;
-	}
-
-	public boolean onDoubleTapEvent(MotionEvent e) {
-		return false;
-	}
-
-	public boolean onSingleTapConfirmed(MotionEvent e) {
 		return false;
 	}
 
