@@ -16,8 +16,6 @@ import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
 
 public class MoodGraph extends Activity {
-	
-	private MoodGraphPresenter presenter;
 
 	private Panel panel;
 	
@@ -26,27 +24,30 @@ public class MoodGraph extends Activity {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
-		presenter = new MoodGraphPresenter();
-
 		panel = new Panel(this);
-		panel.setFullSize(presenter.getGraphWidth(), 400);
 		setContentView(panel);
 	}
 
 	class Panel extends Scroll  {
 		 
-		private int backgroundColor = 0xFFAAAAAA;
+		private MoodGraphPresenter presenter;
+		
+		private int backgroundColor = 0xFFCCCCCC;
 		private int happyColor = 0x6600FF00;
-		private int sadColor = 0x66FF6600;
+		private int sadColor = 0x66FF0000;
 	 
-		private int yBase = 350;
+		private int bannerHeight = 45;
 		
 		private Paint gradientPaint;
 		private Paint textPaint;
 		private Paint contourPaint;
+		private Paint bannerPaint;
 	 		
 	    public Panel(Context context) {
 	        super(context, null);
+	        
+			presenter = new MoodGraphPresenter();
+	        setFullSize(presenter.getGraphWidth(), super.display.getHeight());
 	        
 	        gradientPaint = new Paint() {{
 				setStyle(Paint.Style.FILL);
@@ -56,7 +57,7 @@ public class MoodGraph extends Activity {
 				setColor(0xFF000000);
 			}};
 			
-			gradientPaint.setShader(new LinearGradient(0, yBase, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
+			gradientPaint.setShader(new LinearGradient(0, super.display.getHeight(), 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
 			
 			textPaint = new Paint() {{
 				setStyle(Paint.Style.STROKE);
@@ -73,15 +74,33 @@ public class MoodGraph extends Activity {
 				setStrokeCap(Cap.BUTT);
 				setColor(0xFF000000);
 			}};
+			
+			bannerPaint = new Paint() {{
+				setStyle(Paint.Style.FILL);
+				setAntiAlias(true);
+				setStrokeWidth(1.0f);
+				setStrokeCap(Cap.BUTT);
+				setColor(0xFF000000);
+			}};
 	    }
 	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
 	    	canvas.drawColor(backgroundColor);
+	   	    	
+	    	drawGraph(canvas);
+	    	drawEngagements(canvas);
+	    	drawTimeline(canvas);
+	    	drawGrid(canvas);
+        	
+        	super.drawFullCanvas(canvas, visibleRect);
+	    }
 	    
-	    	canvas.drawText("March 2010", 150, 400, textPaint);
+	    private void drawGraph(Canvas canvas) {
 	    	
-        	Path path = new Path();	 
+	    	int yBase = super.display.getHeight() - bannerHeight;
+	    	
+	    	Path path = new Path();	 
         	Path contour = new Path();
         	
         	Point first = presenter.getPoints().get(0);
@@ -89,7 +108,9 @@ public class MoodGraph extends Activity {
         	
         	path.moveTo(first.x, yBase);
         	path.lineTo(first.x, first.y);
-        	contour.moveTo(first.x, first.y);
+        	
+        	contour.moveTo(first.x, yBase);
+        	contour.lineTo(first.x, first.y);
         	
         	for (int i=0; i<presenter.getPoints().size() - 1; i++) {
         		
@@ -110,11 +131,26 @@ public class MoodGraph extends Activity {
         	path.lineTo(last.x, yBase);
         	path.close();
         	
+        	contour.lineTo(last.x, yBase);
+        	contour.close();
+        	
         	canvas.drawPath(path, gradientPaint); 
         	canvas.drawPath(contour, contourPaint);
-        	
-        	super.drawFullCanvas(canvas, visibleRect);
 	    }
+	    
+	    private void drawEngagements(Canvas canvas) {
+	    	canvas.drawRect(0, 0, presenter.getGraphWidth(), bannerHeight, bannerPaint);
+	    }
+	    
+	    private void drawTimeline(Canvas canvas) {
+	    	canvas.drawRect(0, super.display.getHeight() - bannerHeight, presenter.getGraphWidth(), super.display.getHeight(), bannerPaint);
+	    	canvas.drawText("March 2010", 50, super.display.getHeight() - (int) (bannerHeight / 2.0), textPaint);
+	    }
+	    
+	    private void drawGrid(Canvas canvas) {
+	    	
+	    }
+	    
 	}
 	
 }

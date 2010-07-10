@@ -26,7 +26,8 @@ public class Scroll extends View implements OnGestureListener {
 	
 	private float flingSpeed = 0.75f;
 	
-    private Display display;
+    protected Display display;
+    
     private Paint fpsPaint;
     private Paint borderPaint;
 	
@@ -94,7 +95,7 @@ public class Scroll extends View implements OnGestureListener {
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		mX -= distanceX;
-		mY -= distanceY;
+		mY += distanceY;
 		mX = Math.max(-fullWidth, Math.min(0, mX));
 		mY = Math.max(-fullHeight, Math.min(0, mY));
 		invalidate();
