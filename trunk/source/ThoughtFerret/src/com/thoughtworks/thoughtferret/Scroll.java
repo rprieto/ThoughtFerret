@@ -2,56 +2,63 @@ package com.thoughtworks.thoughtferret;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.graphics.Paint.Style;
-import android.graphics.Shader.TileMode;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.GestureDetector.OnGestureListener;
 import android.widget.Scroller;
 
 public class Scroll extends View implements OnGestureListener {
 
-	private static final int WIDTH = 1000;
-	private static final int HEIGHT = 1500;
+	private int fullWidth = 1000;
+	private int fullHeight = 1500;
 
 	private float mX;
 	private float mY;
+	
 	private Scroller mScroller;
-	private Paint mPaint;
-	private Paint mBorderPaint;
-	private Paint mTextPaint;
 	private GestureDetector mGestureDetector;
 	
 	private float flingSpeed = 0.75f;
+	
+    private Display display;
+    private Paint fpsPaint;
+    private Paint borderPaint;
 	
 	public Scroll(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mScroller = new Scroller(context);
 		
-		mPaint = new Paint();
-		LinearGradient shader = new LinearGradient(0, 0, WIDTH, HEIGHT, Color.GREEN, Color.BLUE, TileMode.CLAMP);
-		mPaint.setShader(shader);
-		mPaint.setAntiAlias(true);
-		mBorderPaint = new Paint();
-		mBorderPaint.setColor(Color.WHITE);
-		mBorderPaint.setStrokeWidth(20);
-		mBorderPaint.setStyle(Style.STROKE);
-		mTextPaint = new Paint();
-		mTextPaint.setTextSize(18);
-		mTextPaint.setAntiAlias(true);
-		mTextPaint.setTypeface(Typeface.DEFAULT_BOLD);
-		mTextPaint.setStrokeWidth(2);
-		
 		mGestureDetector = new GestureDetector(this);
 		mGestureDetector.setIsLongpressEnabled(false);
 	
-		mTextPaint.setColor(0xff000000);
+		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		
+        fpsPaint = new Paint() {{
+			setStyle(Paint.Style.STROKE);
+			setAntiAlias(true);
+			setStrokeWidth(1.0f);
+			setStrokeCap(Cap.BUTT);
+			setColor(0xFFFFFFFF);
+		}};
+		
+        borderPaint = new Paint() {{
+			setStyle(Paint.Style.STROKE);
+			setAntiAlias(true);
+			setStrokeWidth(3.0f);
+			setStrokeCap(Cap.SQUARE);
+			setColor(0xFF0000);
+		}};
+	}
+	
+	public void setFullSize(int width, int height) {
+		fullWidth = width;
+		fullHeight = height;
 	}
 	
 	@Override
@@ -64,18 +71,20 @@ public class Scroll extends View implements OnGestureListener {
 			invalidate();
 		}
 		
-		float dx = mX - getWidth() * (mX / WIDTH);
-		float dy = mY - getHeight() * (mY / HEIGHT);
+		float dx = mX - getWidth() * (mX / fullWidth);
+		float dy = mY - getHeight() * (mY / fullHeight);
 		canvas.translate(dx, dy);
 
-		drawFullCanvas(canvas);
+		Rect visibleRect = new Rect((int)mX, (int)mY, (int)mX + getWidth(), (int)mY + getHeight());
+		drawFullCanvas(canvas, visibleRect);
 		
 		canvas.restore();
 	}
 	
-	protected void drawFullCanvas(Canvas canvas) {
-		canvas.drawRect(0, 0, WIDTH, HEIGHT, mPaint);
-		canvas.drawRect(0, 0, WIDTH, HEIGHT, mBorderPaint);
+	protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
+		canvas.drawRect(0, 0, fullWidth, fullHeight, borderPaint);
+    	String fps = String.format("%d fps", (int)display.getRefreshRate());
+    	canvas.drawText(fps.toString(), visibleRect.left + 20, visibleRect.top + 20, fpsPaint);
 	}
 	
 	@Override
@@ -86,8 +95,8 @@ public class Scroll extends View implements OnGestureListener {
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		mX -= distanceX;
 		mY -= distanceY;
-		mX = Math.max(-WIDTH, Math.min(0, mX));
-		mY = Math.max(-HEIGHT, Math.min(0, mY));
+		mX = Math.max(-fullWidth, Math.min(0, mX));
+		mY = Math.max(-fullHeight, Math.min(0, mY));
 		invalidate();
 		return true;
 	}
@@ -96,7 +105,7 @@ public class Scroll extends View implements OnGestureListener {
 		velocityX *= flingSpeed;
 		velocityY *= flingSpeed;
 		
-		mScroller.fling((int) mX, (int) mY, (int) velocityX, (int) velocityY, -WIDTH, 0, -HEIGHT, 0);
+		mScroller.fling((int) mX, (int) mY, (int) velocityX, (int) velocityY, -fullWidth, 0, -fullHeight, 0);
 		invalidate();
 		return true;
 	}

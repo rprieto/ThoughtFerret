@@ -12,11 +12,12 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Bundle;
 
 public class MoodGraph extends Activity {
-	
+
 	int pointSpacing = 40;
 	int yBase = 350;
 	private Panel panel;
@@ -26,23 +27,13 @@ public class MoodGraph extends Activity {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		
-		List<Point> points = createPoints(200);
+		List<Point> points = createPoints(50);
+		
 		panel = new Panel(this, points);
+		panel.setFullSize(pointSpacing * (points.size() - 1), 400);
 		setContentView(panel);
 	}
-    
-    @Override
-    protected void onPause() {
-    	super.onPause();
-    	panel.recycleResources();
-    }
-    
-    @Override
-    protected void onResume() {
-    	super.onResume();
-    	//panel.init(sizeX, sizeY);
-    }
-    
+	
 	private List<Point> createPoints(int nbPoints) {
 		
     	Random rnd = new Random();
@@ -57,8 +48,9 @@ public class MoodGraph extends Activity {
     	
     	return points;
 	}
-	
-	class Panel extends ScrollablePanel  {
+
+
+	class Panel extends Scroll  {
 		 
 		private int backgroundColor = 0xFFAAAAAA;
 		private int happyColor = 0x6600FF00;
@@ -68,16 +60,12 @@ public class MoodGraph extends Activity {
 		
 		private Paint gradientPaint;
 		private Paint textPaint;
-		private Paint bottomPanelPaint;
 		private Paint contourPaint;
-	 
-		private int fullSizeX = 0;
-		
+	 		
 	    public Panel(Context context, List<Point> points) {
-	        super(context);
+	        super(context, null);
 	        
 	        this.points = points;
-	        this.fullSizeX = (points.size() - 1) * pointSpacing;
 	        
 	        gradientPaint = new Paint() {{
 				setStyle(Paint.Style.FILL);
@@ -104,27 +92,12 @@ public class MoodGraph extends Activity {
 				setStrokeCap(Cap.BUTT);
 				setColor(0xFF000000);
 			}};
-			
-			bottomPanelPaint = new Paint() {{
-				setStyle(Paint.Style.FILL);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0xFF000000);
-			}};
 	    }
 	    
 	    @Override
-	    public void onSizeChanged(int w, int h, int oldw, int oldh) {
-	    	super.init(fullSizeX, h);
-	    	super.onSizeChanged(w, h, oldw, oldh);
-	    }
-	    
-	    @Override
-	    protected void drawFullCanvas(Canvas canvas) {
+	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
 	    	canvas.drawColor(backgroundColor);
 	    
-	    	canvas.drawRect(0, yBase, fullSizeX, getHeight(), bottomPanelPaint);
 	    	canvas.drawText("March 2010", 150, 400, textPaint);
 	    	
         	Path path = new Path();	 
@@ -151,8 +124,6 @@ public class MoodGraph extends Activity {
         		
         		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
         		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-        		
-        		//path.lineTo(next.x, next.y);
         	}
         	
         	path.lineTo(last.x, yBase);
@@ -160,7 +131,9 @@ public class MoodGraph extends Activity {
         	
         	canvas.drawPath(path, gradientPaint); 
         	canvas.drawPath(contour, contourPaint);
+        	
+        	super.drawFullCanvas(canvas, visibleRect);
 	    }
 	}
-	 
+	
 }
