@@ -1,8 +1,10 @@
-package com.thoughtworks.thoughtferret;
+package com.thoughtworks.thoughtferret.view;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import com.thoughtworks.thoughtferret.MathUtils;
 
 import android.app.Activity;
 import android.content.Context;

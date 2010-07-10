@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret;
+package com.thoughtworks.thoughtferret.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

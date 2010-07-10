@@ -1,4 +1,6 @@
-package com.thoughtworks.thoughtferret;
+package com.thoughtworks.thoughtferret.view;
+
+import com.thoughtworks.thoughtferret.R;
 
 import android.app.Activity;
 import android.content.Intent;
