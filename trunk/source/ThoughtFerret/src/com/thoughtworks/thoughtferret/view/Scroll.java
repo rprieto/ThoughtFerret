@@ -3,6 +3,7 @@ package com.thoughtworks.thoughtferret.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.Display;
@@ -15,11 +16,8 @@ import android.widget.Scroller;
 
 public class Scroll extends View implements OnGestureListener {
 
-	private int fullWidth = 1000;
-	private int fullHeight = 1500;
-
-	private float mX;
-	private float mY;
+	private Rect fullSize = new Rect(); 
+	private Point currentScroll = new Point();
 	
 	private Scroller mScroller;
 	private GestureDetector mGestureDetector;
@@ -57,9 +55,8 @@ public class Scroll extends View implements OnGestureListener {
 		}};
 	}
 	
-	public void setFullSize(int width, int height) {
-		fullWidth = width;
-		fullHeight = height;
+	public void setFullSize(Rect fullSize) {
+		this.fullSize = fullSize;
 	}
 	
 	@Override
@@ -67,23 +64,23 @@ public class Scroll extends View implements OnGestureListener {
 		canvas.save();
 		
 		if (mScroller.computeScrollOffset()) {
-			mX = mScroller.getCurrX();
-			mY = mScroller.getCurrY();
+			currentScroll.x = mScroller.getCurrX();
+			currentScroll.y = mScroller.getCurrY();
 			invalidate();
 		}
 		
-		float dx = mX - getWidth() * (mX / fullWidth);
-		float dy = mY - getHeight() * (mY / fullHeight);
+		float dx = currentScroll.x - getWidth() * (currentScroll.x / fullSize.width());
+		float dy = currentScroll.y - getHeight() * (currentScroll.y / fullSize.height());
 		canvas.translate(dx, dy);
 
-		Rect visibleRect = new Rect((int)mX, (int)mY, (int)mX + getWidth(), (int)mY + getHeight());
+		Rect visibleRect = new Rect((int)currentScroll.x, (int)currentScroll.y, (int)currentScroll.x + getWidth(), (int)currentScroll.y + getHeight());
 		drawFullCanvas(canvas, visibleRect);
 		
 		canvas.restore();
 	}
 	
 	protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-		canvas.drawRect(0, 0, fullWidth, fullHeight, borderPaint);
+		canvas.drawRect(fullSize, borderPaint);
     	String fps = String.format("%d fps", (int)display.getRefreshRate());
     	canvas.drawText(fps.toString(), visibleRect.left + 20, visibleRect.top + 20, fpsPaint);
 	}
@@ -94,10 +91,10 @@ public class Scroll extends View implements OnGestureListener {
 	}
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-		mX -= distanceX;
-		mY += distanceY;
-		mX = Math.max(-fullWidth, Math.min(0, mX));
-		mY = Math.max(-fullHeight, Math.min(0, mY));
+		currentScroll.x -= distanceX;
+		currentScroll.y += distanceY;
+		currentScroll.x = Math.max(-fullSize.width(), Math.min(0, currentScroll.x));
+		currentScroll.y = Math.max(-fullSize.height(), Math.min(0, currentScroll.y));
 		invalidate();
 		return true;
 	}
@@ -106,7 +103,7 @@ public class Scroll extends View implements OnGestureListener {
 		velocityX *= flingSpeed;
 		velocityY *= flingSpeed;
 		
-		mScroller.fling((int) mX, (int) mY, (int) velocityX, (int) velocityY, -fullWidth, 0, -fullHeight, 0);
+		mScroller.fling((int) currentScroll.x, (int) currentScroll.y, (int) velocityX, (int) velocityY, -fullSize.width(), 0, -fullSize.height(), 0);
 		invalidate();
 		return true;
 	}
