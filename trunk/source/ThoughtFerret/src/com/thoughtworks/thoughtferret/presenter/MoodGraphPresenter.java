@@ -6,30 +6,31 @@ import java.util.Random;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class MoodGraphPresenter {
 
 	private Rect graphSize;
 	
+	private int yBase = 0;
 	private int pointSpacing = 40;
-	private int yBase = 350;
 	private int bannerHeight = 50;
 	
 	List<Point> points;
 	
 	public MoodGraphPresenter(int displayX, int displayY) {
 		yBase = displayY - bannerHeight;
-		createPoints(50);
+		createPoints(50, displayY - bannerHeight * 2);
 		graphSize = new Rect(0, 0, pointSpacing * (points.size() - 1), displayY);
 	}
 	
-	private void createPoints(int nbPoints) {
+	private void createPoints(int nbPoints, int maxHeight) {
     	Random rnd = new Random();
 		points = new ArrayList<Point>();
 
     	int pointX = 0;
     	for (int i = 0; i < nbPoints; i++) {
-    		int pointY = yBase - (rnd.nextInt(5) + 1) * 50;
+    		int pointY = (int) (yBase - (rnd.nextInt(5) + 1) * (maxHeight / 6f));
     		points.add(new Point(pointX, pointY));
     		pointX += pointSpacing;
     	}
