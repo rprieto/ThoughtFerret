@@ -1,5 +1,7 @@
 package com.thoughtworks.thoughtferret.view;
 
+import com.thoughtworks.thoughtferret.MathUtils;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -73,7 +75,7 @@ public class Scroll extends View implements OnGestureListener {
 		float dy = currentScroll.y - getHeight() * (currentScroll.y / fullSize.height());
 		canvas.translate(dx, dy);
 
-		Rect visibleRect = new Rect((int)currentScroll.x, (int)currentScroll.y, (int)currentScroll.x + getWidth(), (int)currentScroll.y + getHeight());
+		Rect visibleRect = MathUtils.getRect(currentScroll, getWidth(), getHeight());
 		drawFullCanvas(canvas, visibleRect);
 		
 		canvas.restore();
@@ -92,7 +94,7 @@ public class Scroll extends View implements OnGestureListener {
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		currentScroll.x -= distanceX;
-		currentScroll.y += distanceY;
+		currentScroll.y -= distanceY;
 		currentScroll.x = Math.max(-fullSize.width(), Math.min(0, currentScroll.x));
 		currentScroll.y = Math.max(-fullSize.height(), Math.min(0, currentScroll.y));
 		invalidate();
@@ -103,7 +105,7 @@ public class Scroll extends View implements OnGestureListener {
 		velocityX *= flingSpeed;
 		velocityY *= flingSpeed;
 		
-		mScroller.fling((int) currentScroll.x, (int) currentScroll.y, (int) velocityX, (int) velocityY, -fullSize.width(), 0, -fullSize.height(), 0);
+		mScroller.fling(currentScroll.x, currentScroll.y, (int) velocityX, (int) velocityY, -fullSize.width(), 0, -fullSize.height(), 0);
 		invalidate();
 		return true;
 	}
@@ -119,7 +121,8 @@ public class Scroll extends View implements OnGestureListener {
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		return false;
+		mScroller.forceFinished(true);
+		return true;
 	}
 
 }
