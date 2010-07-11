@@ -54,16 +54,15 @@ public class MoodGraph extends Activity {
 	        
 			presenter = new MoodGraphPresenter(super.display.getWidth(), super.display.getHeight());
 	        setFullSize(presenter.getGraphRect());
-
+			
 			textPaint = new LinePaint(0xFFFFFFFF, 1f);
 			contourPaint = new LinePaint(0xFF000000, 2f);
 			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
 			gridMinorPaint = new LinePaint(0xFFAAAAAA, 1f);
 
 			bannerPaint = new FillPaint(0x66666666, 1f);
-	        gradientPaint = new FillPaint(0xFF000000, 1f);
-
-			gradientPaint.setShader(new LinearGradient(0, super.display.getHeight() - bannerHeight, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));			
+			gradientPaint = new FillPaint(0xFF000000, 1f);
+			gradientPaint.setShader(new LinearGradient(0, super.display.getHeight() - bannerHeight, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
 	    }
 	    
 	    @Override

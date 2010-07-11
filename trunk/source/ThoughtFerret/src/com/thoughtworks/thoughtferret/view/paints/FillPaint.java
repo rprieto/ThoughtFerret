@@ -5,7 +5,7 @@ import android.graphics.Paint;
 public class FillPaint extends Paint {
 
 	public FillPaint(int color, float width) {
-		setStyle(Paint.Style.STROKE);
+		setStyle(Paint.Style.FILL);
 		setAntiAlias(true);
 		setStrokeWidth(width);
 		setStrokeCap(Cap.BUTT);
