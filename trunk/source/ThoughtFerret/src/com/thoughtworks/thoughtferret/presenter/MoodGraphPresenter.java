@@ -44,11 +44,11 @@ public class MoodGraphPresenter {
 	}
 	
 	public Rect getClientsBanner() {
-		return null;
+		return new Rect(0, 0, graphSize.width(), bannerHeight);
 	}
 	
 	public Rect getTimelineBanner() {
-		return null;
+		return new Rect(0, graphSize.height() - bannerHeight, graphSize.width(), graphSize.height());
 	}
 	
 }

@@ -119,14 +119,16 @@ public class MoodGraph extends Activity {
 	    }
 	    
 	    private void drawEngagements(Canvas canvas) {
-	    	canvas.drawRect(0, 0, presenter.getGraphRect().width(), bannerHeight, bannerPaint);
-	    	canvas.drawLine(0, bannerHeight, presenter.getGraphRect().width(), bannerHeight, contourPaint);
+	    	Rect banner = presenter.getClientsBanner();
+	    	canvas.drawRect(banner, bannerPaint);
+	    	canvas.drawLine(banner.left, banner.bottom, banner.right, banner.bottom, contourPaint);
 	    }
 	    
 	    private void drawTimeline(Canvas canvas) {
-	    	canvas.drawRect(0, super.display.getHeight() - bannerHeight, presenter.getGraphRect().width(), super.display.getHeight(), bannerPaint);
-	    	canvas.drawLine(0, super.display.getHeight() - bannerHeight, presenter.getGraphRect().width(), super.display.getHeight() - bannerHeight, contourPaint);
-	    	canvas.drawText("March 2010", 50, super.display.getHeight() - (int) (bannerHeight / 2.0), textPaint);
+	    	Rect banner = presenter.getTimelineBanner();
+	    	canvas.drawRect(banner, bannerPaint);
+	    	canvas.drawLine(banner.left, banner.top, banner.right, banner.top, contourPaint);
+	    	canvas.drawText("March 2010", 50, banner.centerY(), textPaint);
 	    }
 	    
 	    private void drawGrid(Canvas canvas) {	    	
