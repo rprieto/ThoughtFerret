@@ -14,6 +14,8 @@ import android.os.Bundle;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
+import com.thoughtworks.thoughtferret.view.paints.FillPaint;
+import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class MoodGraph extends Activity {
 
@@ -52,56 +54,16 @@ public class MoodGraph extends Activity {
 	        
 			presenter = new MoodGraphPresenter(super.display.getWidth(), super.display.getHeight());
 	        setFullSize(presenter.getGraphRect());
-	        
-	        gradientPaint = new Paint() {{
-				setStyle(Paint.Style.FILL);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setStrokeCap(Cap.ROUND);
-				setColor(0xFF000000);
-			}};
-			
-			gradientPaint.setShader(new LinearGradient(0, super.display.getHeight() - bannerHeight, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));
-			
-			textPaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0xFFFFFFFF);
-			}};
-			
-			contourPaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(2.0f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0xFF000000);
-			}};
-			
-			bannerPaint = new Paint() {{
-				setStyle(Paint.Style.FILL_AND_STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0x66666666);
-			}};
-			
-			gridMajorPaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(1.5f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0xFF666666);
-			}};
-			
-			gridMinorPaint = new Paint() {{
-				setStyle(Paint.Style.STROKE);
-				setAntiAlias(true);
-				setStrokeWidth(1.0f);
-				setStrokeCap(Cap.BUTT);
-				setColor(0xFFAAAAAA);
-			}};
+
+			textPaint = new LinePaint(0xFFFFFFFF, 1f);
+			contourPaint = new LinePaint(0xFF000000, 2f);
+			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
+			gridMinorPaint = new LinePaint(0xFFAAAAAA, 1f);
+
+			bannerPaint = new FillPaint(0x66666666, 1f);
+	        gradientPaint = new FillPaint(0xFF000000, 1f);
+
+			gradientPaint.setShader(new LinearGradient(0, super.display.getHeight() - bannerHeight, 0, 100, sadColor, happyColor, Shader.TileMode.CLAMP));			
 	    }
 	    
 	    @Override
