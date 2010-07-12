@@ -31,4 +31,8 @@ public class Home extends Activity {
 		startActivity(new Intent(this, EditPreferences.class));
 	}
 	
+	public void demoHacksClick(View view) {
+		startActivity(new Intent(this, DemoHacks.class));
+	}
+	
 }

@@ -28,5 +28,11 @@
 	    android:text="@string/homePreferences"
 	    android:onClick="preferencesClick"
 		/>
+	<Button
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="Demo hacks"
+	    android:onClick="demoHacksClick"
+		/>
 </LinearLayout>
 
