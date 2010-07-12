@@ -1,7 +1,5 @@
 package com.thoughtworks.thoughtferret.view;
 
-import com.thoughtworks.thoughtferret.R;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -10,10 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RemoteViews;
+
+import com.thoughtworks.thoughtferret.R;
 
 public class DemoHacks extends Activity {
 
-	private static final int HELLO_ID = 1;
+	private static final int FERRET_NOTIFICATION = 1;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -30,17 +31,19 @@ public class DemoHacks extends Activity {
 		long when = System.currentTimeMillis();
 
 		Notification notification = new Notification(icon, tickerText, when);
-		notification.defaults |= Notification.DEFAULT_VIBRATE;
+		//notification.defaults |= Notification.DEFAULT_VIBRATE;
 		
-		Context context = getApplicationContext();
-		CharSequence contentTitle = "My notification";
-		CharSequence contentText = "Hello World!";
+		RemoteViews contentView = new RemoteViews("com.thoughtworks.thoughtferret", R.layout.notification);
+		contentView.setImageViewResource(R.id.notificationImage, R.drawable.icon);
+		contentView.setTextViewText(R.id.notificationHeader, getString(R.string.notificationHeader));
+		contentView.setTextViewText(R.id.notificationGreeting, getString(R.string.notificationGreeting));
+		notification.contentView = contentView;
+		
 		Intent notificationIntent = new Intent(this, MoodUpdate.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+		notification.contentIntent = contentIntent;
 
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-
-		mNotificationManager.notify(HELLO_ID, notification);
+		mNotificationManager.notify(FERRET_NOTIFICATION, notification);
 	}
 	
 	public void populateDatabaseClick(View view) {
