@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
+import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class MoodGraph extends Activity {
@@ -68,7 +69,7 @@ public class MoodGraph extends Activity {
 			presenter = new MoodGraphPresenter(super.display.getWidth(), super.display.getHeight());
 	        setFullSize(presenter.getGraphRect());
 			
-			textPaint = new LinePaint(0xFFFFFFFF, 1f);
+			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
 			contourPaint = new LinePaint(0xFF000000, 2f);
 			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
 			gridMinorPaint = new LinePaint(0xFFAAAAAA, 1f);
@@ -142,7 +143,18 @@ public class MoodGraph extends Activity {
 	    	Rect banner = presenter.getTimelineBanner();
 	    	canvas.drawRect(banner, bannerPaint);
 	    	canvas.drawLine(banner.left, banner.top, banner.right, banner.top, contourPaint);
-	    	canvas.drawText("March 2010", 50, banner.centerY(), textPaint);
+	    	canvas.drawText("January 2010",   majorGridStep * 0 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("February 2010",  majorGridStep * 1 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("March 2010",     majorGridStep * 2 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("April 2010",     majorGridStep * 3 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("May 2010",       majorGridStep * 4 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("June 2010",      majorGridStep * 5 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("July 2010",      majorGridStep * 6 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("August 2010",    majorGridStep * 7 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("September 2010", majorGridStep * 8 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("October 2010",   majorGridStep * 9 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("November 2010",  majorGridStep * 10 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
+	    	canvas.drawText("December 2010",  majorGridStep * 11 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
 	    }
 	    
 	    private void drawGrid(Canvas canvas) {	    	
