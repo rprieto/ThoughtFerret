@@ -68,6 +68,7 @@ public class Scroll extends View implements OnGestureListener {
 		if (mScroller.computeScrollOffset()) {
 			currentScroll.x = mScroller.getCurrX();
 			currentScroll.y = mScroller.getCurrY();
+			constraintScrolling();
 			invalidate();
 		}
 		
@@ -95,10 +96,14 @@ public class Scroll extends View implements OnGestureListener {
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		currentScroll.x -= distanceX;
 		currentScroll.y -= distanceY;
-		currentScroll.x = Math.max(-fullSize.width(), Math.min(0, currentScroll.x));
-		currentScroll.y = Math.max(-fullSize.height(), Math.min(0, currentScroll.y));
+		constraintScrolling();
 		invalidate();
 		return true;
+	}
+	
+	private void constraintScrolling() {
+		currentScroll.x = MathUtils.clamp(currentScroll.x, -fullSize.width() + display.getWidth(), 0);
+		currentScroll.y = MathUtils.clamp(currentScroll.y, -fullSize.height() + display.getHeight(), 0);		
 	}
 	
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
