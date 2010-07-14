@@ -6,7 +6,6 @@ import java.util.Random;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class MoodGraphPresenter {
 

@@ -4,7 +4,6 @@ import com.thoughtworks.thoughtferret.MathUtils;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -27,10 +26,7 @@ public class Scroll extends View implements OnGestureListener {
 	private float flingSpeed = 0.75f;
 	
     protected Display display;
-    
-    private Paint fpsPaint;
-    private Paint borderPaint;
-	
+
 	public Scroll(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mScroller = new Scroller(context);
@@ -39,22 +35,6 @@ public class Scroll extends View implements OnGestureListener {
 		mGestureDetector.setIsLongpressEnabled(false);
 	
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		
-        fpsPaint = new Paint() {{
-			setStyle(Paint.Style.STROKE);
-			setAntiAlias(true);
-			setStrokeWidth(1.0f);
-			setStrokeCap(Cap.BUTT);
-			setColor(0xFFFFFFFF);
-		}};
-		
-        borderPaint = new Paint() {{
-			setStyle(Paint.Style.STROKE);
-			setAntiAlias(true);
-			setStrokeWidth(3.0f);
-			setStrokeCap(Cap.SQUARE);
-			setColor(0xFF0000);
-		}};
 	}
 	
 	public void setFullSize(Rect fullSize) {
@@ -83,9 +63,6 @@ public class Scroll extends View implements OnGestureListener {
 	}
 	
 	protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-		canvas.drawRect(fullSize, borderPaint);
-    	String fps = String.format("%d fps", (int)display.getRefreshRate());
-    	canvas.drawText(fps.toString(), visibleRect.left + 20, visibleRect.top + 20, fpsPaint);
 	}
 	
 	@Override
