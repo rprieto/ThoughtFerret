@@ -13,7 +13,7 @@ public class MoodGraphPresenter {
 	private Rect graphSize;
 	
 	private int yBase = 0;
-	private int pointSpacing = 40;
+	private int pointSpacing = 60;
 	private int bannerHeight = 50;
 	
 	List<Point> points;
