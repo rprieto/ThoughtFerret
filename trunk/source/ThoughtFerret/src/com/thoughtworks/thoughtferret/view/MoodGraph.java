@@ -73,10 +73,10 @@ public class MoodGraph extends Activity {
 			gridMinorPaint = new LinePaint(0xFFAAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
 
-			bannerPaint = new FillPaint(0x66666666, 1f);
+			bannerPaint = new FillPaint(0x66666666);
 			
 			Shader gradient = new LinearGradient(0, presenter.getTimelineBanner().top, 0, presenter.getClientsBanner().bottom, sadColor, happyColor, Shader.TileMode.CLAMP);
-			gradientPaint = new FillPaint(0xFF000000, 1f, gradient);
+			gradientPaint = new FillPaint(0xFF000000, gradient);
 	    }
 	    
 	    @Override

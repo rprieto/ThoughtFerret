@@ -5,16 +5,16 @@ import android.graphics.Shader;
 
 public class FillPaint extends Paint {
 
-	public FillPaint(int color, float width) {
+	public FillPaint(int color) {
 		setStyle(Paint.Style.FILL);
 		setAntiAlias(true);
-		setStrokeWidth(width);
+		setStrokeWidth(1f);
 		setStrokeCap(Cap.BUTT);
 		setColor(color);
 	}
 	
-	public FillPaint(int color, float width, Shader shader) {
-		this(color, width);
+	public FillPaint(int color, Shader shader) {
+		this(color);
 		setShader(shader);
 	}
 	
