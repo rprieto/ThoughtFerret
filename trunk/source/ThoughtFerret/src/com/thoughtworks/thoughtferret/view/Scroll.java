@@ -36,6 +36,10 @@ public class Scroll extends View implements OnGestureListener {
 	
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	}
+
+	public Rect getFullSize() {
+		return fullSize;
+	}
 	
 	public void setFullSize(Rect fullSize) {
 		this.fullSize = fullSize;
