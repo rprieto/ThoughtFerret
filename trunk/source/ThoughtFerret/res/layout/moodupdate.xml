@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:id="@+id/tempGroup"
     >
 	<TextView  
     	android:layout_width="fill_parent" 
@@ -23,7 +24,7 @@
     <LinearLayout
         android:orientation="horizontal"
     	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
+    	android:layout_height="wrap_content"
     	>
 	    <Button
 	    	android:id="@+id/speakButton"
@@ -37,6 +38,30 @@
 	    	android:layout_height="wrap_content" 
 	    	android:text="Spoken keywords"
 	    	/>
-	</LinearLayout>
-</LinearLayout>
+	    <!--<WrappingLayout
+	    	android:id="@+id/keywordsGroup"
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="wrap_content" 
+	    	>
+	    </WrappingLayout>
+	--></LinearLayout><!--
+	<ViewGroup
+		android:id="@+id/keywordsGroup"
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:background="#FF666666"
+		/>
+    --><!--<com.thoughtworks.thoughtferret.view.WordView
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	   	/>
+	<com.thoughtworks.thoughtferret.view.WordView
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	   	/>
+	<com.thoughtworks.thoughtferret.view.WordView
+		android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	   	/>
+--></LinearLayout>
 

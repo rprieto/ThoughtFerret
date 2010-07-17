@@ -3,8 +3,6 @@ package com.thoughtworks.thoughtferret.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thoughtworks.thoughtferret.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,9 +10,12 @@ import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.thoughtworks.thoughtferret.R;
 
 public class MoodUpdate extends Activity implements OnClickListener {
 	
@@ -22,6 +23,7 @@ public class MoodUpdate extends Activity implements OnClickListener {
 
 	private Button speakButton;
     private EditText keywords;
+    //private WrappingViewGroup keywordsGroup;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,20 @@ public class MoodUpdate extends Activity implements OnClickListener {
         setContentView(R.layout.moodupdate);
         speakButton = (Button) findViewById(R.id.speakButton);
         keywords = (EditText) findViewById(R.id.keywords);
+        //keywordsGroup = (WrappingViewGroup) findViewById(R.id.keywordsGroup);
+        
+        WordView wordView = new WordView(this, null);
+        ViewGroup container = (ViewGroup) findViewById(R.id.tempGroup);
+        container.addView(wordView);    
+        
+        
+//        for (int i = 0; i < 10; i++) {
+//            TextView t = new TextView(this);
+//            t.setText(Long.toHexString(Double.doubleToLongBits(Math.random())));
+//            t.setBackgroundColor(Color.LTGRAY);
+//            t.setSingleLine(true);
+//            keywordsGroup.addView(t, new WrappingViewGroup.LayoutParams(2, 0));
+//        }
         
      // Check to see if a recognition activity is present
         PackageManager pm = getPackageManager();
