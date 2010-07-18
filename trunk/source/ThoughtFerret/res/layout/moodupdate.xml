@@ -26,21 +26,22 @@
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
     	>
-	    <Button
+	    <ImageButton
 	    	android:id="@+id/speakButton"
 	    	android:layout_width="wrap_content" 
 	    	android:layout_height="wrap_content" 
-	    	android:text="Speak"
+	    	android:src="@drawable/speechtotext"
+	    	android:onClick="speakClick"
 	    	/>
-	    <EditText
+	    <TextView
 	    	android:id="@+id/keywords"
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="wrap_content" 
-	    	android:text="Spoken keywords"
+	    	android:text="Tell me more about it"
 	    	/>
 	</LinearLayout>
-	<com.thoughtworks.thoughtferret.view.WrappingLayout
-	    	android:id="@+id/keywordsGroup"
+	<com.thoughtworks.thoughtferret.view.KeywordsEditor
+	    	android:id="@+id/keywordsEditor"
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="wrap_content" 
 	    	/>

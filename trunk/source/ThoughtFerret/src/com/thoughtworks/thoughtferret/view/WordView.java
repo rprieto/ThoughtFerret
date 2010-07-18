@@ -1,25 +1,50 @@
 package com.thoughtworks.thoughtferret.view;
 
-import com.thoughtworks.thoughtferret.R;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class WordView extends LinearLayout {
+import com.thoughtworks.thoughtferret.R;
+
+public class WordView extends LinearLayout implements OnClickListener {
+	
+	TextView wordText;
+	ImageView wordDelete;
+	
+	OnWordDeletionListener deletionListener;
 	
 	public WordView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		layoutInflater.inflate(R.layout.wordview, this);
+		wordText = (TextView) findViewById(R.id.wordText);
+		wordDelete = (ImageView) findViewById(R.id.wordDelete);
+		
+		wordDelete.setOnClickListener(this);
 	}
 
 	public void setText(String text) {
-		TextView word = (TextView) findViewById(R.id.wordText);
-		word.setText(text);
+		wordText.setText(text);
+	}
+
+	public String getText() {
+		return (String) wordText.getText();
+	}
+	
+	public void setOnWordDeletionListener(OnWordDeletionListener listener) {
+		deletionListener = listener;
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (deletionListener != null) {
+			deletionListener.onWordDeletion(this);
+		}
 	}
 	
 }
