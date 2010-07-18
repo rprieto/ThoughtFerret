@@ -33,9 +33,9 @@ public class MoodUpdate extends Activity implements OnClickListener {
         keywords = (EditText) findViewById(R.id.keywords);
         //keywordsGroup = (WrappingViewGroup) findViewById(R.id.keywordsGroup);
         
-        WordView wordView = new WordView(this, null);
-        ViewGroup container = (ViewGroup) findViewById(R.id.tempGroup);
-        container.addView(wordView);    
+//        WordView wordView = new WordView(this, null);
+//        ViewGroup container = (ViewGroup) findViewById(R.id.tempGroup);
+//        container.addView(wordView);    
         
         
 //        for (int i = 0; i < 10; i++) {
