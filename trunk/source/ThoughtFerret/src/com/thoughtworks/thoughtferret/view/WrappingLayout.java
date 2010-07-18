@@ -5,7 +5,6 @@ import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
 
 class WrappingLayout extends ViewGroup  {
 

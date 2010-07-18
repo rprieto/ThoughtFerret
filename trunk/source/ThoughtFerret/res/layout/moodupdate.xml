@@ -43,36 +43,7 @@
 	    	android:id="@+id/keywordsGroup"
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="wrap_content" 
-	    	>
-	    <com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-		<com.thoughtworks.thoughtferret.view.WordView
-			android:layout_width="wrap_content" 
-	    	android:layout_height="wrap_content"
-	   	/>
-	</com.thoughtworks.thoughtferret.view.WrappingLayout>
+	    	/>
 	<Button
 		android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" 

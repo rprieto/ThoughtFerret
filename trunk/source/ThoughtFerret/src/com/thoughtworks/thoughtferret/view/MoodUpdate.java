@@ -23,7 +23,7 @@ public class MoodUpdate extends Activity implements OnClickListener {
 
 	private Button speakButton;
     private EditText keywords;
-    //private WrappingViewGroup keywordsGroup;
+    private WrappingLayout keywordsView;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,22 +31,16 @@ public class MoodUpdate extends Activity implements OnClickListener {
         setContentView(R.layout.moodupdate);
         speakButton = (Button) findViewById(R.id.speakButton);
         keywords = (EditText) findViewById(R.id.keywords);
-        //keywordsGroup = (WrappingViewGroup) findViewById(R.id.keywordsGroup);
+        keywordsView = (WrappingLayout) findViewById(R.id.keywordsGroup);
+
+        String[] words = new String[] { "android", "open", "source", "pairing", "eclipse", "mvc", "development", "source", "control" };
+        for (String word : words) {
+          WordView wordView = new WordView(this, null);
+          wordView.setText(word);
+          keywordsView.addView(wordView);    
+        }
         
-//        WordView wordView = new WordView(this, null);
-//        ViewGroup container = (ViewGroup) findViewById(R.id.tempGroup);
-//        container.addView(wordView);    
-        
-        
-//        for (int i = 0; i < 10; i++) {
-//            TextView t = new TextView(this);
-//            t.setText(Long.toHexString(Double.doubleToLongBits(Math.random())));
-//            t.setBackgroundColor(Color.LTGRAY);
-//            t.setSingleLine(true);
-//            keywordsGroup.addView(t, new WrappingViewGroup.LayoutParams(2, 0));
-//        }
-        
-     // Check to see if a recognition activity is present
+        // Check to see if a recognition activity is present
         PackageManager pm = getPackageManager();
         List<ResolveInfo> activities = pm.queryIntentActivities(
                 new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);

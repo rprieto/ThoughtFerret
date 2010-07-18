@@ -7,13 +7,19 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class WordView extends LinearLayout {
 	
 	public WordView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = layoutInflater.inflate(R.layout.wordview, this);
+		layoutInflater.inflate(R.layout.wordview, this);
 	}
 
+	public void setText(String text) {
+		TextView word = (TextView) findViewById(R.id.wordText);
+		word.setText(text);
+	}
+	
 }
