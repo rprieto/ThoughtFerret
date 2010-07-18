@@ -61,36 +61,59 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 		}
 	}
 	
+	private void processDrop(View draggedWord, int x, int y) {
+		for (int i = 0; i < wrappingLayout.getChildCount(); ++i) {
+			WordView wordView = (WordView) wrappingLayout.getChildAt(i);
+			Rect wordRect = new Rect(wordView.getLeft(), wordView.getTop(), wordView.getRight(), wordView.getBottom());
+			if (wordRect.contains(x, y)) {
+				presenter.merge(((WordView)draggedWord).getText(), wordView.getText());
+				break;
+			}
+		}
+		updateView();
+	} 
+	
 	OnTouchListener dragAndDropListener = new OnTouchListener() 
 	{
-		WordView draggedWord;
+		View draggedView;
+		Rect originalRect;
 		Point originalDrag;
 		
 		@Override 
-		public boolean onTouch(View v, MotionEvent event) 
+		public boolean onTouch(View view, MotionEvent event) 
 		{
+			int x = (int)event.getX();
+			int y = (int)event.getY();
+			
 			switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					draggedWord = (WordView) v;
-					dragFeedback = new Rect(draggedWord.getLeft(), draggedWord.getTop(), draggedWord.getRight(), draggedWord.getBottom());
-					originalDrag = new Point((int)event.getX(), (int)event.getY());
+					draggedView = view;
+					originalRect = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+					dragFeedback = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+					originalDrag = new Point(x, y);
+					Log.w("View", "New drag = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
 					break;
 				case MotionEvent.ACTION_MOVE:
-					int dx = originalDrag.x - draggedWord.getLeft();
-					int dy = originalDrag.y - draggedWord.getTop();
-					dragFeedback.offsetTo((int)event.getX() - dx, (int)event.getY() - dy);
+					int dx = originalDrag.x; // - originalRect.left;
+					int dy = originalDrag.y; // - originalRect.top;
+					if (originalRect.contains(view.getLeft() + x, view.getTop() + y) == false) {
+						Log.w("View", "Move at " + x + " , " + y);
+						dragFeedback.offsetTo(view.getLeft() + x - dx, view.getTop() + y - dy);
+					}
 					break;
 				case MotionEvent.ACTION_UP:
-					int x = (int)event.getX();
-			        int y = (int)event.getY();
-			        
-					draggedWord = null;
+					Log.w("View", "Original rect = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
+					if (originalRect.contains(view.getLeft() + x, view.getTop() + y) == false) {
+						Log.w("View", "Sending drop at " + x + " , " + y);
+						processDrop(draggedView, view.getLeft() + x, view.getTop() + y);
+					}
+					draggedView = null;
 					dragFeedback = null;
 					break;
 			}
 			invalidate();
 			return true; 
-		} 
+		}
 	};
 	
 }
