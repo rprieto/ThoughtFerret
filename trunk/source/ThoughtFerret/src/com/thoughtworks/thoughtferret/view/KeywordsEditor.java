@@ -1,37 +1,34 @@
 package com.thoughtworks.thoughtferret.view;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+
+import com.thoughtworks.thoughtferret.presenter.KeywordsEditorPresenter;
 
 public class KeywordsEditor extends LinearLayout implements OnWordDeletionListener {
 	
 	WrappingLayout wrappingLayout;
 	
-	List<String> keywords;
+	KeywordsEditorPresenter presenter;
 	
 	public KeywordsEditor(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
-		keywords = new ArrayList<String>();
+		presenter = new KeywordsEditorPresenter();
 		wrappingLayout = new WrappingLayout(context);
 		addView(wrappingLayout);
 	}
 
 	public void addKeywords(List<String> words) {
-		keywords.addAll(words);
+		presenter.addKeywords(words);
 		updateView();
 	}
 	
 	public void updateView() {
 		wrappingLayout.removeAllViews();
-		for (String word : keywords) {
+		for (String word : presenter.getKeywords()) {
             WordView wordView = new WordView(getContext(), null);
             wordView.setText(word);
             wordView.setOnWordDeletionListener(this);
@@ -42,13 +39,7 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 
 	@Override
 	public void onWordDeletion(WordView wordView) {
-		String keyword = wordView.getText();
-		Iterator<String> iter = keywords.iterator();
-        while (iter.hasNext()) {
-           if (iter.next() == keyword) {
-              iter.remove();
-           }
-        }
+		presenter.deleteKeyword(wordView.getText());
         updateView();
 	}
 	
