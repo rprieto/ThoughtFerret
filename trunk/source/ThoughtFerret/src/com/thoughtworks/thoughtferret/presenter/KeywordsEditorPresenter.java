@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.util.Log;
-
 public class KeywordsEditorPresenter {
 
 	List<String> keywords;
@@ -35,26 +33,17 @@ public class KeywordsEditorPresenter {
 		return keywords;
 	}
 	
-	public void merge(String word1, String word2) {
-		Log.i("Presenter", "Merging " + word1 + " and " + word2);
-		
-		int i = 0;
-		int targetPosition = 0;
-		
-		Iterator<String> iter = keywords.iterator();
-        while (iter.hasNext()) {
-        	String current = iter.next();
-			if (current == word1) {
-				targetPosition = i;
-				iter.remove();
-			}
-			else if (current == word2) { 
-				iter.remove();
-			}
-			++i;
-        }
-        
-        keywords.add(targetPosition, word1 + " " + word2);
+	public void merge(String source, String target) {
+		int sourcePos = keywords.indexOf(source);
+		int targetPos = keywords.indexOf(target);
+		keywords.remove(source);
+		keywords.remove(target);
+		int newPos = targetPos;
+		if (sourcePos < targetPos) {
+			newPos -= 1;
+		}
+		//newPos = MathUtils.clamp(newPos, 0, keywords.size() - 1);
+        keywords.add(newPos, source + " " + target);
 	}
 	
 }
