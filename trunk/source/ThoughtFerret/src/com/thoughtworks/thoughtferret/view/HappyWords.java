@@ -6,6 +6,8 @@ import java.util.List;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -16,6 +18,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter;
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter.Word;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -56,6 +59,9 @@ private Panel panel;
 		
 		private HappyWordsPresenter presenter;
 		
+		Bitmap backgroundBitmap;
+	    Paint backgroundPaint;
+		
 		public Panel(Context context) {
 			super(context, null);
 			
@@ -70,13 +76,18 @@ private Panel panel;
 				textPaints.add(new FontPaint(0xFF000000, currentSize, Paint.Align.CENTER));
 			}
 			
+	        backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
+	        backgroundPaint = new FillPaint(0xAA000000);
+			
 			Shader gradient = new LinearGradient(0, 0, 700, 0, sadColor, happyColor, Shader.TileMode.CLAMP);
 			backgroundGradientPaint = new FillPaint(backgroundColor, gradient);
 		}
 		 
 		@Override
 		protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-			canvas.drawColor(backgroundColor);
+			//canvas.drawColor(backgroundColor);
+			
+			drawBackground(canvas, visibleRect);			
 			canvas.drawRect(getFullSize(), backgroundGradientPaint);
 
 			for (Word word : presenter.getWords()) {
@@ -84,6 +95,15 @@ private Panel panel;
 			}
 				  
 			super.drawFullCanvas(canvas, visibleRect);
+		}
+		
+		
+		private void drawBackground(Canvas canvas, Rect visibleRect) {
+			canvas.save();
+	    	canvas.translate(-visibleRect.left, -visibleRect.top);
+	    	Rect atZero = new Rect(0, 0, visibleRect.width(), visibleRect.height());
+	    	canvas.drawBitmap(backgroundBitmap, null, atZero, backgroundPaint);
+	    	canvas.restore();
 		}
 		
 	}

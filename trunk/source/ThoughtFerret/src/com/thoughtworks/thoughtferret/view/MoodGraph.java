@@ -66,6 +66,9 @@ public class MoodGraph extends Activity {
 		Bitmap backgroundBitmap;
 	    Paint backgroundPaint;
 		
+	    private Paint backgroundGradientPaint;
+		
+	    
 	    public Panel(Context context) {
 	        super(context, null);
 	        
@@ -83,12 +86,15 @@ public class MoodGraph extends Activity {
 	        backgroundPaint = new FillPaint(0xAA000000);
 			
 			Shader gradient = new LinearGradient(0, presenter.getBottomBanner().top, 0, presenter.getTopBanner().bottom, sadColor, happyColor, Shader.TileMode.CLAMP);
-			gradientPaint = new FillPaint(0xFF000000, gradient);
+			backgroundGradientPaint = new FillPaint(0xFFDDDDDD, gradient);
+	        
+			gradientPaint = new FillPaint(0x44DDDDDD);
 	    }
 	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-	    	drawBackground(canvas, visibleRect);	    	
+	    	drawBackground(canvas, visibleRect);			
+			canvas.drawRect(getFullSize(), backgroundGradientPaint);	    	
 	    	drawGrid(canvas);
 	    	drawGraph(canvas);	    	
 	    	drawTimeline(canvas, presenter.getTopBanner());
@@ -114,7 +120,7 @@ public class MoodGraph extends Activity {
         	Point first = presenter.getPoints().get(0);
         	Point last = presenter.getPoints().get(presenter.getPoints().size() - 1);
         	
-        	path.moveTo(first.x, yBase);
+        	path.moveTo(first.x, 0);
         	path.lineTo(first.x, first.y);
         	
         	contour.moveTo(first.x, yBase);
@@ -136,7 +142,7 @@ public class MoodGraph extends Activity {
         		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
         	}
         	
-        	path.lineTo(last.x, yBase);
+        	path.lineTo(last.x, 0);
         	path.close();
         	
         	contour.lineTo(last.x, yBase);
