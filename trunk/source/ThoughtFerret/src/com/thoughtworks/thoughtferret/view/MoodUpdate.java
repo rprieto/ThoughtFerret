@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RatingBar;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.model.MoodRating;
+import com.thoughtworks.thoughtferret.model.MoodRatingDao;
 
 public class MoodUpdate extends Activity {
 	
@@ -21,6 +24,8 @@ public class MoodUpdate extends Activity {
 
 	private ImageButton speakButton;
     private KeywordsEditor keywordsEditor;
+    private MoodRatingDao moodRatingDao;
+    private RatingBar moodRate;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,10 +33,12 @@ public class MoodUpdate extends Activity {
         setContentView(R.layout.moodupdate);
         speakButton = (ImageButton) findViewById(R.id.speakButton);
         keywordsEditor = (KeywordsEditor) findViewById(R.id.keywordsEditor);
+        moodRate = (RatingBar) findViewById(R.id.moodRate);
         setupVoiceRecognition();
+        moodRatingDao = new MoodRatingDao(this);
     }
     
-    private void setupVoiceRecognition() {
+	private void setupVoiceRecognition() {
     	PackageManager pm = getPackageManager();
     	List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
     	if (activities.size() == 0) {
@@ -58,6 +65,11 @@ public class MoodUpdate extends Activity {
             keywordsEditor.addKeywords(Arrays.asList(words));
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+ 
+    public void okClick(View view) {
+    	MoodRating moodRating = new MoodRating((int)moodRate.getRating());
+    	moodRatingDao.persist(moodRating);
     }
     
 }

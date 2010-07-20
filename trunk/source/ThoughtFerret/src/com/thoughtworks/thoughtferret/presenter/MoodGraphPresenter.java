@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.thoughtworks.thoughtferret.model.MoodRating;
+import com.thoughtworks.thoughtferret.model.MoodRatingDao;
+
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class MoodGraphPresenter {
 
@@ -17,13 +21,22 @@ public class MoodGraphPresenter {
 	
 	List<Point> points;
 	
-	public MoodGraphPresenter(int displayX, int displayY) {
+	private MoodRatingDao moodRatingDao;
+	
+	public MoodGraphPresenter(MoodRatingDao moodRatingDao, int displayX, int displayY) {
+		this.moodRatingDao = moodRatingDao;
 		yBase = displayY - bannerHeight;
 		createPoints(50, displayY - bannerHeight * 2);
 		graphSize = new Rect(0, 0, pointSpacing * (points.size() - 1), displayY);
 	}
 	
 	private void createPoints(int nbPoints, int maxHeight) {
+		
+		List<MoodRating> moodRatings = moodRatingDao.findAll();
+		for (MoodRating moodRating : moodRatings) {
+			Log.i("Graph", String.format("%s : %d", moodRating.getLoggedDate(), moodRating.getRating()));
+		}
+		
     	Random rnd = new Random();
 		points = new ArrayList<Point>();
 

@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.thoughtworks.thoughtferret.MathUtils;
+import com.thoughtworks.thoughtferret.model.MoodRatingDao;
 import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -59,7 +60,8 @@ public class MoodGraph extends Activity {
 	    public Panel(Context context) {
 	        super(context, null);
 	        
-			presenter = new MoodGraphPresenter(super.display.getWidth(), super.display.getHeight());
+	        MoodRatingDao dao = new MoodRatingDao(context);
+			presenter = new MoodGraphPresenter(dao, super.display.getWidth(), super.display.getHeight());
 	        setFullSize(presenter.getGraphRect());
 			
 	        Point gradientStart = new Point(0, presenter.getBottomBanner().top);
