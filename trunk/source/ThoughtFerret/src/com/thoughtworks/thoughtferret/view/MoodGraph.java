@@ -44,24 +44,15 @@ public class MoodGraph extends Activity {
 	class Panel extends Scroll  {
 		 
 		private MoodGraphPresenter presenter;
-		
-//		private int happyColor = 0x5500FF00;
-//		private int sadColor = 0xCCFF3300;
-	 
+
     	int minorGridStep = 60;
     	int majorGridStep = 240;
 		
-		//private Paint fadeOverlayPaint;
 		private Paint textPaint;
 		private Paint contourPaint;
 		private Paint bannerPaint;
 		private Paint gridMajorPaint;
 		private Paint gridMinorPaint;
-	 		
-//		Bitmap backgroundBitmap;
-//	    Paint backgroundPaint;
-		
-//	    private Paint backgroundGradientPaint;
 		
 		GraphPaints graphPaints;
 	    
@@ -82,14 +73,6 @@ public class MoodGraph extends Activity {
 			gridMinorPaint.setPathEffect(new DottedEffect());
 
 			bannerPaint = new FillPaint(0xAACCCCCC);
-			
-//	        backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
-//	        backgroundPaint = new FillPaint(0xAA000000);
-			
-//			Shader gradient = new LinearGradient(0, presenter.getBottomBanner().top, 0, presenter.getTopBanner().bottom, sadColor, happyColor, Shader.TileMode.CLAMP);
-//			backgroundGradientPaint = new FillPaint(0xFFDDDDDD, gradient);
-	        
-//			fadeOverlayPaint = new FillPaint(0x44DDDDDD);
 	    }
 	    
 	    @Override
