@@ -43,11 +43,11 @@ public class MoodGraphPresenter {
 		return points;
 	}
 	
-	public Rect getClientsBanner() {
+	public Rect getTopBanner() {
 		return new Rect(0, 0, graphSize.width(), bannerHeight);
 	}
 	
-	public Rect getTimelineBanner() {
+	public Rect getBottomBanner() {
 		return new Rect(0, graphSize.height() - bannerHeight, graphSize.width(), graphSize.height());
 	}
 	

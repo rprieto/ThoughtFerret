@@ -3,6 +3,8 @@ package com.thoughtworks.thoughtferret.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -16,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.thoughtworks.thoughtferret.MathUtils;
+import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -47,9 +50,8 @@ public class MoodGraph extends Activity {
 		 
 		private MoodGraphPresenter presenter;
 		
-		private int backgroundColor = 0xFFDDDDDD;
-		private int happyColor = 0x9900FF00;
-		private int sadColor = 0x99FF3300;
+		private int happyColor = 0x5500FF00;
+		private int sadColor = 0xCCFF3300;
 	 
     	int minorGridStep = 60;
     	int majorGridStep = 240;
@@ -61,6 +63,9 @@ public class MoodGraph extends Activity {
 		private Paint gridMajorPaint;
 		private Paint gridMinorPaint;
 	 		
+		Bitmap backgroundBitmap;
+	    Paint backgroundPaint;
+		
 	    public Panel(Context context) {
 	        super(context, null);
 	        
@@ -70,30 +75,38 @@ public class MoodGraph extends Activity {
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
 			contourPaint = new LinePaint(0xFF000000, 2f);
 			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
-			gridMinorPaint = new LinePaint(0xFFAAAAAA, 1f);
+			gridMinorPaint = new LinePaint(0x99AAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
 
-			bannerPaint = new FillPaint(0x66666666);
+			bannerPaint = new FillPaint(0xAACCCCCC);
+	        backgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
+	        backgroundPaint = new FillPaint(0xAA000000);
 			
-			Shader gradient = new LinearGradient(0, presenter.getTimelineBanner().top, 0, presenter.getClientsBanner().bottom, sadColor, happyColor, Shader.TileMode.CLAMP);
+			Shader gradient = new LinearGradient(0, presenter.getBottomBanner().top, 0, presenter.getTopBanner().bottom, sadColor, happyColor, Shader.TileMode.CLAMP);
 			gradientPaint = new FillPaint(0xFF000000, gradient);
 	    }
 	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-	    	canvas.drawColor(backgroundColor);
-	   	    	
+	    	drawBackground(canvas, visibleRect);	    	
 	    	drawGrid(canvas);
-	    	drawGraph(canvas);
-	    	drawEngagements(canvas);
-	    	drawTimeline(canvas);
-        	
+	    	drawGraph(canvas);	    	
+	    	drawTimeline(canvas, presenter.getTopBanner());
+	    	drawTimeline(canvas, presenter.getBottomBanner());
         	super.drawFullCanvas(canvas, visibleRect);
 	    }
+
+		private void drawBackground(Canvas canvas, Rect visibleRect) {
+			canvas.save();
+	    	canvas.translate(-visibleRect.left, -visibleRect.top);
+	    	Rect atZero = new Rect(0, 0, visibleRect.width(), visibleRect.height());
+	    	canvas.drawBitmap(backgroundBitmap, null, atZero, backgroundPaint);
+	    	canvas.restore();
+		}
 	    
 	    private void drawGraph(Canvas canvas) {
 	    	
-	    	int yBase = presenter.getTimelineBanner().top;
+	    	int yBase = presenter.getBottomBanner().top;
 	    	
 	    	Path path = new Path();	 
         	Path contour = new Path();
@@ -132,28 +145,11 @@ public class MoodGraph extends Activity {
         	canvas.drawPath(contour, contourPaint);
 	    }
 	    
-	    private void drawEngagements(Canvas canvas) {
-	    	Rect banner = presenter.getClientsBanner();
+	    private void drawTimeline(Canvas canvas, Rect banner) {
 	    	canvas.drawRect(banner, bannerPaint);
-	    	canvas.drawLine(banner.left, banner.bottom, banner.right, banner.bottom, contourPaint);
-	    	canvas.drawText("Beach", 75,  banner.centerY() + 5, textPaint);
-	    	canvas.drawLine(150, presenter.getClientsBanner().top, 150, presenter.getClientsBanner().bottom, gridMajorPaint);
-	    	canvas.drawText("e*Trade", 290, banner.centerY() + 5, textPaint);
-	    	canvas.drawLine(430, presenter.getClientsBanner().top, 430, presenter.getClientsBanner().bottom, gridMajorPaint);
-	    	canvas.drawText("Suncorp", 552, banner.centerY() + 5, textPaint);
-	    	canvas.drawLine(675, presenter.getClientsBanner().top, 675, presenter.getClientsBanner().bottom, gridMajorPaint);
-	    	canvas.drawText("Beach", 697, banner.centerY() + 5, textPaint);
-	    	canvas.drawLine(720, presenter.getClientsBanner().top, 720, presenter.getClientsBanner().bottom, gridMajorPaint);
-	    	canvas.drawText("Telstra Media", 885, banner.centerY() + 5, textPaint);
-	    	canvas.drawLine(1050, presenter.getClientsBanner().top, 1050, presenter.getClientsBanner().bottom, gridMajorPaint);
-	    }
-	    
-	    private void drawTimeline(Canvas canvas) {
-	    	Rect banner = presenter.getTimelineBanner();
-	    	canvas.drawRect(banner, bannerPaint);
-	    	canvas.drawLine(banner.left, banner.top, banner.right, banner.top, contourPaint);
+	    	canvas.drawRect(banner, contourPaint);
 	    	for (int x = 0; x < presenter.getGraphRect().width(); x += majorGridStep) {
-	    		canvas.drawLine(x, presenter.getTimelineBanner().top, x, presenter.getTimelineBanner().bottom, gridMajorPaint);
+	    		canvas.drawLine(x, banner.top, x, banner.bottom, gridMajorPaint);
 	    	}
 	    	canvas.drawText("January 2010",   majorGridStep * 0 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
 	    	canvas.drawText("February 2010",  majorGridStep * 1 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
@@ -171,7 +167,7 @@ public class MoodGraph extends Activity {
 	    
 	    private void drawGrid(Canvas canvas) {	    	
 	    	for (int x = 0; x < presenter.getGraphRect().width(); x += minorGridStep) {
-	    		canvas.drawLine(x, presenter.getClientsBanner().bottom, x, presenter.getTimelineBanner().top, gridMinorPaint);
+	    		canvas.drawLine(x, presenter.getTopBanner().bottom, x, presenter.getBottomBanner().top, gridMinorPaint);
 	    	}
 	    	for (int y = 0; y < super.display.getHeight(); y += minorGridStep) {
 	    		canvas.drawLine(0, y, presenter.getGraphRect().width(), y, gridMinorPaint);
