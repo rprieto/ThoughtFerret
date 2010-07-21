@@ -9,9 +9,10 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -40,7 +41,7 @@ private Panel panel;
 	    window.addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 	}
 
-	class Panel extends Scroll  {
+	class Panel extends View  {
 		
 		private int minTextSize = 15;
 		private int maxTextSize = 45;
@@ -49,19 +50,17 @@ private Panel panel;
 
 		private HappyWordsPresenter presenter;
 		
-		GraphPaints graphPaints;
-
+	    protected Display display;
+		ApplicationBackground appBackground;
 		
 		public Panel(Context context) {
 			super(context, null);
 			
-			presenter = new HappyWordsPresenter(super.display.getWidth(), super.display.getHeight());
-			setFullSize(presenter.getGraphRect());
+			display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+			presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight());
 
-			Point gradientStart = new Point(0, 0);
-	        Point gradientEnd = new Point(super.display.getWidth(), 0);
-			graphPaints = new GraphPaints(getResources(), gradientStart, gradientEnd);
-			
+	        appBackground = new ApplicationBackground(getResources(), display.getWidth(), display.getHeight(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
+	        
 			int sizeRange = (maxTextSize - minTextSize);
 			int sizeStep = (int) (sizeRange / (float) (presenter.getSizeLevels() - 1));
 			
@@ -72,20 +71,14 @@ private Panel panel;
 		}
 		 
 		@Override
-		protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-			drawBackground(canvas, visibleRect);			
+		protected void onDraw(Canvas canvas) {
+			appBackground.draw(canvas);
+			Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
+			canvas.drawRect(screen, appBackground.getFadeOverlayPaint());		
 
 			for (Word word : presenter.getWords()) {
 				canvas.drawText(word.text, word.position.x, word.position.y, textPaints.get(word.weight));
 			}
-				  
-			super.drawFullCanvas(canvas, visibleRect);
-		}
-		
-		
-		private void drawBackground(Canvas canvas, Rect visibleRect) {
-			graphPaints.drawBackground(canvas, super.getFullSize(), visibleRect);
-			canvas.drawRect(visibleRect, graphPaints.getFadeOverlayPaint());
 		}
 		
 	}

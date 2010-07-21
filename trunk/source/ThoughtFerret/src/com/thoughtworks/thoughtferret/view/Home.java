@@ -52,7 +52,7 @@ public class Home extends Activity {
 
 	class Panel extends Scroll  {
 		
-		GraphPaints graphPaints;
+		//GraphPaints graphPaints;
 		
 		private final Bitmap ferretBitmap;
 		private final Paint ferretPaint;
@@ -64,9 +64,9 @@ public class Home extends Activity {
 			Rect fullSize = new Rect(0, 0, super.display.getWidth(), super.display.getHeight());
 	        setFullSize(fullSize);
 			
-	        Point gradientStart = new Point(0, 0);
-	        Point gradientEnd = new Point(super.display.getWidth(), 0);
-	        graphPaints = new GraphPaints(getResources(), gradientStart, gradientEnd);
+	        //Point gradientStart = new Point(0, 0);
+	        //Point gradientEnd = new Point(super.display.getWidth(), 0);
+	        //graphPaints = new GraphPaints(getResources(), gradientStart, gradientEnd);
 	        
 	        ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
 	        ferretPaint = new FillPaint(0xAA000000);
@@ -83,8 +83,8 @@ public class Home extends Activity {
 	    }
 
 		private void drawBackground(Canvas canvas, Rect visibleRect) {
-			graphPaints.drawBackground(canvas, super.getFullSize(), visibleRect);
-			canvas.drawRect(visibleRect, graphPaints.getFadeOverlayPaint());
+			//graphPaints.drawBackground(canvas, super.getFullSize(), visibleRect);
+			//canvas.drawRect(visibleRect, graphPaints.getFadeOverlayPaint());
 		}
 
 		private void drawFerret(Canvas canvas, Rect visibleRect) {

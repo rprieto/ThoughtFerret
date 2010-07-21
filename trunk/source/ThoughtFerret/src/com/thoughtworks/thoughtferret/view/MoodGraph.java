@@ -3,6 +3,7 @@ package com.thoughtworks.thoughtferret.view;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -49,25 +50,28 @@ public class MoodGraph extends Activity {
     	int minorGridStep = 60;
     	int majorGridStep = 240;
 		
+    	private Paint nopPaint;
 		private Paint textPaint;
 		private Paint contourPaint;
 		private Paint bannerPaint;
 		private Paint gridMajorPaint;
 		private Paint gridMinorPaint;
 		
-		GraphPaints graphPaints;
+		ApplicationBackground appBackground;
+		Bitmap cachedBitmap;
 	    
 	    public Panel(Context context) {
 	        super(context, null);
 	        
+	        Rect screen = new Rect(0, 0, super.display.getWidth(), super.display.getHeight());
+	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
-			presenter = new MoodGraphPresenter(dao, super.display.getWidth(), super.display.getHeight());
+			presenter = new MoodGraphPresenter(dao, screen.width(), screen.height());
 	        setFullSize(presenter.getGraphRect());
 			
-	        Point gradientStart = new Point(0, presenter.getBottomBanner().top);
-	        Point gradientEnd = new Point(0, presenter.getTopBanner().bottom);
-	        graphPaints = new GraphPaints(getResources(), gradientStart, gradientEnd);
-	        
+	        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.VERTICAL, false);
+	       
+	        nopPaint = new Paint();
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
 			contourPaint = new LinePaint(0xFF000000, 2f);
 			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
@@ -75,20 +79,30 @@ public class MoodGraph extends Activity {
 			gridMinorPaint.setPathEffect(new DottedEffect());
 
 			bannerPaint = new FillPaint(0xAACCCCCC);
+			
+			cachedBitmap = Bitmap.createBitmap(presenter.getGraphRect().width(), presenter.getGraphRect().height(), Bitmap.Config.ARGB_8888);
+			Canvas fullCanvas = new Canvas(cachedBitmap);			
+			prepare(fullCanvas);
 	    }
 	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-	    	drawBackground(canvas, visibleRect);			
+	    	drawBackground(canvas, visibleRect);	
+	    	canvas.drawBitmap(cachedBitmap, 0, 0, nopPaint);
+	    }
+	    
+	    private void prepare(Canvas canvas) {
 			drawGrid(canvas);
 	    	drawGraph(canvas);	    	
 	    	drawTimeline(canvas, presenter.getTopBanner());
 	    	drawTimeline(canvas, presenter.getBottomBanner());
-        	super.drawFullCanvas(canvas, visibleRect);
 	    }
 
 		private void drawBackground(Canvas canvas, Rect visibleRect) {
-			graphPaints.drawBackground(canvas, super.getFullSize(), visibleRect);
+			canvas.save();
+	    	canvas.translate(-visibleRect.left, -visibleRect.top);
+			appBackground.draw(canvas);
+			canvas.restore();
 		}
 	    
 	    private void drawGraph(Canvas canvas) {
@@ -128,7 +142,7 @@ public class MoodGraph extends Activity {
         	
         	contour.lineTo(last.x, yBase);
         	
-        	canvas.drawPath(path, graphPaints.getFadeOverlayPaint()); 
+        	canvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
         	canvas.drawPath(contour, contourPaint);
 	    }
 	    
