@@ -41,6 +41,13 @@ private Panel panel;
 	    window.addFlags(WindowManager.LayoutParams.FLAG_DITHER);
 	}
 
+	@Override
+    public void onBackPressed() {
+		this.finish();
+		overridePendingTransition(0, 0);
+		return;
+    }
+	
 	class Panel extends View  {
 		
 		private int minTextSize = 15;

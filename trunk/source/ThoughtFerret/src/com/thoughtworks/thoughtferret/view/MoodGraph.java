@@ -30,19 +30,25 @@ public class MoodGraph extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		
 		panel = new Panel(this);
 		setContentView(panel);
 	}
 	
 	@Override
-	  public void onAttachedToWindow() {
-	    super.onAttachedToWindow();
+	public void onAttachedToWindow() {
+		super.onAttachedToWindow();
 	    Window window = getWindow();
 	    window.setFormat(PixelFormat.RGBA_8888);
 	    window.addFlags(WindowManager.LayoutParams.FLAG_DITHER);
-	  }
+	}
 
+	@Override
+    public void onBackPressed() {
+		this.finish();
+		overridePendingTransition(0, 0);
+		return;
+    }
+	
 	class Panel extends Scroll  {
 		 
 		private MoodGraphPresenter presenter;

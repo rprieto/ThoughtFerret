@@ -39,10 +39,12 @@ public class Home extends Activity {
 
 	public void graphClick(View view) {
 		startActivity(new Intent(this, MoodGraph.class));
+		overridePendingTransition(0, 0);
 	}
 	
 	public void wordsClick(View view) {
 		startActivity(new Intent(this, HappyWords.class));
+		overridePendingTransition(0, 0);
 	}
 	
 	public void preferencesClick(View view) {
