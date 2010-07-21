@@ -1,32 +1,36 @@
 package com.thoughtworks.thoughtferret.view;
 
-import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.view.paints.FillPaint;
-import com.thoughtworks.thoughtferret.view.paints.FontPaint;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+
+import com.thoughtworks.thoughtferret.R;
 
 public class Home extends Activity {
 
-	private Panel panel;
+	private ApplicationBackground appBackground;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
+
+        LinearLayout homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
         
-        //panel = new Panel(this);
-		//setContentView(panel);
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
+        
+        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
+        BitmapDrawable drawable = new BitmapDrawable(appBackground.getBitmap());
+        
+        homeBackground.setBackgroundDrawable(drawable);
 	}
 	
 	public void updateClick(View view) {
@@ -50,54 +54,15 @@ public class Home extends Activity {
 	}
 	
 
-	class Panel extends Scroll  {
-		
-		//GraphPaints graphPaints;
-		
-		private final Bitmap ferretBitmap;
-		private final Paint ferretPaint;
-		private Paint textPaint;
-	    
-	    public Panel(Context context) {
-	        super(context, null);
-	        
-			Rect fullSize = new Rect(0, 0, super.display.getWidth(), super.display.getHeight());
-	        setFullSize(fullSize);
-			
-	        //Point gradientStart = new Point(0, 0);
-	        //Point gradientEnd = new Point(super.display.getWidth(), 0);
-	        //graphPaints = new GraphPaints(getResources(), gradientStart, gradientEnd);
-	        
-	        ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
-	        ferretPaint = new FillPaint(0xAA000000);
-	        
-	        textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
-	    }
-	    
-	    @Override
-	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
-	    	drawBackground(canvas, visibleRect);	
-	    	drawFerret(canvas, visibleRect);
-	    	drawMenu(canvas);
-        	super.drawFullCanvas(canvas, visibleRect);
-	    }
-
-		private void drawBackground(Canvas canvas, Rect visibleRect) {
-			//graphPaints.drawBackground(canvas, super.getFullSize(), visibleRect);
-			//canvas.drawRect(visibleRect, graphPaints.getFadeOverlayPaint());
-		}
-
-		private void drawFerret(Canvas canvas, Rect visibleRect) {
-			Rect target = new Rect(0, 0, ferretBitmap.getWidth(), ferretBitmap.getHeight());
-			canvas.drawBitmap(ferretBitmap, null, target, ferretPaint);
-		}
-		
-		private void drawMenu(Canvas canvas) {
-			canvas.drawText("Happy words", 100, 100, textPaint);
-			canvas.drawText("Mood graph", 100, 200, textPaint);
-			canvas.drawText("Preferences", 100, 300, textPaint);
-		}
-		
-	}
+//	public void drawFerret() {
+//        display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//		Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
+//
+//        ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homebackground);
+//
+//		Point topLeft = new Point(display.getWidth() - ferretBitmap.getWidth(), display.getHeight() - ferretBitmap.getHeight());
+//		Rect target = new Rect(topLeft.x, topLeft.y, ferretBitmap.getWidth(), ferretBitmap.getHeight());
+//		canvas.drawBitmap(ferretBitmap, null, target, ferretPaint);
+//	}
 	
 }

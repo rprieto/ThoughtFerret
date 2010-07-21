@@ -77,4 +77,8 @@ public class ApplicationBackground {
 		return fadeOverlayPaint;
 	}
 	
+	public Bitmap getBitmap() {
+		return cachedBitmap;
+	}
+	
 }
