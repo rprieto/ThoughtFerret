@@ -9,7 +9,6 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
@@ -80,9 +79,6 @@ private Panel panel;
 		@Override
 		protected void onDraw(Canvas canvas) {
 			appBackground.draw(canvas);
-			//Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
-			//canvas.drawRect(screen, appBackground.getFadeOverlayPaint());		
-
 			for (Word word : presenter.getWords()) {
 				canvas.drawText(word.text, word.position.x, word.position.y, textPaints.get(word.weight));
 			}
