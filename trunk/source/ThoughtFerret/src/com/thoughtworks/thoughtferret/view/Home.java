@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.thoughtworks.thoughtferret.R;
 
@@ -27,13 +29,18 @@ public class Home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home);
 
-        LinearLayout homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
         BitmapDrawable drawable = new BitmapDrawable(createBackground());        
+        LinearLayout homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
         homeBackground.setBackgroundDrawable(drawable);
+        
+//        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/handmadetypewriter.ttf");
+//        TextView homeUpdate = (TextView) findViewById(R.id.homeUpdate);
+//        homeUpdate.setTypeface(typeFace);
 	}
 	
 	public void updateClick(View view) {
 		startActivity(new Intent(this, MoodUpdate.class));
+		overridePendingTransition(0, 0);
 	}
 
 	public void graphClick(View view) {

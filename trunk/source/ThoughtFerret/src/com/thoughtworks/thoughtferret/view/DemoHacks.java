@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.model.FakeData;
 
 public class DemoHacks extends Activity {
 
@@ -47,7 +48,8 @@ public class DemoHacks extends Activity {
 	}
 	
 	public void populateDatabaseClick(View view) {
-		
+		FakeData fakeData = new FakeData(this);
+		fakeData.createHistory();
 	}
 	
 }

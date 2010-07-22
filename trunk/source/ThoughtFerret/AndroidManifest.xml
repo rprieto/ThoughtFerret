@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.MoodUpdate"
+        		  android:screenOrientation="landscape"
 				  android:label="@string/app_name">
 		</activity>
 		<activity android:name=".view.MoodGraph"

@@ -5,13 +5,19 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.thoughtworks.thoughtferret.R;
@@ -36,8 +42,23 @@ public class MoodUpdate extends Activity {
         moodRate = (RatingBar) findViewById(R.id.moodRate);
         setupVoiceRecognition();
         moodRatingDao = new MoodRatingDao(this);
+        
+        Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+        Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());        
+        ApplicationBackground appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
+        BitmapDrawable drawable = new BitmapDrawable(appBackground.getBitmap());        
+
+        LinearLayout homeBackground = (LinearLayout) findViewById(R.id.moodUpdateBackground);
+        homeBackground.setBackgroundDrawable(drawable);
     }
     
+	@Override
+    public void onBackPressed() {
+		this.finish();
+		overridePendingTransition(0, 0);
+		return;
+    }
+	
 	private void setupVoiceRecognition() {
     	PackageManager pm = getPackageManager();
     	List<ResolveInfo> activities = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);

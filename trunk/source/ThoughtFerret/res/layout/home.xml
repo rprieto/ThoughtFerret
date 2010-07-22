@@ -4,41 +4,58 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/homeBackground"
+    android:padding="10sp"
     >
 	<Button
+		android:id="@+id/homeUpdate"
 	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:text="@string/homeUpdate"
 	    android:onClick="updateClick"
-	    android:padding="10sp"
+	    android:padding="15sp"
+	    android:textColor="@android:color/black"
+	    android:textSize="20sp"
+	    android:background="@android:color/transparent"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:text="@string/homeGraph"
 	    android:onClick="graphClick"
-	    android:padding="10sp"
+	    android:padding="15sp"
+	    android:textColor="@android:color/black"
+	    android:textSize="20sp"
+	    android:background="@android:color/transparent"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:text="@string/homeWords"
 	    android:onClick="wordsClick"
-	    android:padding="10sp"
+	    android:padding="15sp"
+	    android:textColor="@android:color/black"
+	    android:textSize="20sp"
+	    android:background="@android:color/transparent"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:text="@string/homePreferences"
 	    android:onClick="preferencesClick"
-	    android:padding="10sp"
+	    android:padding="15sp"
+	    android:textColor="@android:color/black"
+	    android:textSize="20sp"
+	    android:background="@android:color/transparent"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content"
 	    android:text="Demo hacks"
 	    android:onClick="demoHacksClick"
-	    android:padding="10sp"
+	    android:padding="15sp"
+	    android:textColor="@android:color/black"
+	    android:textSize="20sp"
+	    android:background="@android:color/transparent"
 		/>
 </LinearLayout>
 

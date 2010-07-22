@@ -3,14 +3,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/tempGroup"
-    android:background="@drawable/homebackground"
+    android:id="@+id/moodUpdateBackground"
     >
 	<TextView  
     	android:layout_width="fill_parent" 
     	android:layout_height="wrap_content" 
     	android:textSize="25sp"
     	android:text="@string/moodQuestion"
+    	android:textColor="#FF000000"
     	/>
     <RatingBar 
     	android:id="@+id/moodRate"
@@ -39,6 +39,7 @@
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="wrap_content" 
 	    	android:text="Tell me more about it"
+	    	android:textColor="#FF000000"
 	    	/>
 	</LinearLayout>
 	<com.thoughtworks.thoughtferret.view.KeywordsEditor
@@ -47,7 +48,7 @@
 	    	android:layout_height="wrap_content" 
 	    	/>
 	<Button
-		android:layout_width="fill_parent" 
+		android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content" 
 		android:text="OK"
 		android:onClick="okClick"
