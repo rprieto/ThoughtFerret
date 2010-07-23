@@ -4,22 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
-import org.joda.time.Months;
-import org.joda.time.Period;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.util.Log;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.moodgraph.TimeUnit;
 
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.util.Log;
-
 public class MoodGraphPresenter {
 
+	private static final int MONTH_SIZE = 240;
+	
 	private Rect graphSize;
 	
 	private int yBase = 0;
@@ -38,12 +35,10 @@ public class MoodGraphPresenter {
 	}
 	
 	private void createPoints(int nbPoints, int maxHeight) {
-		
-//		List<MoodRating> moodRatings = moodRatingDao.findAll();
-//		for (MoodRating moodRating : moodRatings) {
+//		for (MoodRating moodRating : moodRatings.getValues()) {
 //			Log.i("Graph", String.format("%s : %d", moodRating.getLoggedDate(), moodRating.getRating()));
 //		}
-//		
+		
     	Random rnd = new Random();
 		points = new ArrayList<Point>();
 
@@ -68,27 +63,24 @@ public class MoodGraphPresenter {
 	}
 	
 	public List<TimeUnit> getBottomTimeline() {
+		return getTimeline(graphSize.height() - bannerHeight, graphSize.height());
+	}
+	
+	public List<TimeUnit> getTopTimeline() {
+		return getTimeline(0, bannerHeight);
+	}
+	
+	private List<TimeUnit> getTimeline(int top, int bottom) {
 		List<TimeUnit> units = new ArrayList<TimeUnit>();
 		int x = 0;
 		for (String unitName : moodRatings.getMonths()) {
-			Rect rect = new Rect(x, graphSize.height() - bannerHeight, x + 240, graphSize.height());
+			Rect rect = new Rect(x, top, x + MONTH_SIZE, bottom);
 			TimeUnit unit = new TimeUnit(rect, unitName);
 			units.add(unit);
-			x += 240;
+			x += MONTH_SIZE;
 		}
 		return units;
 	}
 	
-	public List<TimeUnit> getTopTimeline() {
-		List<TimeUnit> units = new ArrayList<TimeUnit>();
-		int x = 0;
-		for (String unitName : moodRatings.getMonths()) {
-			Rect rect = new Rect(x, 0, x + 240, bannerHeight);
-			TimeUnit unit = new TimeUnit(rect, unitName);
-			units.add(unit);
-			x += 240;
-		}
-		return units;
-	}
 	
 }

@@ -24,10 +24,6 @@ public class MoodRatings {
 		return ratings;
 	}
 
-	public MonthlyMoodRatings asMonthlyMoodRating() {
-		return new MonthlyMoodRatings(this);
-	}
-
 	public List<String> getMonths() {
 		DateTime firstDate = ratings.get(0).getLoggedDate();
 		DateTime lastDate = ratings.get(ratings.size() - 1).getLoggedDate();
