@@ -167,32 +167,14 @@ public class MoodGraph extends Activity {
 		    	canvas.drawRect(unit.getRect(), contourPaint);
 		    	canvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
 			}
-	    	
-//	    	canvas.drawRect(banner, bannerPaint);
-//	    	canvas.drawRect(banner, contourPaint);
-//	    	for (int x = 0; x < presenter.getTotalRect().width(); x += majorGridStep) {
-//	    		canvas.drawLine(x, banner.top, x, banner.bottom, gridMajorPaint);
-//	    	}
-//	    	canvas.drawText("January 2010",   majorGridStep * 0 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("February 2010",  majorGridStep * 1 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("March 2010",     majorGridStep * 2 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("April 2010",     majorGridStep * 3 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("May 2010",       majorGridStep * 4 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("June 2010",      majorGridStep * 5 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("July 2010",      majorGridStep * 6 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("August 2010",    majorGridStep * 7 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("September 2010", majorGridStep * 8 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("October 2010",   majorGridStep * 9 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("November 2010",  majorGridStep * 10 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
-//	    	canvas.drawText("December 2010",  majorGridStep * 11 + (majorGridStep / 2f), banner.centerY() + 5, textPaint);
 	    }
 	    
 	    private void drawGrid(Canvas canvas) {	    	
-	    	for (int x = 0; x < presenter.getTotalRect().width(); x += minorGridStep) {
+	    	for (int x = presenter.getGraphRect().left; x < presenter.getGraphRect().right; x += minorGridStep) {
 	    		canvas.drawLine(x, presenter.getGraphRect().top, x, presenter.getGraphRect().bottom, gridMinorPaint);
 	    	}
-	    	for (int y = 0; y < super.display.getHeight(); y += minorGridStep) {
-	    		canvas.drawLine(0, y, presenter.getTotalRect().width(), y, gridMinorPaint);
+	    	for (int y = presenter.getGraphRect().top; y < presenter.getGraphRect().bottom; y += minorGridStep) {
+	    		canvas.drawLine(presenter.getGraphRect().left, y, presenter.getGraphRect().right, y, gridMinorPaint);
 	    	}
 	    }
 	    

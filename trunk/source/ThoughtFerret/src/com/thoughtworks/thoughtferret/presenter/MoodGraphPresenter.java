@@ -16,6 +16,7 @@ import com.thoughtworks.thoughtferret.view.moodgraph.TimeUnit;
 public class MoodGraphPresenter {
 
 	private static final int MONTH_SIZE = 240;
+	private static final int WEEK_SIZE = 60;
 	
 	private Rect graphSize;
 	
@@ -27,17 +28,16 @@ public class MoodGraphPresenter {
 	List<Point> points;
 	
 	public MoodGraphPresenter(MoodRatingDao moodRatingDao, int displayX, int displayY) {
+		moodRatings = moodRatingDao.findAll();
 		yBase = displayY - bannerHeight;
 		createPoints(50, displayY - bannerHeight * 2);
-		graphSize = new Rect(0, 0, pointSpacing * (points.size() - 1), displayY);
-		
-		moodRatings = moodRatingDao.findAll();
+		graphSize = new Rect(0, 0, pointSpacing * (points.size() - 1), displayY);		
 	}
 	
 	private void createPoints(int nbPoints, int maxHeight) {
-//		for (MoodRating moodRating : moodRatings.getValues()) {
-//			Log.i("Graph", String.format("%s : %d", moodRating.getLoggedDate(), moodRating.getRating()));
-//		}
+		for (MoodRating moodRating : moodRatings.getValues()) {
+			Log.i("Graph", String.format("%s : %d", moodRating.getLoggedDate(), moodRating.getRating()));
+		}
 		
     	Random rnd = new Random();
 		points = new ArrayList<Point>();
