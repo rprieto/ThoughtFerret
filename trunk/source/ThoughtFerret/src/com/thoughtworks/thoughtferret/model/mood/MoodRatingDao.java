@@ -1,7 +1,9 @@
-package com.thoughtworks.thoughtferret.model;
+package com.thoughtworks.thoughtferret.model.mood;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.thoughtworks.thoughtferret.model.DatabaseHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -23,17 +25,17 @@ public class MoodRatingDao {
 		database.close();
 	}
 	
-	public void persist(MoodRating moodRating) {
+	public void persist(MoodRating rating) {
 		SQLiteDatabase database = databaseHelper.getWritableDatabase();
-		insertIntoDatabase(moodRating, database);
+		insertIntoDatabase(rating, database);
 		database.close();
 	}
 
-	public void persist(List<MoodRating> ratings) {
+	public void persist(MoodRatings ratings) {
 		SQLiteDatabase database = databaseHelper.getWritableDatabase();
 		try{
 			database.beginTransaction();
-			for (MoodRating moodRating : ratings) {
+			for (MoodRating moodRating : ratings.getValues()) {
 				insertIntoDatabase(moodRating, database);
 			}
 			database.setTransactionSuccessful();
@@ -51,7 +53,7 @@ public class MoodRatingDao {
 		database.insert("MoodRating", "loggedDate", values);
 	}
 	
-	public List<MoodRating> findAll() {
+	public MoodRatings findAll() {
 		List<MoodRating> ratings = new ArrayList<MoodRating>();
 		SQLiteDatabase database = databaseHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery("select loggedDate, rating from MoodRating", null);
@@ -62,7 +64,7 @@ public class MoodRatingDao {
 		}
 		cursor.close();
 		database.close();
-		return ratings;
+		return new MoodRatings(ratings);
 	}
 	
 }

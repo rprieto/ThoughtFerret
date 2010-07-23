@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.view.moodgraph.MoodGraph;
 
 public class Home extends Activity {
 	

@@ -19,7 +19,7 @@
         		  android:screenOrientation="landscape"
 				  android:label="@string/app_name">
 		</activity>
-		<activity android:name=".view.MoodGraph"
+		<activity android:name=".view.moodgraph.MoodGraph"
 				  android:label="@string/app_name">
 		</activity>
         <activity android:name=".view.HappyWords"

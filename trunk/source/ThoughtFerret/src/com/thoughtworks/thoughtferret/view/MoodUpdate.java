@@ -21,8 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
 import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.model.MoodRating;
-import com.thoughtworks.thoughtferret.model.MoodRatingDao;
+import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 
 public class MoodUpdate extends Activity {
 	

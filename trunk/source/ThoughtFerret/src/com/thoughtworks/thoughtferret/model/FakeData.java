@@ -1,13 +1,10 @@
 package com.thoughtworks.thoughtferret.model;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import android.content.Context;
+
+import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
+import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
 public class FakeData {
 	
@@ -18,24 +15,23 @@ public class FakeData {
 	}
 	
 	public void createHistory() {
-		List<MoodRating> ratings = Arrays.asList(
-				newMood("16-07-2010 09:45", 3),
-				newMood("18-07-2010 16:28", 3),
-				newMood("19-07-2010 11:45", 2),
-				newMood("25-07-2010 08:39", 4),
-				newMood("26-07-2010 15:20", 5),
-				newMood("29-07-2010 12:11", 4),
-				newMood("01-08-2010 17:43", 2),
-				newMood("02-08-2010 09:18", 1),
-				newMood("06-08-2010 11:59", 3));
+		MoodRatings ratings = new MoodRatings(
+				new MoodRating("16-07-2010 09:45", 3),
+				new MoodRating("18-07-2010 16:28", 3),
+				new MoodRating("19-07-2010 11:45", 2),
+				new MoodRating("25-07-2010 08:39", 4),
+				new MoodRating("26-07-2010 15:20", 5),
+				new MoodRating("29-07-2010 12:11", 4),
+				new MoodRating("01-08-2010 17:43", 2),
+				new MoodRating("02-08-2010 09:18", 1),
+				new MoodRating("06-08-2010 11:59", 3),
+				new MoodRating("17-08-2010 17:04", 3),
+				new MoodRating("23-08-2010 12:38", 4),
+				new MoodRating("24-08-2010 10:41", 2),
+				new MoodRating("29-08-2010 16:03", 1),
+				new MoodRating("02-09-2010 18:16", 2));
 		dao.deleteAll();
 		dao.persist(ratings);
-	}
-	
-	private MoodRating newMood(String loggedDate, int rating) {
-		DateTimeFormatter parser = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
-		DateTime date = parser.parseDateTime(loggedDate);
-		return new MoodRating(date.getMillis(), rating);
 	}
 	
 }
