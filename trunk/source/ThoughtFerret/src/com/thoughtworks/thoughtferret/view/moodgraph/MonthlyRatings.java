@@ -70,8 +70,12 @@ public class MonthlyRatings {
 			points.add(new Point(x, y));
 		}
 		
-		int lastX = timeUnits.get(timeUnits.size() - 1).getRect().right;
-		int lastY = points.get(points.size() - 1).y;
+		int lastX = points.get(points.size() - 1).x;
+		int lastY = graphRect.height() - TIMELINE_HEIGHT;
+		points.add(new Point(lastX, lastY));
+		
+		lastX = timeUnits.get(timeUnits.size() - 1).getRect().right;
+		lastY = graphRect.height() - TIMELINE_HEIGHT;
 		points.add(new Point(lastX, lastY));
 	}
 	
