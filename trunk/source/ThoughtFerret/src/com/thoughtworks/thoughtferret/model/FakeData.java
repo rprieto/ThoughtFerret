@@ -16,6 +16,10 @@ public class FakeData {
 	
 	public void createHistory() {
 		MoodRatings ratings = new MoodRatings(
+				new MoodRating("05-06-2010 09:45", 3),
+				new MoodRating("17-06-2010 16:28", 3),
+				new MoodRating("26-06-2010 11:45", 2),
+				new MoodRating("27-06-2010 08:39", 4),
 				new MoodRating("16-07-2010 09:45", 3),
 				new MoodRating("18-07-2010 16:28", 3),
 				new MoodRating("19-07-2010 11:45", 2),

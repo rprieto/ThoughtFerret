@@ -16,7 +16,7 @@ import android.view.WindowManager;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
-import com.thoughtworks.thoughtferret.presenter.MoodGraphPresenter;
+import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.Scroll;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
@@ -53,8 +53,6 @@ public class MoodGraph extends Activity {
 	
 	class Panel extends Scroll  {
 		 
-		private MoodGraphPresenter presenter;
-
     	int minorGridStep = 60;
     	int majorGridStep = 240;
 		
@@ -62,11 +60,11 @@ public class MoodGraph extends Activity {
 		private Paint textPaint;
 		private Paint contourPaint;
 		private Paint bannerPaint;
-		private Paint gridMajorPaint;
 		private Paint gridMinorPaint;
 		
 		ApplicationBackground appBackground;
 		Bitmap cachedBitmap;
+		private MonthlyRatings monthlyRatings;
 	    
 	    public Panel(Context context) {
 	        super(context, null);
@@ -74,21 +72,22 @@ public class MoodGraph extends Activity {
 	        Rect screen = new Rect(0, 0, super.display.getWidth(), super.display.getHeight());
 	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
-			presenter = new MoodGraphPresenter(dao, screen.width(), screen.height());
-	        setFullSize(presenter.getTotalRect());
+	        MoodRatings ratings = dao.findAll();
+	        monthlyRatings = new MonthlyRatings(ratings, screen.height());
+	        
+	        setFullSize(monthlyRatings.getGraphRect());
 			
 	        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
 	        nopPaint = new Paint();
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
 			contourPaint = new LinePaint(0xFF000000, 2f);
-			gridMajorPaint = new LinePaint(0xFF666666, 1.5f);
 			gridMinorPaint = new LinePaint(0x99AAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
 
 			bannerPaint = new FillPaint(0xAACCCCCC);
 			
-			cachedBitmap = Bitmap.createBitmap(presenter.getTotalRect().width(), presenter.getTotalRect().height(), Bitmap.Config.ARGB_8888);
+			cachedBitmap = Bitmap.createBitmap(monthlyRatings.getGraphRect().width(), monthlyRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
 			Canvas fullCanvas = new Canvas(cachedBitmap);			
 			prepare(fullCanvas);
 	    }
@@ -102,8 +101,6 @@ public class MoodGraph extends Activity {
 	    private void prepare(Canvas canvas) {
 			drawGrid(canvas);
 	    	drawGraph(canvas);	    	
-	    	//drawTimeline(canvas, presenter.getTopBanner());
-	    	//drawTimeline(canvas, presenter.getBottomBanner());
 	    	drawTimeline(canvas);
 	    }
 
@@ -116,13 +113,13 @@ public class MoodGraph extends Activity {
 	    
 	    private void drawGraph(Canvas canvas) {
 	    	
-	    	int yBase = presenter.getGraphRect().bottom;
+	    	int yBase = monthlyRatings.getGraphRect().bottom;
 	    	
 	    	Path path = new Path();	 
         	Path contour = new Path();
         	
-        	Point first = presenter.getPoints().get(0);
-        	Point last = presenter.getPoints().get(presenter.getPoints().size() - 1);
+        	Point first = monthlyRatings.getPoints().get(0);
+        	Point last = monthlyRatings.getPoints().get(monthlyRatings.getPoints().size() - 1);
         	
         	path.moveTo(first.x, 0);
         	path.lineTo(first.x, first.y);
@@ -130,10 +127,10 @@ public class MoodGraph extends Activity {
         	contour.moveTo(first.x, yBase);
         	contour.lineTo(first.x, first.y);
         	
-        	for (int i=0; i<presenter.getPoints().size() - 1; ++i) {
+        	for (int i=0; i<monthlyRatings.getPoints().size() - 1; ++i) {
         		
-        		Point current = presenter.getPoints().get(i);
-        		Point next = presenter.getPoints().get(i+1);
+        		Point current = monthlyRatings.getPoints().get(i);
+        		Point next = monthlyRatings.getPoints().get(i+1);
         		Point mid = MathUtils.getMiddle(current, next);
         		
         		Point controlPoint1 = new Point(mid.x, current.y);
@@ -156,26 +153,17 @@ public class MoodGraph extends Activity {
 	    }
 	    
 	    private void drawTimeline(Canvas canvas) {
-	    	for (TimeUnit unit : presenter.getBottomTimeline()) {
-	    		canvas.drawRect(unit.getRect(), bannerPaint);
-		    	canvas.drawRect(unit.getRect(), contourPaint);
-		    	canvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
-			}
-	    	
-	    	for (TimeUnit unit : presenter.getTopTimeline()) {
+	    	for (TimeUnit unit : monthlyRatings.getTimeUnits()) {
 	    		canvas.drawRect(unit.getRect(), bannerPaint);
 		    	canvas.drawRect(unit.getRect(), contourPaint);
 		    	canvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
 			}
 	    }
 	    
-	    private void drawGrid(Canvas canvas) {	    	
-	    	for (int x = presenter.getGraphRect().left; x < presenter.getGraphRect().right; x += minorGridStep) {
-	    		canvas.drawLine(x, presenter.getGraphRect().top, x, presenter.getGraphRect().bottom, gridMinorPaint);
-	    	}
-	    	for (int y = presenter.getGraphRect().top; y < presenter.getGraphRect().bottom; y += minorGridStep) {
-	    		canvas.drawLine(presenter.getGraphRect().left, y, presenter.getGraphRect().right, y, gridMinorPaint);
-	    	}
+	    private void drawGrid(Canvas canvas) {
+	    	for (Rect line : monthlyRatings.getGrid()) {
+	    		canvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
+			}
 	    }
 	    
 	}
