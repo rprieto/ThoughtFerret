@@ -10,30 +10,12 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.widget.Scroller;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 
 public class Scroll extends View implements OnGestureListener {
-
-	private final class DoubleTapListener implements OnDoubleTapListener {
-		public boolean onDoubleTap(MotionEvent e) { 
-		    onZoom();
-		    return true; 
-         }
-
-		@Override
-		public boolean onDoubleTapEvent(MotionEvent e) {
-			return false;
-		}
-
-		@Override
-		public boolean onSingleTapConfirmed(MotionEvent e) {
-			return false;
-		}
-	}
 
 	private Rect fullSize = new Rect(); 
 	private Point currentScroll = new Point();
@@ -50,8 +32,7 @@ public class Scroll extends View implements OnGestureListener {
 		mScroller = new Scroller(context);
 		
 		gestureDetector = new GestureDetector(this);
-		gestureDetector.setIsLongpressEnabled(false);
-		gestureDetector.setOnDoubleTapListener(new DoubleTapListener() );
+		gestureDetector.setIsLongpressEnabled(true);
 	
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	}
@@ -116,21 +97,22 @@ public class Scroll extends View implements OnGestureListener {
 	}
 
 	public void onLongPress(MotionEvent e) {
+		onContextMenu();
 	}
 
 	public void onShowPress(MotionEvent e) {
 	}
 	
 	public boolean onDown(MotionEvent e) {
-		return true;
-	}
-
-	public boolean onSingleTapUp(MotionEvent e) {
 		mScroller.forceFinished(true);
 		return true;
 	}
 
-	protected void onZoom() {
+	public boolean onSingleTapUp(MotionEvent e) {
+		return true;
+	}
+
+	protected void onContextMenu() {
 	}
 	
 }

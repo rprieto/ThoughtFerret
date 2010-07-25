@@ -1,5 +1,7 @@
 package com.thoughtworks.thoughtferret.view.moodgraph;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -11,10 +13,17 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnCreateContextMenuListener;
 
 import com.thoughtworks.thoughtferret.MathUtils;
+import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
@@ -24,7 +33,7 @@ import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
-public class MoodGraph extends Activity {
+public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 
 	private Panel panel;
 	
@@ -34,8 +43,26 @@ public class MoodGraph extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		panel = new Panel(this);
 		setContentView(panel);
+		registerForContextMenu(panel);
 	}
 	
+    @Override
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+    	MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.graphzoom, menu);
+        menu.setHeaderTitle("Zoom level");        
+    }
+	
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	HashMap<Integer, ZoomLevel> zoomLevels = new HashMap<Integer, ZoomLevel>();
+    	zoomLevels.put(R.id.zoomMonth, ZoomLevel.MONTH);
+    	zoomLevels.put(R.id.zoomQuarter, ZoomLevel.QUARTER);
+    	zoomLevels.put(R.id.zoomSemester, ZoomLevel.SEMESTER);
+    	panel.setZoom(zoomLevels.get(item.getItemId()));
+		return true;
+    }
+    
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
@@ -51,7 +78,7 @@ public class MoodGraph extends Activity {
 		return;
     }
 	
-	class Panel extends Scroll  {
+	class Panel extends Scroll {
 		 
 		private MonthlyRatings monthlyRatings;
 
@@ -72,7 +99,7 @@ public class MoodGraph extends Activity {
 	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
 	        MoodRatings ratings = dao.findAll();
-	        monthlyRatings = new MonthlyRatings(ratings, screen.height());
+	        monthlyRatings = new MonthlyRatings(ratings, screen);
 	        
 	        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
@@ -86,7 +113,7 @@ public class MoodGraph extends Activity {
 			createCachedGraph();
 	    }
 	    
-	    private void createCachedGraph() {
+		private void createCachedGraph() {
 	    	if (cachedBitmap != null) {
 	    		cachedBitmap.recycle();
 	    		cachedBitmap = null;
@@ -100,13 +127,17 @@ public class MoodGraph extends Activity {
 	    	drawTimeline();
 	    }
 	    
-	    @Override
-	    protected void onZoom() {
-	    	monthlyRatings.cycleZoom();
+		public void setZoom(ZoomLevel zoomLevel) {
+	    	monthlyRatings.setZoom(zoomLevel);
 	    	createCachedGraph();
 			invalidate();
-	    }
+		}
 
+	    @Override
+	    protected void onContextMenu() {
+	    	openContextMenu(this);
+	    }
+	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
 	    	drawBackground(canvas, visibleRect);	

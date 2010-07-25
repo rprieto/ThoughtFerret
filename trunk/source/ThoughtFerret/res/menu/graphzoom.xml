@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/zoomMonth"
+          android:icon="@drawable/icon"
+          android:title="Month" />
+    <item android:id="@+id/zoomQuarter"
+          android:icon="@drawable/icon"
+          android:title="Quarter" />
+    <item android:id="@+id/zoomSemester"
+          android:icon="@drawable/icon"
+          android:title="Semester" />
+</menu>

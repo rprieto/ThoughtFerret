@@ -21,14 +21,14 @@ public class MonthlyRatings {
 	private List<Point> points;
 	
 	private Rect graphRect;
+	private Rect screenRect;
+	
+	private ZoomLevel currentZoom = ZoomLevel.QUARTER;
 
-	private int currentZoom = 1;
-	private int[] monthSizes = new int[] { 100, 200, 300, 400 };
-	
-	
-	public MonthlyRatings(MoodRatings ratings, int graphHeight) {
+	public MonthlyRatings(MoodRatings ratings, Rect screenRect) {
 		this.moodRatings = ratings;
-		calculateGraph(graphHeight);
+		this.screenRect = screenRect;
+		calculateGraph(screenRect.height());
 	}
 
 	private void calculateGraph(int graphHeight) {
@@ -46,15 +46,15 @@ public class MonthlyRatings {
 	private void createTimeline(int top, int bottom) {
 		int x = 0;		
 		for (String unitName : moodRatings.getMonths()) {
-			Rect rect = new Rect(x, top, x + monthSizes[currentZoom], bottom);
+			Rect rect = new Rect(x, top, x + getMonthSize(), bottom);
 			TimeUnit unit = new TimeUnit(rect, unitName);
 			timeUnits.add(unit);
-			x += monthSizes[currentZoom];
+			x += getMonthSize();
 		}
 	}
 	
 	private void calculateGraphSize(int graphHeight) {
-		graphRect = new Rect(0, 0, monthSizes[currentZoom] * timeUnits.size() / 2, graphHeight);
+		graphRect = new Rect(0, 0, getMonthSize() * timeUnits.size() / 2, graphHeight);
 	}
 	
 	private void createPoints() {
@@ -65,7 +65,7 @@ public class MonthlyRatings {
 		points = new ArrayList<Point>();
 		for (MoodRating moodRating : moodRatings.getValues()) {
 			Days difference = Days.daysBetween(moodRatings.getFirst().getLoggedDate(), moodRating.getLoggedDate());
-			int x = (int) (difference.getDays() * (monthSizes[currentZoom] / 30f));
+			int x = (int) (difference.getDays() * (getMonthSize() / 30f));
 			int y = worstY - (moodRating.getRating() - 1) * interval;
 			points.add(new Point(x, y));
 		}
@@ -88,7 +88,7 @@ public class MonthlyRatings {
 	}
 	
 	public List<Rect> getGrid() {
-		final int subdibisions = monthSizes[currentZoom] / 4;
+		final int subdibisions = getMonthSize() / 4;
 		List<Rect> grid = new ArrayList<Rect>();
     	for (int x = graphRect.left; x < graphRect.right; x += subdibisions) {
     		grid.add(new Rect(x, graphRect.top + TIMELINE_HEIGHT, x, graphRect.bottom - TIMELINE_HEIGHT));
@@ -98,13 +98,14 @@ public class MonthlyRatings {
     	}
 		return grid;
 	}
-
-	public void cycleZoom() {
-		++currentZoom;
-		if (currentZoom == monthSizes.length) {
-			currentZoom = 0;
-		}
-		calculateGraph(graphRect.height());
+	
+	public void setZoom(ZoomLevel level) {
+		currentZoom = level;
+		calculateGraph(screenRect.height());
+	}
+	
+	private int getMonthSize() {
+		return currentZoom.getMonthSize(screenRect.width());
 	}
 	
 }
