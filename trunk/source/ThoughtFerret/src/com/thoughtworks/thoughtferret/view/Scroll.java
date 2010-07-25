@@ -1,7 +1,5 @@
 package com.thoughtworks.thoughtferret.view;
 
-import com.thoughtworks.thoughtferret.MathUtils;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -12,16 +10,36 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.widget.Scroller;
 
+import com.thoughtworks.thoughtferret.MathUtils;
+
 public class Scroll extends View implements OnGestureListener {
+
+	private final class DoubleTapListener implements OnDoubleTapListener {
+		public boolean onDoubleTap(MotionEvent e) { 
+		    onZoom();
+		    return true; 
+         }
+
+		@Override
+		public boolean onDoubleTapEvent(MotionEvent e) {
+			return false;
+		}
+
+		@Override
+		public boolean onSingleTapConfirmed(MotionEvent e) {
+			return false;
+		}
+	}
 
 	private Rect fullSize = new Rect(); 
 	private Point currentScroll = new Point();
 	
 	private Scroller mScroller;
-	private GestureDetector mGestureDetector;
+	private GestureDetector gestureDetector;
 	
 	private float flingSpeed = 0.75f;
 	
@@ -31,8 +49,9 @@ public class Scroll extends View implements OnGestureListener {
 		super(context, attrs);
 		mScroller = new Scroller(context);
 		
-		mGestureDetector = new GestureDetector(this);
-		mGestureDetector.setIsLongpressEnabled(false);
+		gestureDetector = new GestureDetector(this);
+		gestureDetector.setIsLongpressEnabled(false);
+		gestureDetector.setOnDoubleTapListener(new DoubleTapListener() );
 	
 		display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	}
@@ -71,7 +90,7 @@ public class Scroll extends View implements OnGestureListener {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		return mGestureDetector.onTouchEvent(event);
+		return gestureDetector.onTouchEvent(event);
 	}
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -111,4 +130,7 @@ public class Scroll extends View implements OnGestureListener {
 		return true;
 	}
 
+	protected void onZoom() {
+	}
+	
 }

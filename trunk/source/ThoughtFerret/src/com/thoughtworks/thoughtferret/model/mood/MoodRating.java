@@ -10,6 +10,8 @@ public class MoodRating {
 	
 	private int rating;
 	
+	public static final int BEST_RATING = 5;  
+	
 	public MoodRating(int rating) {
 		loggedDate = new DateTime();
 		this.rating = rating;

@@ -65,6 +65,7 @@ public class MoodGraph extends Activity {
 		ApplicationBackground appBackground;
 		Bitmap cachedBitmap;
 		private MonthlyRatings monthlyRatings;
+		private Canvas cachedCanvas;
 	    
 	    public Panel(Context context) {
 	        super(context, null);
@@ -88,10 +89,18 @@ public class MoodGraph extends Activity {
 			bannerPaint = new FillPaint(0xAACCCCCC);
 			
 			cachedBitmap = Bitmap.createBitmap(monthlyRatings.getGraphRect().width(), monthlyRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
-			Canvas fullCanvas = new Canvas(cachedBitmap);			
-			prepare(fullCanvas);
+			cachedCanvas = new Canvas(cachedBitmap);			
+			prepare(cachedCanvas);
 	    }
 	    
+	    @Override
+	    protected void onZoom() {
+	    	monthlyRatings.cycleZoom();
+	    	cachedBitmap.eraseColor(0x00000000);
+			prepare(cachedCanvas);
+			invalidate();
+	    }
+
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
 	    	drawBackground(canvas, visibleRect);	

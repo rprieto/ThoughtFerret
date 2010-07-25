@@ -2,20 +2,18 @@ package com.thoughtworks.thoughtferret.view.moodgraph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import org.joda.time.Days;
+
+import android.graphics.Point;
+import android.graphics.Rect;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.util.Log;
-
 public class MonthlyRatings {
 
-	private static final int MONTH_SIZE = 240;
 	private static final int TIMELINE_HEIGHT = 50;
-	private static final int POINT_SPACING = 60;
 	
 	private MoodRatings moodRatings;
 
@@ -23,14 +21,22 @@ public class MonthlyRatings {
 	private List<Point> points;
 	
 	private Rect graphRect;
+
+	private int currentZoom = 1;
+	private int[] monthSizes = new int[] { 100, 200, 300, 400 };
+	
 	
 	public MonthlyRatings(MoodRatings ratings, int graphHeight) {
 		this.moodRatings = ratings;
-		createTimeline(graphHeight);
-		calculateGraphSize(graphHeight);
-		createPoints();
+		calculateGraph(graphHeight);
 	}
 
+	private void calculateGraph(int graphHeight) {
+		createTimeline(graphHeight);
+		calculateGraphSize(graphHeight);
+		createPoints();		
+	}
+	
 	private void createTimeline(int graphHeight) {
 		timeUnits = new ArrayList<TimeUnit>();
 		createTimeline(graphHeight - TIMELINE_HEIGHT, graphHeight);
@@ -40,35 +46,33 @@ public class MonthlyRatings {
 	private void createTimeline(int top, int bottom) {
 		int x = 0;		
 		for (String unitName : moodRatings.getMonths()) {
-			Rect rect = new Rect(x, top, x + MONTH_SIZE, bottom);
+			Rect rect = new Rect(x, top, x + monthSizes[currentZoom], bottom);
 			TimeUnit unit = new TimeUnit(rect, unitName);
 			timeUnits.add(unit);
-			x += MONTH_SIZE;
+			x += monthSizes[currentZoom];
 		}
 	}
 	
 	private void calculateGraphSize(int graphHeight) {
-		graphRect = new Rect(0, 0, MONTH_SIZE * timeUnits.size(), graphHeight);
+		graphRect = new Rect(0, 0, monthSizes[currentZoom] * timeUnits.size(), graphHeight);
 	}
 	
 	private void createPoints() {
+		int bestY = TIMELINE_HEIGHT * 2;
+		int worstY = graphRect.height() - TIMELINE_HEIGHT * 2;
+		int interval = (worstY - bestY) / (MoodRating.BEST_RATING - 1);
+		
 		points = new ArrayList<Point>();
 		for (MoodRating moodRating : moodRatings.getValues()) {
-			Log.i("Graph", String.format("%s : %d", moodRating.getLoggedDate(), moodRating.getRating()));
+			Days difference = Days.daysBetween(moodRatings.getFirst().getLoggedDate(), moodRating.getLoggedDate());
+			int x = (int) (difference.getDays() * (monthSizes[currentZoom] / 30f));
+			int y = worstY - (moodRating.getRating() - 1) * interval;
+			points.add(new Point(x, y));
 		}
 		
-		Random rnd = new Random();
-		points = new ArrayList<Point>();
-		
-		int maxHeight = graphRect.height() - TIMELINE_HEIGHT * 2;
-		int yBase = graphRect.height() - TIMELINE_HEIGHT;
-		int pointX = 0;
-		
-		for (int i = 0; i < 50; i++) {
-			int pointY = (int) (yBase - (rnd.nextInt(5) + 1) * (maxHeight / 6f));
-			points.add(new Point(pointX, pointY));
-			pointX += POINT_SPACING;
-		}
+		int lastX = timeUnits.get(timeUnits.size() - 1).getRect().right;
+		int lastY = points.get(points.size() - 1).y;
+		points.add(new Point(lastX, lastY));
 	}
 	
 	public Rect getGraphRect() {
@@ -84,7 +88,7 @@ public class MonthlyRatings {
 	}
 	
 	public List<Rect> getGrid() {
-		final int subdibisions = MONTH_SIZE / 4;
+		final int subdibisions = monthSizes[currentZoom] / 4;
 		List<Rect> grid = new ArrayList<Rect>();
     	for (int x = graphRect.left; x < graphRect.right; x += subdibisions) {
     		grid.add(new Rect(x, graphRect.top + TIMELINE_HEIGHT, x, graphRect.bottom - TIMELINE_HEIGHT));
@@ -93,6 +97,14 @@ public class MonthlyRatings {
     		grid.add(new Rect(graphRect.left, y, graphRect.right, y));
     	}
 		return grid;
+	}
+
+	public void cycleZoom() {
+		++currentZoom;
+		if (currentZoom == monthSizes.length) {
+			currentZoom = 0;
+		}
+		calculateGraph(graphRect.height());
 	}
 	
 }
