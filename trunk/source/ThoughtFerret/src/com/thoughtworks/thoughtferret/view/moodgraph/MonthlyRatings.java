@@ -54,7 +54,7 @@ public class MonthlyRatings {
 	}
 	
 	private void calculateGraphSize(int graphHeight) {
-		graphRect = new Rect(0, 0, monthSizes[currentZoom] * timeUnits.size(), graphHeight);
+		graphRect = new Rect(0, 0, monthSizes[currentZoom] * timeUnits.size() / 2, graphHeight);
 	}
 	
 	private void createPoints() {

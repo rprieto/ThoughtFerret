@@ -53,18 +53,16 @@ public class MoodGraph extends Activity {
 	
 	class Panel extends Scroll  {
 		 
-    	int minorGridStep = 60;
-    	int majorGridStep = 240;
-		
-    	private Paint nopPaint;
+		private MonthlyRatings monthlyRatings;
+
+		private Paint nopPaint;
 		private Paint textPaint;
 		private Paint contourPaint;
 		private Paint bannerPaint;
 		private Paint gridMinorPaint;
-		
+
 		ApplicationBackground appBackground;
 		Bitmap cachedBitmap;
-		private MonthlyRatings monthlyRatings;
 		private Canvas cachedCanvas;
 	    
 	    public Panel(Context context) {
@@ -76,8 +74,6 @@ public class MoodGraph extends Activity {
 	        MoodRatings ratings = dao.findAll();
 	        monthlyRatings = new MonthlyRatings(ratings, screen.height());
 	        
-	        setFullSize(monthlyRatings.getGraphRect());
-			
 	        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
 	        nopPaint = new Paint();
@@ -85,19 +81,29 @@ public class MoodGraph extends Activity {
 			contourPaint = new LinePaint(0xFF000000, 2f);
 			gridMinorPaint = new LinePaint(0x99AAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
-
 			bannerPaint = new FillPaint(0xAACCCCCC);
 			
-			cachedBitmap = Bitmap.createBitmap(monthlyRatings.getGraphRect().width(), monthlyRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
-			cachedCanvas = new Canvas(cachedBitmap);			
-			prepare(cachedCanvas);
+			createCachedGraph();
+	    }
+	    
+	    private void createCachedGraph() {
+	    	if (cachedBitmap != null) {
+	    		cachedBitmap.recycle();
+	    		cachedBitmap = null;
+	    	}	    	
+	    	cachedBitmap = Bitmap.createBitmap(monthlyRatings.getGraphRect().width(), monthlyRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
+	    	cachedCanvas = new Canvas(cachedBitmap);
+	    	setFullSize(monthlyRatings.getGraphRect());
+	    	cachedBitmap.eraseColor(0x00000000);
+			drawGrid();
+	    	drawGraph();	    	
+	    	drawTimeline();
 	    }
 	    
 	    @Override
 	    protected void onZoom() {
 	    	monthlyRatings.cycleZoom();
-	    	cachedBitmap.eraseColor(0x00000000);
-			prepare(cachedCanvas);
+	    	createCachedGraph();
 			invalidate();
 	    }
 
@@ -105,12 +111,6 @@ public class MoodGraph extends Activity {
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
 	    	drawBackground(canvas, visibleRect);	
 	    	canvas.drawBitmap(cachedBitmap, 0, 0, nopPaint);
-	    }
-	    
-	    private void prepare(Canvas canvas) {
-			drawGrid(canvas);
-	    	drawGraph(canvas);	    	
-	    	drawTimeline(canvas);
 	    }
 
 		private void drawBackground(Canvas canvas, Rect visibleRect) {
@@ -120,7 +120,7 @@ public class MoodGraph extends Activity {
 			canvas.restore();
 		}
 	    
-	    private void drawGraph(Canvas canvas) {
+	    private void drawGraph() {
 	    	
 	    	int yBase = monthlyRatings.getGraphRect().bottom;
 	    	
@@ -157,21 +157,21 @@ public class MoodGraph extends Activity {
         	
         	contour.lineTo(last.x, yBase);
         	
-        	canvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
-        	canvas.drawPath(contour, contourPaint);
+        	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
+        	cachedCanvas.drawPath(contour, contourPaint);
 	    }
 	    
-	    private void drawTimeline(Canvas canvas) {
+	    private void drawTimeline() {
 	    	for (TimeUnit unit : monthlyRatings.getTimeUnits()) {
-	    		canvas.drawRect(unit.getRect(), bannerPaint);
-		    	canvas.drawRect(unit.getRect(), contourPaint);
-		    	canvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
+	    		cachedCanvas.drawRect(unit.getRect(), bannerPaint);
+	    		cachedCanvas.drawRect(unit.getRect(), contourPaint);
+	    		cachedCanvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
 			}
 	    }
 	    
-	    private void drawGrid(Canvas canvas) {
+	    private void drawGrid() {
 	    	for (Rect line : monthlyRatings.getGrid()) {
-	    		canvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
+	    		cachedCanvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
 			}
 	    }
 	    
