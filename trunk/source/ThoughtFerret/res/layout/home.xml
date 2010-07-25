@@ -16,6 +16,7 @@
 	    android:textColor="@android:color/black"
 	    android:textSize="20sp"
 	    android:background="@drawable/homebutton"
+	    android:layout_marginBottom="10sp"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
@@ -26,6 +27,7 @@
 	    android:textColor="@android:color/black"
 	    android:textSize="20sp"
 	    android:background="@drawable/homebutton"
+	    android:layout_marginBottom="10sp"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
@@ -36,6 +38,7 @@
 	    android:textColor="@android:color/black"
 	    android:textSize="20sp"
 	    android:background="@drawable/homebutton"
+	    android:layout_marginBottom="10sp"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
@@ -46,6 +49,7 @@
 	    android:textColor="@android:color/black"
 	    android:textSize="20sp"
 	    android:background="@drawable/homebutton"
+	    android:layout_marginBottom="10sp"
 		/>
 	<Button
 	    android:layout_width="wrap_content" 
@@ -56,6 +60,7 @@
 	    android:textColor="@android:color/black"
 	    android:textSize="20sp"
 	    android:background="@drawable/homebutton"
+	    android:layout_marginBottom="10sp"
 		/>
 </LinearLayout>
 
