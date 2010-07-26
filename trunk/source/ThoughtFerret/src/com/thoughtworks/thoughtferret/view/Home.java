@@ -65,6 +65,7 @@ public class Home extends Activity {
         Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());        
         ApplicationBackground appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
         Bitmap ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homeferret);       
+        Bitmap smallFerret = Bitmap.createScaledBitmap(ferretBitmap, 200, 200, true);
         
         Bitmap fullBackground = Bitmap.createBitmap(screen.width(), screen.height(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(fullBackground);
@@ -73,8 +74,10 @@ public class Home extends Activity {
         Paint paint = new Paint(); 
         paint.setXfermode(new PorterDuffXfermode(Mode.MULTIPLY)); 
 
-        Point topLeft = new Point(display.getWidth() - ferretBitmap.getWidth(), display.getHeight() - ferretBitmap.getHeight());
-        canvas.drawBitmap(ferretBitmap, topLeft.x, topLeft.y, paint);
+        int left = (display.getWidth() - smallFerret.getWidth()) / 2;
+        int top = (display.getHeight() - smallFerret.getHeight()) / 2;
+        Point topLeft = new Point(left, top);
+        canvas.drawBitmap(smallFerret, topLeft.x, topLeft.y, paint);
         
         return fullBackground;
 	}

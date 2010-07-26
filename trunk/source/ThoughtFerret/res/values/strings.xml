@@ -3,9 +3,9 @@
     <string name="hello">Hello World, MoodQuestion!</string>
     <string name="app_name">ThoughtFerret</string>
 <string name="moodQuestion">How are you feeling?</string>
-<string name="homeUpdate">Update mood</string>
-<string name="homeGraph">Mood graph</string>
-<string name="homeWords">Happy words</string>
+<string name="homeUpdate">Update\nmood</string>
+<string name="homeGraph">Mood\ngraph</string>
+<string name="homeWords">Happy\nwords</string>
 <string name="homePreferences">Preferences</string>
 
 <string-array name="ferretFrequencies"><item>Never</item>
