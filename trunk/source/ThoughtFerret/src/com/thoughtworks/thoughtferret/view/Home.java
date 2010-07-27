@@ -13,17 +13,9 @@ import android.graphics.Rect;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
-import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -43,11 +35,9 @@ public class Home extends Activity {
         setContentView(R.layout.home);
 
         homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
-        //starImage = (ImageView) findViewById(R.id.homestar);
 
         calculateScreen();
         setBackground();
-        //createAnimation();
         
         LinearLayout starContainer = (LinearLayout) findViewById(R.id.starContainer); 
         FallingStars stars = new FallingStars(this, starContainer, screen);

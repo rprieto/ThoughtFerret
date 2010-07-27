@@ -23,5 +23,10 @@ public class MathUtils {
 	public static Rect getRect(Point origin, int width, int height) {
 		return new Rect(origin.x, origin.y, origin.x + width, origin.y + height);
 	}
+	
+	public static int getRandom(int min, int max) {
+		double rnd = min + (max - min) * Math.random();
+		return (int) rnd;
+	}
 
 }
