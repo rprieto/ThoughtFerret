@@ -4,6 +4,11 @@
  	android:layout_width="fill_parent"
  	android:layout_height="fill_parent"
  	>
+	<LinearLayout
+		android:id="@+id/starContainer"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="fill_parent"
+		/>
 	<TableLayout 
 	    android:orientation="vertical"
 	    android:layout_width="fill_parent"
@@ -175,11 +180,4 @@
 	   			/>
 		</TableRow>
 	</TableLayout> 
-	<LinearLayout
-		android:id="@+id/starContainer"
-		android:layout_alignTop="@id/homeBackground"
-	    android:layout_alignBottom="@id/homeBackground"
-	    android:layout_width="fill_parent" 
-	    android:layout_height="fill_parent"
-		/>
 </RelativeLayout>

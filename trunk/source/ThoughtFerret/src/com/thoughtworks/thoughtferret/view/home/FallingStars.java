@@ -1,6 +1,6 @@
 package com.thoughtworks.thoughtferret.view.home;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -12,13 +12,20 @@ import com.thoughtworks.thoughtferret.R;
 
 public class FallingStars {
 	 
+	private static final int NB_STARS = 10;
+	
     List<ImageView> stars;
     Rect screen;
 
     public FallingStars(Context context, ViewGroup layout, Rect screen) {
     	this.screen = screen; 
-        stars = Arrays.asList(createStar(context), createStar(context), createStar(context));
-        for (ImageView star : stars) {			
+    	
+    	stars = new ArrayList<ImageView>();
+    	for (int i = 0; i < NB_STARS; ++i) {
+    		stars.add(createStar(context));
+    	}
+
+    	for (ImageView star : stars) {			
         	layout.addView(star);
 		}
     }
