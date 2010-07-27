@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.view.home.FallingStars;
 import com.thoughtworks.thoughtferret.view.moodgraph.MoodGraph;
 
 public class Home extends Activity {
@@ -42,11 +43,15 @@ public class Home extends Activity {
         setContentView(R.layout.home);
 
         homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
-        starImage = (ImageView) findViewById(R.id.homestar);
+        //starImage = (ImageView) findViewById(R.id.homestar);
 
         calculateScreen();
         setBackground();
-        createAnimation();
+        //createAnimation();
+        
+        LinearLayout starContainer = (LinearLayout) findViewById(R.id.starContainer); 
+        FallingStars stars = new FallingStars(this, starContainer, screen);
+        stars.startAnimation();
         
 //        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/handmadetypewriter.ttf");
 //        TextView homeUpdate = (TextView) findViewById(R.id.homeUpdate);
@@ -102,37 +107,6 @@ public class Home extends Activity {
         homeBackground.setBackgroundDrawable(drawable);
 	}
 	
-	public void createAnimation() {
-		int x = (int) (Math.random() * screen.width());
-		TranslateAnimation fallingStar = new TranslateAnimation(x, x, 0, screen.bottom);
-		fallingStar.setStartOffset(0);
-		fallingStar.setDuration(5000);
-		fallingStar.setFillAfter(true);
-		fallingStar.setAnimationListener(animListener);		
-		starImage.startAnimation(fallingStar);
-	}
-	
-	private AnimationListener animListener = new LocalAnimationListener();
-	
-	class LocalAnimationListener implements AnimationListener
-    {
-        public void onAnimationEnd(Animation animation)
-        {
-            Handler curHandler = new Handler();
-            curHandler.postDelayed( new Runnable()
-            {
-                public void run()
-                {
-                	createAnimation();
-                }
-            }, 1);
-        }
-        public void onAnimationRepeat(Animation animation)
-        {
-        }
-        public void onAnimationStart(Animation animation)
-        {
-        }
-    };
+
 
 }

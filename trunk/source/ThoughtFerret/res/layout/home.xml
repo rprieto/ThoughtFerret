@@ -176,16 +176,10 @@
 		</TableRow>
 	</TableLayout> 
 	<LinearLayout
+		android:id="@+id/starContainer"
 		android:layout_alignTop="@id/homeBackground"
 	    android:layout_alignBottom="@id/homeBackground"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="fill_parent"
-		>
-		<ImageView
-			android:id="@+id/homestar"
-			android:layout_width="wrap_content"
-		   	android:layout_height="wrap_content"
-			android:src="@drawable/star"
-			/>
-	</LinearLayout>
+		/>
 </RelativeLayout>
