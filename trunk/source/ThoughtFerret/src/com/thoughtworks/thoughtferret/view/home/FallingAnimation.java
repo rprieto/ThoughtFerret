@@ -17,12 +17,12 @@ public class FallingAnimation {
 	private View star;
 	private Rect screen;
 	
-	private static final int MIN_FALLING_SPEED = 1500;
-	private static final int MAX_FALLING_SPEED = 5000;
+	private static final int MIN_FALLING_SPEED = 3000;
+	private static final int MAX_FALLING_SPEED = 7000;
 	private static final int MIN_ROTATION_SPEED = 4000;
 	private static final int MAX_ROTATION_SPEED = 12000;
-	private static final int MIN_WAITING = 500;
-	private static final int MAX_WAITING = 3000;
+	private static final int MIN_WAITING = 200;
+	private static final int MAX_WAITING = 7000;
 	
 	public FallingAnimation(View star, Rect screen) {
 		this.star = star;

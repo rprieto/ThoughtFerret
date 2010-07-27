@@ -12,7 +12,7 @@ import com.thoughtworks.thoughtferret.R;
 
 public class FallingStars {
 	 
-	private static final int NB_STARS = 5;
+	private static final int NB_STARS = 7;
 	
     List<ImageView> stars;
     Rect screen;
