@@ -1,8 +1,7 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.update;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -42,22 +41,22 @@ class ViewDragDropListener implements OnTouchListener
 				originalRect = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
 				dragFeedback = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
 				originalDrag = new Point(x, y);			
-				Log.w("View", "New drag = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
+				//Log.w("View", "New drag = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
 				break;
 				
 			case MotionEvent.ACTION_MOVE:
 				int dx = originalDrag.x;
 				int dy = originalDrag.y;
 				if (originalRect.contains(view.getLeft() + x, view.getTop() + y) == false) {
-					Log.w("View", "Move at " + x + " , " + y);
+					//Log.w("View", "Move at " + x + " , " + y);
 					dragFeedback.offsetTo(view.getLeft() + x - dx, view.getTop() + y - dy);
 				}
 				break;
 				
 			case MotionEvent.ACTION_UP:
-				Log.w("View", "Original rect = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
+				//Log.w("View", "Original rect = " + originalRect.left + " , " + originalRect.top + " , " + originalRect.right + " , " + originalRect.bottom);
 				if (originalRect.contains(view.getLeft() + x, view.getTop() + y) == false) {
-					Log.w("View", "Sending drop at " + x + " , " + y);
+					//Log.w("View", "Sending drop at " + x + " , " + y);
 					if (onDropListener != null) {
 						onDropListener.onDrop(draggedView, view.getLeft() + x, view.getTop() + y);						
 					}

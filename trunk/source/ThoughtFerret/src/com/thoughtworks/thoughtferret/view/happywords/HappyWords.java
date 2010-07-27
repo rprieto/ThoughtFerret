@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.happywords;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ import android.view.WindowManager;
 
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter;
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter.Word;
+import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 
 public class HappyWords extends Activity {

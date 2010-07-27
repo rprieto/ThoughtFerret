@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.preferences;
 
 import com.thoughtworks.thoughtferret.R;
 

@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.home;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +20,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.view.home.FallingStars;
+import com.thoughtworks.thoughtferret.view.ApplicationBackground;
+import com.thoughtworks.thoughtferret.view.DemoHacks;
+import com.thoughtworks.thoughtferret.view.happywords.HappyWords;
 import com.thoughtworks.thoughtferret.view.moodgraph.MoodGraph;
+import com.thoughtworks.thoughtferret.view.preferences.EditPreferences;
+import com.thoughtworks.thoughtferret.view.update.MoodUpdate;
 
 public class Home extends Activity {
 	

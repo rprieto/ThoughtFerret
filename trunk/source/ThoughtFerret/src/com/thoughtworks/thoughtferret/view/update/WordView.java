@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.update;
 
 import android.content.Context;
 import android.util.AttributeSet;

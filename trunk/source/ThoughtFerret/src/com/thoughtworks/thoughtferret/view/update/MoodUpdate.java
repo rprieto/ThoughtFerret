@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.view.update;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,6 +23,7 @@ import android.widget.RatingBar;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
+import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
 public class MoodUpdate extends Activity {
 	

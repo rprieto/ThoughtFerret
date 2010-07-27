@@ -12,6 +12,7 @@ import android.widget.RemoteViews;
 
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.FakeData;
+import com.thoughtworks.thoughtferret.view.update.MoodUpdate;
 
 public class DemoHacks extends Activity {
 
