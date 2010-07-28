@@ -15,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("create table MoodRating (loggedDate integer primary key, rating integer)");
-		db.execSQL("create table MoodTag (text string, count integer, ratingSum integer)");
+		db.execSQL("create table MoodTag (text string primary key, count integer, ratingSum integer)");
 	}
 
 	@Override

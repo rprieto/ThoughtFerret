@@ -25,8 +25,8 @@ public class MoodTag {
 		return ratingSum;
 	}
 
-	public int getRatingAverage() {
-		return ratingSum / count;
+	public float getRatingAverage() {
+		return ratingSum / (float)count;
 	}
 	
 	public MoodTag add(MoodTag other) {
