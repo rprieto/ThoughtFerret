@@ -13,6 +13,12 @@
 	<Button
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content"
+	    android:text="Delete the whole database"
+	    android:onClick="deleteDatabaseClick"
+		/>
+	<Button
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
 	    android:text="Populate database with random"
 	    android:onClick="populateDatabaseClick"
 		/>

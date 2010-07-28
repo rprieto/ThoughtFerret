@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/moodUpdateBackground"
+    android:padding="5dp"
     >
 	<TextView  
     	android:layout_width="fill_parent" 
@@ -20,7 +21,7 @@
     	android:stepSize="1"
     	android:rating="3"
     	android:background="@null"
-    	android:paddingBottom="10sp"
+    	android:paddingBottom="10dp"
     	/>
     <LinearLayout
         android:orientation="horizontal"
@@ -42,16 +43,24 @@
 	    	android:textColor="#FF000000"
 	    	/>
 	</LinearLayout>
-	<com.thoughtworks.thoughtferret.view.KeywordsEditor
+	<com.thoughtworks.thoughtferret.view.update.KeywordsEditor
 	    	android:id="@+id/keywordsEditor"
 	    	android:layout_width="fill_parent" 
 	    	android:layout_height="wrap_content" 
+	    	android:background="@drawable/homebutton"
+	    	android:padding="10dp"
 	    	/>
 	<Button
 		android:layout_width="wrap_content" 
 	    android:layout_height="wrap_content" 
+	    android:layout_marginTop="5dp"
 		android:text="OK"
 		android:onClick="okClick"
+		android:background="@drawable/homebutton"
+		android:paddingLeft="25dp"
+		android:paddingRight="25dp"
+		android:paddingTop="10dp"
+		android:paddingBottom="10dp"
 		/>
 </LinearLayout>
 

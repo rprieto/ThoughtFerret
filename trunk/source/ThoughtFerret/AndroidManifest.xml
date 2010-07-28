@@ -7,7 +7,7 @@
     	android:icon="@drawable/icon"
    	 	android:label="@string/app_name"
    	 	android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" android:debuggable="true">
-        <activity android:name=".view.Home"
+        <activity android:name=".view.home.Home"
         		  android:screenOrientation="landscape"
                   android:label="@string/app_name">
             <intent-filter>
@@ -15,17 +15,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.MoodUpdate"
+        <activity android:name=".view.update.MoodUpdate"
         		  android:screenOrientation="landscape"
 				  android:label="@string/app_name">
 		</activity>
 		<activity android:name=".view.moodgraph.MoodGraph"
 				  android:label="@string/app_name">
 		</activity>
-        <activity android:name=".view.HappyWords"
+        <activity android:name=".view.happywords.HappyWords"
 				  android:label="@string/app_name">
 		</activity>
-		<activity android:name=".view.EditPreferences"
+		<activity android:name=".view.preferences.EditPreferences"
 				  android:label="@string/app_name">
 		</activity>
 		<activity android:name=".view.DemoHacks"
