@@ -23,6 +23,8 @@ import android.widget.RatingBar;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
+import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
 public class MoodUpdate extends Activity {
@@ -32,6 +34,7 @@ public class MoodUpdate extends Activity {
 	private ImageButton speakButton;
     private KeywordsEditor keywordsEditor;
     private MoodRatingDao moodRatingDao;
+    private MoodTagsDao moodTagsDao;
     private RatingBar moodRate;
 	
     @Override
@@ -42,7 +45,9 @@ public class MoodUpdate extends Activity {
         keywordsEditor = (KeywordsEditor) findViewById(R.id.keywordsEditor);
         moodRate = (RatingBar) findViewById(R.id.moodRate);
         setupVoiceRecognition();
+        
         moodRatingDao = new MoodRatingDao(this);
+        moodTagsDao = new MoodTagsDao(this);
         
         Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());        
@@ -90,8 +95,11 @@ public class MoodUpdate extends Activity {
     }
  
     public void okClick(View view) {
-    	MoodRating moodRating = new MoodRating((int)moodRate.getRating());
+    	int rating = (int)moodRate.getRating();
+		MoodRating moodRating = new MoodRating(rating);
+    	MoodTags moodTags = keywordsEditor.getMoodTags(rating);
     	moodRatingDao.persist(moodRating);
+    	moodTagsDao.persist(moodTags);
     }
     
 }

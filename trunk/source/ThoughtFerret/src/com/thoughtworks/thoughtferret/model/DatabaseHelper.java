@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME = "thoughtferret";
+	public static final String DATABASE_NAME = "thoughtferret";
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, 1);
@@ -15,6 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL("create table MoodRating (loggedDate integer primary key, rating integer)");
+		db.execSQL("create table MoodTag (text string, count integer, ratingSum integer)");
 	}
 
 	@Override

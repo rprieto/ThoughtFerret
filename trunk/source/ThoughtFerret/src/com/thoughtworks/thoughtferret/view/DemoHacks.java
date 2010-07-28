@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.model.DatabaseHelper;
 import com.thoughtworks.thoughtferret.model.FakeData;
 import com.thoughtworks.thoughtferret.view.update.MoodUpdate;
 
@@ -46,6 +47,10 @@ public class DemoHacks extends Activity {
 		notification.contentIntent = contentIntent;
 
 		mNotificationManager.notify(FERRET_NOTIFICATION, notification);
+	}
+	
+	public void deleteDatabaseClick(View view) {
+		deleteDatabase(DatabaseHelper.DATABASE_NAME);
 	}
 	
 	public void populateDatabaseClick(View view) {

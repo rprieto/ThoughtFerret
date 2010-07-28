@@ -10,18 +10,19 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.thoughtworks.thoughtferret.presenter.KeywordsEditorPresenter;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
+import com.thoughtworks.thoughtferret.presenter.MoodTagsBuilder;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class KeywordsEditor extends LinearLayout implements OnWordDeletionListener, OnDropListener {
 	
 	WrappingLayout wrappingLayout;
-	KeywordsEditorPresenter presenter;
+	MoodTagsBuilder moodTagsBuilder;
 	ViewDragDropListener dragDropListener;
 	
 	public KeywordsEditor(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		presenter = new KeywordsEditorPresenter();
+		moodTagsBuilder = new MoodTagsBuilder();
 		wrappingLayout = new WrappingLayout(context);
 		dragDropListener = new ViewDragDropListener();
 		dragDropListener.setOnDropListener(this);
@@ -30,13 +31,13 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 	}
 
 	public void addKeywords(List<String> words) {
-		presenter.addKeywords(words);
+		moodTagsBuilder.addKeywords(words);
 		updateView();
 	}
 	
 	public void updateView() {
 		wrappingLayout.removeAllViews();
-		for (String word : presenter.getKeywords()) {
+		for (String word : moodTagsBuilder.getKeywords()) {
             WordView wordView = new WordView(getContext(), null);
             wordView.setText(word);
             wordView.setOnWordDeletionListener(this);
@@ -46,9 +47,13 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 		wrappingLayout.invalidate();
 	}
 
+	public MoodTags getMoodTags(int rating) {
+		return moodTagsBuilder.build(rating);
+	}
+	
 	@Override
 	public void onWordDeletion(WordView wordView) {
-		presenter.deleteKeyword(wordView.getText());
+		moodTagsBuilder.deleteKeyword(wordView.getText());
         updateView();
 	}
 
@@ -58,7 +63,7 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 			WordView wordView = (WordView) wrappingLayout.getChildAt(i);
 			Rect wordRect = new Rect(wordView.getLeft(), wordView.getTop(), wordView.getRight(), wordView.getBottom());
 			if (wordRect.contains(x, y)) {
-				presenter.merge(((WordView)draggedView).getText(), wordView.getText());
+				moodTagsBuilder.merge(((WordView)draggedView).getText(), wordView.getText());
 				break;
 			}
 		}

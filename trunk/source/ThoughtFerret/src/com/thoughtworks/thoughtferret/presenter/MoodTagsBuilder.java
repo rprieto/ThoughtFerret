@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class KeywordsEditorPresenter {
+import com.thoughtworks.thoughtferret.model.tags.MoodTag;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
+
+public class MoodTagsBuilder {
 
 	List<String> keywords;
 	
-	public KeywordsEditorPresenter() {
+	public MoodTagsBuilder() {
 		keywords = new ArrayList<String>();
 	}
 	
@@ -44,6 +47,14 @@ public class KeywordsEditorPresenter {
 		}
 		//newPos = MathUtils.clamp(newPos, 0, keywords.size() - 1);
         keywords.add(newPos, source + " " + target);
+	}
+	
+	public MoodTags build(int rating) {
+		List<MoodTag> tags = new ArrayList<MoodTag>();
+		for (String word : keywords) {
+			tags.add(new MoodTag(word, 1, rating));
+		}
+		return new MoodTags(tags);
 	}
 	
 }
