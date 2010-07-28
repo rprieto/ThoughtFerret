@@ -29,4 +29,11 @@ public class MoodTag {
 		return ratingSum / count;
 	}
 	
+	public MoodTag add(MoodTag other) {
+		if (!text.equals(other.text)) {
+			throw new IllegalArgumentException(String.format("Cannot add tags with different text (%s, %s)", text, other.text));
+		}
+		return new MoodTag(text, count + other.count, ratingSum + other.ratingSum);
+	}
+	
 }

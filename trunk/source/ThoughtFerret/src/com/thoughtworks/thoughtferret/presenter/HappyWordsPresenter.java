@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.thoughtworks.thoughtferret.model.tags.MoodTag;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
+
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 public class HappyWordsPresenter {
 
@@ -30,37 +34,28 @@ public class HappyWordsPresenter {
 			this.position = getRandomPosition();
 			this.weight = getRandomWeight();
 		}
-	}
-	
-	public HappyWordsPresenter(int displayX, int displayY) {
-		graphSize = new Rect(0, 0, displayX, displayY);
-		
-		words = new ArrayList<Word>();
-		words.add(new Word("Politics"));
-		words.add(new Word("Scrum"));
-		words.add(new Word("Debugging"));
-		words.add(new Word("Testing"));
-		words.add(new Word("Pairing"));
-		words.add(new Word("Coaching"));
-		words.add(new Word("The big bang theory"));
-		words.add(new Word("Android"));
-		words.add(new Word("Claim center"));
-		words.add(new Word("Brisbane"));
-		words.add(new Word("Meetings"));
-		words.add(new Word("Pizza"));
-		words.add(new Word("Open source"));
-		words.add(new Word("Interviews"));
-		words.add(new Word("SOW"));
-		words.add(new Word("Web services"));
-		words.add(new Word("Social club"));		
-}
 
-	private Point getRandomPosition() {
-		return new Point(random.nextInt(getGraphRect().width()), random.nextInt(getGraphRect().height()));
+		public Word(MoodTag tag) {
+			this.text = tag.getText();
+			this.position = getRandomPosition();
+			this.weight = getRandomWeight();
+		}
+		
+		private Point getRandomPosition() {
+			return new Point(random.nextInt(getGraphRect().width()), random.nextInt(getGraphRect().height()));
+		}
+		
+		private int getRandomWeight() {
+			return random.nextInt(4);
+		}
 	}
 	
-	private int getRandomWeight() {
-		return random.nextInt(4);
+	public HappyWordsPresenter(int displayX, int displayY, MoodTags moodTags) {
+		graphSize = new Rect(0, 0, displayX, displayY);
+		words = new ArrayList<Word>();
+		for (MoodTag tag : moodTags.getValues()) {
+			words.add(new Word(tag));
+		}	
 	}
 	
 	public Rect getGraphRect() {

@@ -14,6 +14,9 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -71,10 +74,6 @@ public class Home extends Activity {
 		startActivity(new Intent(this, EditPreferences.class));
 	}
 	
-	public void demoHacksClick(View view) {
-		startActivity(new Intent(this, DemoHacks.class));
-	}
-	
 	private void calculateScreen() {
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
         screen = new Rect(0, 0, display.getWidth(), display.getHeight());
@@ -101,6 +100,20 @@ public class Home extends Activity {
         homeBackground.setBackgroundDrawable(drawable);
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.homemenu, menu);
+	    return true;
+	}
 
+	@Override public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+        	case R.id.demoHacks:
+        		startActivity(new Intent(this, DemoHacks.class));
+        		break;
+		}
+		return true;
+	}
 
 }

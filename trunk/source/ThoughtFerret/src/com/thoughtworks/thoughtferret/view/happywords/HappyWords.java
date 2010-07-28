@@ -10,11 +10,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.thoughtworks.thoughtferret.model.tags.MoodTag;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
+import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter;
 import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter.Word;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
@@ -56,6 +60,7 @@ private Panel panel;
 		private List<Paint> textPaints = new ArrayList<Paint>();
 
 		private HappyWordsPresenter presenter;
+		private MoodTagsDao moodTagsDao;
 		
 	    protected Display display;
 		ApplicationBackground appBackground;
@@ -64,8 +69,11 @@ private Panel panel;
 			super(context, null);
 			
 			display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-			presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight());
 
+			moodTagsDao = new MoodTagsDao(context);
+			MoodTags moodTags = moodTagsDao.findAll();
+			presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight(), moodTags);
+			
 	        appBackground = new ApplicationBackground(getResources(), display.getWidth(), display.getHeight(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
 	        
 			int sizeRange = (maxTextSize - minTextSize);
