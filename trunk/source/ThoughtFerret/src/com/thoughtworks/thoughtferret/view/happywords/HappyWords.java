@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -88,6 +89,7 @@ private Panel panel;
 		protected void onDraw(Canvas canvas) {
 			appBackground.draw(canvas);
 			for (RenderedTag tag : tagCloud.getTags()) {
+				//Log.i("TagCloud", String.format("Tag: %s [%d;%d] %d", tag.getText(), tag.getPosition().x, tag.getPosition().y, tag.getSize()));
 				Paint paint = textPaints.get(tag.getSize() - 1);
 				canvas.drawText(tag.getText(), tag.getPosition().x, tag.getPosition().y, paint);
 			}

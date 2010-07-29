@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
@@ -20,10 +21,14 @@ public class TagCloud {
 
 	public TagCloud(MoodTags moodTags, Rect screen) {
 		this.screen = screen;
+		int minCount = moodTags.getMinOccurencesOfSingleTag();
+		int maxCount = moodTags.getMaxOccurencesOfSingleTag();
+		Log.i("TagCloud", String.format("Min count: %d", minCount));
+		Log.i("TagCloud", String.format("Max count: %d", maxCount));
 		renderedTags = new ArrayList<RenderedTag>();
 		for (MoodTag moodTag : moodTags.getValues()) {
 			Point position = getTagPosition(moodTag);
-			int size = getTagSize(moodTags, moodTag);
+			int size = getTagSize(moodTag, minCount, maxCount);
 			renderedTags.add(new RenderedTag(moodTag.getText(), position, size));
 		}
 	}
@@ -38,9 +43,7 @@ public class TagCloud {
 		return new Point(x, y);
 	}
 	
-	private int getTagSize(MoodTags allTags, MoodTag tag) {
-		int minCount = allTags.getMinOccurencesOfSingleTag();
-		int maxCount = allTags.getMaxOccurencesOfSingleTag();
+	private int getTagSize(MoodTag tag, int minCount, int maxCount) {
 		return MathUtils.project(minCount, maxCount, 1, SIZE_LEVELS, tag.getCount());
 	}
 
