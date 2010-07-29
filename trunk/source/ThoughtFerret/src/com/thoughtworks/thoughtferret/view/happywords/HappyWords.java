@@ -56,9 +56,8 @@ private Panel panel;
 		
 		private List<Paint> textPaints = new ArrayList<Paint>();
 
-		private TagCloud tagCloud;
-		//private HappyWordsPresenter presenter;
 		private MoodTagsDao moodTagsDao;
+		private TagCloud tagCloud;
 		
 	    protected Display display;
 		ApplicationBackground appBackground;
@@ -71,7 +70,6 @@ private Panel panel;
 			
 			moodTagsDao = new MoodTagsDao(context);
 			MoodTags moodTags = moodTagsDao.findAll();
-			//presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight(), moodTags);
 			
 			tagCloud = new TagCloud(moodTags, screen);
 			

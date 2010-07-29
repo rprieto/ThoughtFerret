@@ -42,7 +42,7 @@ public class MoodTagsDao {
 		SQLiteDatabase database = databaseHelper.getReadableDatabase();
 		Cursor cursor = database.rawQuery("select text, count, ratingSum from MoodTag", null);
 		cursor.moveToFirst();
-		if (!cursor.isAfterLast()) {
+		while (!cursor.isAfterLast()) {
 			MoodTag tag = new MoodTag(cursor.getString(0), cursor.getInt(1), cursor.getInt(2));
 			moodTags.add(tag);
 			cursor.moveToNext();
