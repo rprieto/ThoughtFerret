@@ -9,18 +9,15 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.thoughtworks.thoughtferret.model.tags.MoodTag;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
-import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter;
-import com.thoughtworks.thoughtferret.presenter.HappyWordsPresenter.Word;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 
@@ -59,7 +56,8 @@ private Panel panel;
 		
 		private List<Paint> textPaints = new ArrayList<Paint>();
 
-		private HappyWordsPresenter presenter;
+		private TagCloud tagCloud;
+		//private HappyWordsPresenter presenter;
 		private MoodTagsDao moodTagsDao;
 		
 	    protected Display display;
@@ -69,17 +67,20 @@ private Panel panel;
 			super(context, null);
 			
 			display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-
+			Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
+			
 			moodTagsDao = new MoodTagsDao(context);
 			MoodTags moodTags = moodTagsDao.findAll();
-			presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight(), moodTags);
+			//presenter = new HappyWordsPresenter(display.getWidth(), display.getHeight(), moodTags);
+			
+			tagCloud = new TagCloud(moodTags, screen);
 			
 	        appBackground = new ApplicationBackground(getResources(), display.getWidth(), display.getHeight(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
 	        
 			int sizeRange = (maxTextSize - minTextSize);
-			int sizeStep = (int) (sizeRange / (float) (presenter.getSizeLevels() - 1));
+			int sizeStep = (int) (sizeRange / (float) (TagCloud.SIZE_LEVELS - 1));
 			
-			for (int i = 0; i < presenter.getSizeLevels(); ++i) {
+			for (int i = 0; i < TagCloud.SIZE_LEVELS; ++i) {
 				int currentSize = minTextSize + sizeStep * i;
 				textPaints.add(new FontPaint(0xFF000000, currentSize, Paint.Align.CENTER));
 			}
@@ -88,8 +89,9 @@ private Panel panel;
 		@Override
 		protected void onDraw(Canvas canvas) {
 			appBackground.draw(canvas);
-			for (Word word : presenter.getWords()) {
-				canvas.drawText(word.text, word.position.x, word.position.y, textPaints.get(word.weight));
+			for (RenderedTag tag : tagCloud.getTags()) {
+				Paint paint = textPaints.get(tag.getSize() - 1);
+				canvas.drawText(tag.getText(), tag.getPosition().x, tag.getPosition().y, paint);
 			}
 		}
 		

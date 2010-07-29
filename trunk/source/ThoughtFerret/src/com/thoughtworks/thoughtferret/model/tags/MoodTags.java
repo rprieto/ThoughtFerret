@@ -19,4 +19,24 @@ public class MoodTags {
 		return tags;
 	}
 	
+	public int getMinOccurencesOfSingleTag() {
+		int minCount = Integer.MAX_VALUE;
+		for (MoodTag tag : tags) {
+			if (tag.getCount() < minCount) {
+				minCount = tag.getCount();
+			}
+		}
+		return minCount;
+	}
+	
+	public int getMaxOccurencesOfSingleTag() {
+		int maxCount = 0;
+		for (MoodTag tag : tags) {
+			if (tag.getCount() > maxCount) {
+				maxCount = tag.getCount();
+			}
+		}
+		return maxCount;
+	}
+	
 }

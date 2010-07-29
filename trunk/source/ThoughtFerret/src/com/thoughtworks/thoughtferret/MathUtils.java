@@ -29,4 +29,14 @@ public class MathUtils {
 		return (int) rnd;
 	}
 
+	public static int project(int sourceMin, int sourceMax, int destMin, int destMax, int value) {
+		if (value < sourceMin || value > sourceMax) {
+			throw new IllegalArgumentException(String.format("Invalid source value: %d is not in [%d;%d]", value, sourceMin, sourceMax));
+		}
+		if (sourceMin == sourceMax) {
+			return destMax;
+		}
+		return destMin + (destMax-destMin) * (value-sourceMin) / (sourceMax-sourceMin);
+	}
+	
 }
