@@ -27,8 +27,12 @@ public class RatingPeriod {
 		return endDate;
 	}
 
+	public boolean contains(DateTime date) {
+		return date.isAfter(startDate) && date.isBefore(endDate);
+	}
+	
 	public void addRating(MoodRating rating) {
-		if (rating.getLoggedDate().isBefore(startDate) || rating.getLoggedDate().isAfter(endDate)) {
+		if (contains(rating.getLoggedDate()) == false) {
 			throw new IllegalArgumentException("Rating is outside of the target period");
 		}
 		ratings.add(rating);

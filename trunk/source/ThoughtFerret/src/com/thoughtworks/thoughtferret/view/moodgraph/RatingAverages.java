@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
 public class RatingAverages {
@@ -30,8 +31,12 @@ public class RatingAverages {
 	
 	private void calculateAverages(MoodRatings moodRatings) {
 		int currentPeriod = 0;
-		int currentRating = 0;
-		
+		for (MoodRating rating : moodRatings.getValues()) {
+			while (periods.get(currentPeriod).contains(rating.getLoggedDate()) == false) {
+				++currentPeriod;
+			}
+			periods.get(currentPeriod).addRating(rating);
+		}
 	}
 	
 	public List<RatingPeriod> getAverages() {
