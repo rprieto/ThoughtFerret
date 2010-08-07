@@ -11,14 +11,29 @@ public class RatingAverages {
 	List<Average> averages;
 
 	public RatingAverages(MoodRatings moodRatings, int nbDaysInPeriod) {
-		
+		calculatePeriods(moodRatings, nbDaysInPeriod);
+		calculateAverages(moodRatings);
+	}
+	
+	private void calculatePeriods(MoodRatings moodRatings, int nbDaysInPeriod) {
 		DateTime startDate = moodRatings.getFirst().getLoggedDate();
 		DateTime endDate = moodRatings.getFirst().getLoggedDate();
 		
-		// loop over the mood ratings, and group them by periods
+		DateTime startMonth = startDate.withDayOfMonth(0);
+		DateTime endMonth = endDate.plusMonths(1).withDayOfMonth(0);
 		
-		
+		for (DateTime period = startMonth; period.isBefore(endMonth); period = period.plusDays(nbDaysInPeriod)) {
+			Average average = new Average(period, period.plusDays(nbDaysInPeriod));
+			averages.add(average);
+		}
+	}
+	
+	private void calculateAverages(MoodRatings moodRatings) {
+		averages.get(0).setRating(0);
+	}
+	
+	public List<Average> getAverages() {
+		return averages;
 	}
 	
 }
-
