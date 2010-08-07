@@ -8,7 +8,7 @@ import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
 public class RatingAverages {
 	
-	List<Average> averages;
+	List<RatingPeriod> periods;
 
 	public RatingAverages(MoodRatings moodRatings, int nbDaysInPeriod) {
 		calculatePeriods(moodRatings, nbDaysInPeriod);
@@ -22,18 +22,20 @@ public class RatingAverages {
 		DateTime startMonth = startDate.withDayOfMonth(0);
 		DateTime endMonth = endDate.plusMonths(1).withDayOfMonth(0);
 		
-		for (DateTime period = startMonth; period.isBefore(endMonth); period = period.plusDays(nbDaysInPeriod)) {
-			Average average = new Average(period, period.plusDays(nbDaysInPeriod));
-			averages.add(average);
+		for (DateTime start = startMonth; start.isBefore(endMonth); start = start.plusDays(nbDaysInPeriod)) {
+			RatingPeriod period = new RatingPeriod(start, start.plusDays(nbDaysInPeriod));
+			periods.add(period);
 		}
 	}
 	
 	private void calculateAverages(MoodRatings moodRatings) {
-		averages.get(0).setRating(0);
+		int currentPeriod = 0;
+		int currentRating = 0;
+		
 	}
 	
-	public List<Average> getAverages() {
-		return averages;
+	public List<RatingPeriod> getAverages() {
+		return periods;
 	}
 	
 }

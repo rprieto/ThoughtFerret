@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ThoughtFerret"/>
 	<classpathentry kind="lib" path="libs/junit-4.9/junit-4.9-SNAPSHOT-20100512-0041.jar"/>
+	<classpathentry kind="lib" path="libs/joda-time-1.6/joda-time-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
