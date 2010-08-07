@@ -17,20 +17,30 @@ public class FallingAnimation {
 	private View star;
 	private Rect screen;
 	
-	private static final int MIN_FALLING_SPEED = 3000;
-	private static final int MAX_FALLING_SPEED = 7000;
+	private static final int MIN_FALLING_SPEED = 4000;
+	private static final int MAX_FALLING_SPEED = 8000;
 	private static final int MIN_ROTATION_SPEED = 4000;
 	private static final int MAX_ROTATION_SPEED = 12000;
-	private static final int MIN_WAITING = 200;
-	private static final int MAX_WAITING = 7000;
+	
+	private static final int MIN_INITIAL_WAIT = 0;
+	private static final int MAX_INITIAL_WAIT = 5000;
+	private static final int MIN_TRANSITION_WAIT = 0;
+	private static final int MAX_TRANSITION_WAIT = 2000;
+	
+	private boolean initialFall = true;
 	
 	public FallingAnimation(View star, Rect screen) {
 		this.star = star;
 		this.screen = screen;
 	}
 	
-	public void startAnimation() {		
-		int waitDuration = MathUtils.getRandom(MIN_WAITING, MAX_WAITING);
+	public void startAnimation() {	
+		int transitionTime = 0;
+		if (initialFall) {
+			transitionTime = MathUtils.getRandom(MIN_INITIAL_WAIT, MAX_INITIAL_WAIT);
+		} else {
+			transitionTime = MathUtils.getRandom(MIN_TRANSITION_WAIT, MAX_TRANSITION_WAIT);
+		}
 		
 		int x = MathUtils.getRandom(0, screen.width());
 		int fallingSpeed = MathUtils.getRandom(MIN_FALLING_SPEED, MAX_FALLING_SPEED);
@@ -38,14 +48,14 @@ public class FallingAnimation {
 		falling.setStartOffset(0);
 		falling.setDuration(fallingSpeed);
 		falling.setFillAfter(true);
-		falling.setStartOffset(waitDuration);
+		falling.setStartOffset(transitionTime);
 		
 		int spinningSpeed = MathUtils.getRandom(MIN_ROTATION_SPEED, MAX_ROTATION_SPEED);
 		RotateAnimation spinning = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		spinning.setStartOffset(0);
 		spinning.setDuration(spinningSpeed);
 		spinning.setFillAfter(true);
-		spinning.setStartOffset(waitDuration);
+		spinning.setStartOffset(transitionTime);
 		
 		AnimationSet set = new AnimationSet(true);
 		set.addAnimation(spinning);

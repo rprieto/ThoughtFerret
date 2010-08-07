@@ -76,11 +76,6 @@ public class MoodTagsDao {
 	}
 	
 	private void update(MoodTag moodTag, SQLiteDatabase database) {
-//		ContentValues values = new ContentValues();
-//		values.put("text", moodTag.getText());
-//		values.put("count", moodTag.getCount());
-//		values.put("ratingSum", moodTag.getRatingSum());
-//		database.update("MoodTag", values, "text=?", new String[]{ "'" + moodTag.getText() + "'"});
 		String query1 = String.format("update MoodTag set count=%d where text='%s'", moodTag.getCount(), moodTag.getText());
 		String query2 = String.format("update MoodTag set ratingSum=%d where text='%s'", moodTag.getRatingSum(), moodTag.getText());
 		database.execSQL(query1);

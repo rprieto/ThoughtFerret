@@ -1,8 +1,6 @@
 package com.thoughtworks.thoughtferret.view;
 
-import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.view.paints.FillPaint;
-
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,8 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.graphics.Shader;
+
+import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 
 public class ApplicationBackground {
 
@@ -30,42 +30,46 @@ public class ApplicationBackground {
     private final Paint backgroundGradientPaint;
     private final Bitmap backgroundBitmap;
 	
+    private Screen screen;
     private Bitmap cachedBitmap;
     
-	public ApplicationBackground(Resources resources, int width, int height, GradientDirection direction, boolean fadeOverlay) {
+	public ApplicationBackground(Context context, GradientDirection direction, boolean fadeOverlay) {
+		
+		screen = new Screen(context);
+
+		Resources resources = context.getResources();
     	backgroundBitmap = BitmapFactory.decodeResource(resources, R.drawable.homebackground);
         backgroundPaint = new FillPaint(0xAA000000);
 		
-        Shader gradient = getGradientShader(width, height, direction);
+        Shader gradient = getGradientShader(direction);
  		backgroundGradientPaint = new FillPaint(0xFFDDDDDD, gradient);
         
 		nopPaint = new Paint();
 		fadeOverlayPaint = new FillPaint(0x44DDDDDD);
 		
-		cachedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		cachedBitmap = Bitmap.createBitmap(screen.width(), screen.height(), Bitmap.Config.ARGB_8888);
 		Canvas fullCanvas = new Canvas(cachedBitmap);
 		
-		prepare(fullCanvas, width, height, fadeOverlay);
+		prepare(fullCanvas, fadeOverlay);
 	}
 	
-	private Shader getGradientShader(int width, int height, GradientDirection direction) {
+	private Shader getGradientShader(GradientDirection direction) {
 		Point start, end;
 		if (direction == GradientDirection.HORIZONTAL) {
 			start = new Point(0, 0);
-			end = new Point(width, 0);
+			end = new Point(screen.width(), 0);
 		} else {
-			start = new Point(0, height);
+			start = new Point(0, screen.height());
 			end = new Point(0, 0);
 		}
 		return new LinearGradient(start.x, start.y, end.x, end.y, sadColor, happyColor, Shader.TileMode.CLAMP);
 	}
 	
-	private void prepare(Canvas canvas, int width, int height, boolean fadeOverlay) {
-    	Rect target = new Rect(0, 0, width, height);
-    	canvas.drawBitmap(backgroundBitmap, null, target, backgroundPaint);
-    	canvas.drawRect(0, 0, width, height, backgroundGradientPaint);
+	private void prepare(Canvas canvas, boolean fadeOverlay) {
+    	canvas.drawBitmap(backgroundBitmap, null, screen.getRect(), backgroundPaint);
+    	canvas.drawRect(0, 0, screen.width(), screen.height(), backgroundGradientPaint);
     	if (fadeOverlay) {
-    		canvas.drawRect(target, fadeOverlayPaint);
+    		canvas.drawRect(screen.getRect(), fadeOverlayPaint);
     	}
 	}
 	

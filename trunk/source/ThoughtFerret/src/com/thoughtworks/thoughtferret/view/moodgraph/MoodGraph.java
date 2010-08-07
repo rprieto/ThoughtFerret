@@ -27,6 +27,7 @@ import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
+import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.Scroll;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -95,13 +96,13 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    public Panel(Context context) {
 	        super(context, null);
 	        
-	        Rect screen = new Rect(0, 0, super.display.getWidth(), super.display.getHeight());
+	        Screen screen = new Screen(context);
 	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
 	        MoodRatings ratings = dao.findAll();
 	        monthlyRatings = new MonthlyRatings(ratings, screen);
 	        
-	        appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.VERTICAL, false);
+	        appBackground = new ApplicationBackground(context, ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
 	        nopPaint = new Paint();
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);

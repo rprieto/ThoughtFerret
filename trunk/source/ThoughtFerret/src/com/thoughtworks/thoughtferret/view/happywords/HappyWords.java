@@ -9,10 +9,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +17,7 @@ import android.view.WindowManager;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
+import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 
 public class HappyWords extends Activity {
@@ -60,21 +58,17 @@ private Panel panel;
 		private MoodTagsDao moodTagsDao;
 		private TagCloud tagCloud;
 		
-	    protected Display display;
 		ApplicationBackground appBackground;
 		
 		public Panel(Context context) {
 			super(context, null);
-			
-			display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-			Rect screen = new Rect(0, 0, display.getWidth(), display.getHeight());
-			
+						
 			moodTagsDao = new MoodTagsDao(context);
 			MoodTags moodTags = moodTagsDao.findAll();
 			
-			tagCloud = new TagCloud(moodTags, screen);
+			tagCloud = new TagCloud(moodTags, new Screen(context));
 			
-	        appBackground = new ApplicationBackground(getResources(), display.getWidth(), display.getHeight(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
+	        appBackground = new ApplicationBackground(context, ApplicationBackground.GradientDirection.HORIZONTAL, true);
 	        
 			int sizeRange = (maxTextSize - minTextSize);
 			int sizeStep = (int) (sizeRange / (float) (TagCloud.SIZE_LEVELS - 1));
@@ -89,7 +83,6 @@ private Panel panel;
 		protected void onDraw(Canvas canvas) {
 			appBackground.draw(canvas);
 			for (RenderedTag tag : tagCloud.getTags()) {
-				//Log.i("TagCloud", String.format("Tag: %s [%d;%d] %d", tag.getText(), tag.getPosition().x, tag.getPosition().y, tag.getSize()));
 				Paint paint = textPaints.get(tag.getSize() - 1);
 				canvas.drawText(tag.getText(), tag.getPosition().x, tag.getPosition().y, paint);
 			}

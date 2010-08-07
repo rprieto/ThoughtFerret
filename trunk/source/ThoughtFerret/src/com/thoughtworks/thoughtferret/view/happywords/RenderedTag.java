@@ -2,9 +2,6 @@ package com.thoughtworks.thoughtferret.view.happywords;
 
 import android.graphics.Point;
 
-import com.thoughtworks.thoughtferret.model.tags.MoodTag;
-
-
 public class RenderedTag {
 
 	private String text;

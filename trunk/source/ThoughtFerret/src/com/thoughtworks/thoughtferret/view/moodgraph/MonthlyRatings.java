@@ -10,6 +10,7 @@ import android.graphics.Rect;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.view.Screen;
 
 public class MonthlyRatings {
 
@@ -21,14 +22,14 @@ public class MonthlyRatings {
 	private List<Point> points;
 	
 	private Rect graphRect;
-	private Rect screenRect;
+	private Screen screen;
 	
 	private ZoomLevel currentZoom = ZoomLevel.QUARTER;
 
-	public MonthlyRatings(MoodRatings ratings, Rect screenRect) {
+	public MonthlyRatings(MoodRatings ratings, Screen screen) {
 		this.moodRatings = ratings;
-		this.screenRect = screenRect;
-		calculateGraph(screenRect.height());
+		this.screen = screen;
+		calculateGraph(screen.height());
 	}
 
 	private void calculateGraph(int graphHeight) {
@@ -105,11 +106,11 @@ public class MonthlyRatings {
 	
 	public void setZoom(ZoomLevel level) {
 		currentZoom = level;
-		calculateGraph(screenRect.height());
+		calculateGraph(screen.height());
 	}
 	
 	private int getMonthSize() {
-		return currentZoom.getMonthSize(screenRect.width());
+		return currentZoom.getMonthSize(screen.width());
 	}
 	
 }

@@ -1,7 +1,6 @@
 package com.thoughtworks.thoughtferret.view.home;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,22 +8,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.DemoHacks;
+import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.happywords.HappyWords;
 import com.thoughtworks.thoughtferret.view.moodgraph.MoodGraph;
 import com.thoughtworks.thoughtferret.view.preferences.EditPreferences;
@@ -34,7 +31,7 @@ public class Home extends Activity {
 	
 	LinearLayout homeBackground;
 	ImageView starImage;
-	Rect screen;
+	Screen screen;
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,11 +40,11 @@ public class Home extends Activity {
 
         homeBackground = (LinearLayout) findViewById(R.id.homeBackground);
 
-        calculateScreen();
+        screen = new Screen(this);
         setBackground();
         
         LinearLayout starContainer = (LinearLayout) findViewById(R.id.starContainer); 
-        FallingStars stars = new FallingStars(this, starContainer, screen);
+        FallingStars stars = new FallingStars(this, starContainer);
         stars.startAnimation();
         
 //        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/handmadetypewriter.ttf");
@@ -74,13 +71,8 @@ public class Home extends Activity {
 		startActivity(new Intent(this, EditPreferences.class));
 	}
 	
-	private void calculateScreen() {
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-        screen = new Rect(0, 0, display.getWidth(), display.getHeight());
-	}
-	
 	private void setBackground() {
-		ApplicationBackground appBackground = new ApplicationBackground(getResources(), screen.width(), screen.height(), ApplicationBackground.GradientDirection.HORIZONTAL, true);
+		ApplicationBackground appBackground = new ApplicationBackground(this, ApplicationBackground.GradientDirection.HORIZONTAL, true);
         Bitmap ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homeferret);       
         Bitmap smallFerret = Bitmap.createScaledBitmap(ferretBitmap, 200, 200, true);
         
