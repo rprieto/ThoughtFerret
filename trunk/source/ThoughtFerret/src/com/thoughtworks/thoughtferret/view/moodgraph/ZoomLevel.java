@@ -16,4 +16,8 @@ public enum ZoomLevel {
 		return screenWidth / numberOfMonths;
 	}
 	
+	public int getPixelsPerDay(int screenWidth) {
+		return screenWidth / numberOfMonths / 30;
+	}
+	
 }

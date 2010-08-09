@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 
@@ -53,6 +54,10 @@ public class RatingPeriod {
 		else {
 			return 0;
 		}
+	}
+	
+	public int getDays() {
+		return Days.daysBetween(startDate, endDate).getDays();
 	}
 	
 }

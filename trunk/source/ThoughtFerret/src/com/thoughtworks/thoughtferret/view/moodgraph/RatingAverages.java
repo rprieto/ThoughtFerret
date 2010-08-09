@@ -45,4 +45,12 @@ public class RatingAverages {
 		return periods;
 	}
 	
+	public RatingPeriod getFirst() {
+		return periods.get(0);
+	}
+	
+	public RatingPeriod getLast() {
+		return periods.get(periods.size() - 1);
+	}
+	
 }

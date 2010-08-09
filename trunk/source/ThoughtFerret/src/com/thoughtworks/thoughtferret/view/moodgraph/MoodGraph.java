@@ -81,7 +81,7 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	
 	class Panel extends Scroll {
 		 
-		private MonthlyRatings monthlyRatings;
+		private VisualRatings visualRatings;
 
 		private Paint nopPaint;
 		private Paint textPaint;
@@ -89,18 +89,19 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 		private Paint bannerPaint;
 		private Paint gridMinorPaint;
 
-		ApplicationBackground appBackground;
-		Bitmap cachedBitmap;
+		private ApplicationBackground appBackground;
+		private Bitmap cachedBitmap;
 		private Canvas cachedCanvas;
+		private Screen screen;
 	    
 	    public Panel(Context context) {
 	        super(context, null);
 	        
-	        Screen screen = new Screen(context);
+	        screen = new Screen(context);
 	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
 	        MoodRatings ratings = dao.findAll();
-	        monthlyRatings = new MonthlyRatings(ratings, screen);
+	        visualRatings = new VisualRatings(ratings, screen); 
 	        
 	        appBackground = new ApplicationBackground(context, ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
@@ -119,9 +120,9 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    		cachedBitmap.recycle();
 	    		cachedBitmap = null;
 	    	}	    	
-	    	cachedBitmap = Bitmap.createBitmap(monthlyRatings.getGraphRect().width(), monthlyRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
+	    	cachedBitmap = Bitmap.createBitmap(visualRatings.getGraphRect().width(), visualRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
 	    	cachedCanvas = new Canvas(cachedBitmap);
-	    	setFullSize(monthlyRatings.getGraphRect());
+	    	setFullSize(visualRatings.getGraphRect());
 	    	cachedBitmap.eraseColor(0x00000000);
 			drawGrid();
 	    	drawGraph();	    	
@@ -129,7 +130,7 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    }
 	    
 		public void setZoom(ZoomLevel zoomLevel) {
-	    	monthlyRatings.setZoom(zoomLevel);
+	    	visualRatings.setZoom(zoomLevel);
 	    	createCachedGraph();
 			invalidate();
 		}
@@ -154,13 +155,13 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    
 	    private void drawGraph() {
 	    	
-	    	int yBase = monthlyRatings.getGraphRect().bottom;
+	    	int yBase = visualRatings.getGraphRect().bottom;
 	    	
 	    	Path path = new Path();	 
         	Path contour = new Path();
         	
-        	Point first = monthlyRatings.getPoints().get(0);
-        	Point last = monthlyRatings.getPoints().get(monthlyRatings.getPoints().size() - 1);
+        	Point first = visualRatings.getPoints().get(0);
+        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
         	
         	path.moveTo(first.x, 0);
         	path.lineTo(first.x, first.y);
@@ -168,10 +169,9 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
         	contour.moveTo(first.x, yBase);
         	contour.lineTo(first.x, first.y);
         	
-        	for (int i=0; i<monthlyRatings.getPoints().size() - 1; ++i) {
-        		
-        		Point current = monthlyRatings.getPoints().get(i);
-        		Point next = monthlyRatings.getPoints().get(i+1);
+        	for (int i=0; i<visualRatings.getPoints().size() - 1; ++i) {
+        		Point current = visualRatings.getPoints().get(i);
+        		Point next = visualRatings.getPoints().get(i+1);
         		Point mid = MathUtils.getMiddle(current, next);
         		
         		Point controlPoint1 = new Point(mid.x, current.y);
@@ -182,6 +182,8 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
         		
         		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
         		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
+        		
+        		cachedCanvas.drawCircle(current.x, current.y, 4, contourPaint);
         	}
         	
         	path.lineTo(last.x, 0);
@@ -194,15 +196,22 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    }
 	    
 	    private void drawTimeline() {
-	    	for (TimeUnit unit : monthlyRatings.getTimeUnits()) {
-	    		cachedCanvas.drawRect(unit.getRect(), bannerPaint);
-	    		cachedCanvas.drawRect(unit.getRect(), contourPaint);
-	    		cachedCanvas.drawText(unit.getText(), unit.getRect().centerX(), unit.getRect().centerY() + 5, textPaint);
+	    	for (TimeUnit unit : visualRatings.getTimeline().getUnits()) {
+	    		Rect bottomRect = new Rect(unit.getRect());
+	    		bottomRect.offset(0, screen.height() - unit.getRect().height());
+	    		drawTimeUnit(unit.getRect(), unit.getText());
+	    		drawTimeUnit(bottomRect, unit.getText());
 			}
 	    }
 	    
+	    private void drawTimeUnit(Rect rect, String text) {
+    		cachedCanvas.drawRect(rect, bannerPaint);
+    		cachedCanvas.drawRect(rect, contourPaint);
+    		cachedCanvas.drawText(text, rect.centerX(), rect.centerY() + 5, textPaint);
+	    }
+	    
 	    private void drawGrid() {
-	    	for (Rect line : monthlyRatings.getGrid()) {
+	    	for (Rect line : visualRatings.getGrid()) {
 	    		cachedCanvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
 			}
 	    }
