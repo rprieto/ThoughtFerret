@@ -52,7 +52,7 @@ public class RatingPeriod {
 			return new RatingAverage(sum / ratings.size());
 		}
 		else {
-			return new RatingAverage(0);
+			return new RatingAverage(0d);
 		}
 	}
 	

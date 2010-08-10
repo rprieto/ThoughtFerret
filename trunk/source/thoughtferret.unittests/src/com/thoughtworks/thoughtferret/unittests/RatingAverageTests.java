@@ -4,7 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.view.moodgraph.RatingAverage;
+import com.thoughtworks.thoughtferret.view.moodgraph.ensure.Ensure;
 
 public class RatingAverageTests {
 
@@ -21,6 +23,16 @@ public class RatingAverageTests {
 		verifyRatingAverageEquals(0.10, 0.19, false);
 		verifyRatingAverageEquals(0.16, 0.17, true);
 		verifyRatingAverageEquals(1.19, 1.21, true);
+	}
+	
+	@Test
+	public void ratingAverageShouldBeInTheBoundariesOfMoodRating() {
+		Ensure.thatBreaksContract(new Runnable() {
+			public void run() {	new RatingAverage(-1d);	}
+		});
+		Ensure.thatBreaksContract(new Runnable() {
+			public void run() {	new RatingAverage(MoodRating.BEST_RATING + 1d);	}
+		});
 	}
 	
 	private void verifyRatingAverageEquals(double value1, double value2, boolean expectedEquals) {
