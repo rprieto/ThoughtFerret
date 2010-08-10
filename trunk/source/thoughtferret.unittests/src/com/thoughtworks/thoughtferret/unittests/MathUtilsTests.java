@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.thoughtworks.thoughtferret.MathUtils;
-import com.thoughtworks.thoughtferret.view.moodgraph.ensure.Ensure;
+import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
 public class MathUtilsTests {
 

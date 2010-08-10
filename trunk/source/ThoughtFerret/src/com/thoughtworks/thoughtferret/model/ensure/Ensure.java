@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph.ensure;
+package com.thoughtworks.thoughtferret.model.ensure;
 
 public class Ensure {
 

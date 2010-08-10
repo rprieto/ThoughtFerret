@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.view.moodgraph.RatingAverage;
-import com.thoughtworks.thoughtferret.view.moodgraph.ensure.Ensure;
+import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
 public class RatingAverageTests {
 

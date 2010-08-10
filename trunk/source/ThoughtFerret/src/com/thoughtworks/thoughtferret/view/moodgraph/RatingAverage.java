@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.view.moodgraph.ensure.Ensure;
+import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
 public class RatingAverage {
 

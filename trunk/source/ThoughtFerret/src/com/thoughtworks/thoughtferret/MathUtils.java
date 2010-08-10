@@ -1,6 +1,6 @@
 package com.thoughtworks.thoughtferret;
 
-import com.thoughtworks.thoughtferret.view.moodgraph.ensure.Ensure;
+import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
 import android.graphics.Point;
 import android.graphics.Rect;
