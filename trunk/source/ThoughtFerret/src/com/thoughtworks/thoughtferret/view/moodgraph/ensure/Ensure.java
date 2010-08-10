@@ -2,7 +2,7 @@ package com.thoughtworks.thoughtferret.view.moodgraph.ensure;
 
 public class Ensure {
 
-	public static DoubleToEnsure that(Double value) {
+	public static DoubleToEnsure that(double value) {
 		return new DoubleToEnsure(value);
 	}
 

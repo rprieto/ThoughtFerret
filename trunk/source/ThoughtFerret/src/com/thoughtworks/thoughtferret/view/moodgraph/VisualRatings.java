@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
@@ -50,11 +51,16 @@ public class VisualRatings {
 		points.add(new Point(0, timeline.getHeight()));
 		//Point lastPoint = null;
 		
+		int bestY = timeline.getHeight() * 2;
+		int worstY = screen.height() - timeline.getHeight() * 2;
+		Log.i("Graph", "Graph min max = " + bestY + " , " + worstY);
+		
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
 			int periodSize = period.getDays() * getDaySize();
 			if (period.hasRatings()) {
 				int y = getY(period);
+				Log.i("Graph", "Period average " + period.getAverage().doubleValue() + " = " + y + "px");
 				//lastPoint = new Point(x + periodSize, y);
 				points.add(new Point(x, y));
 				points.add(new Point(x + periodSize, y));

@@ -36,6 +36,7 @@ public class MathUtils {
 	}
 	
 	public static double project(int sourceMin, int sourceMax, int destMin, int destMax, double value) {
+		Ensure.that(destMin).isSmallerThan(destMax);
 		Ensure.that(value).isBetween(sourceMin, sourceMax);
 		if (sourceMin == sourceMax) {
 			return destMax;
@@ -50,6 +51,7 @@ public class MathUtils {
 	}
 	
 	public static double projectReversed(int sourceMin, int sourceMax, int destMin, int destMax, double value) {
+		Ensure.that(destMax).isSmallerThan(destMin);
 		Ensure.that(value).isBetween(sourceMin, sourceMax);
 		if (sourceMin == sourceMax) {
 			return destMax;
