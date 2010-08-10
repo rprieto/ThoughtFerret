@@ -19,7 +19,9 @@ public class VisualRatings {
 	private MoodRatings moodRatings;
 	private RatingAverages averages;
 	private Timeline timeline;
+	private Grid grid;
 	private List<Point> points;
+	
 	
 	private Rect graphRect;
 	private Screen screen;
@@ -37,15 +39,11 @@ public class VisualRatings {
         int nbDaysInPeriod = PERIOD_IN_PIXELS / daySize;
         averages = new RatingAverages(moodRatings, nbDaysInPeriod);
         timeline = new Timeline(moodRatings, daySize);
+        graphRect = new Rect(0, 0, timeline.getWidth(), screen.height());
+        grid = new Grid(averages.getAverages(), timeline, graphRect, getDaySize());
 		createPoints();		
-		calculateGraphSize();
 	}
-	
-	private void calculateGraphSize() {
-		//Point lastPoint = points.get(points.size() - 1);
-		graphRect = new Rect(0, 0, timeline.getWidth(), screen.height());
-	}
-	
+
 	private void createPoints() {		
 		points = new ArrayList<Point>();
 		points.add(new Point(0, timeline.getHeight()));
@@ -93,24 +91,7 @@ public class VisualRatings {
 		return timeline;
 	}
 	
-	public List<Rect> getGrid() {
-		
-		List<Rect> grid = new ArrayList<Rect>();
-    	
-		int x = 0;
-		for (RatingPeriod period : averages.getAverages()) {
-			x += period.getDays() * getDaySize();
-			grid.add(new Rect(x, graphRect.top + timeline.getHeight(), x, graphRect.bottom - timeline.getHeight()));
-		}
-		
-		int start = timeline.getHeight() * 2;
-		int end = screen.height() - timeline.getHeight() * 2;
-		int verticalSpace = screen.height() - timeline.getHeight() * 4;
-		final int intervalSize = verticalSpace / (MoodRating.BEST_RATING - 1);
-    	for (int y = start; y <= end; y += intervalSize) {
-    		grid.add(new Rect(graphRect.left, y, graphRect.right, y));
-    	}
-    	
+	public Grid getGrid() {
 		return grid;
 	}
 	

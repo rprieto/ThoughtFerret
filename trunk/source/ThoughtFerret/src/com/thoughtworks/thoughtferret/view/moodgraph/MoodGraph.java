@@ -154,48 +154,64 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 		}
 	    
 	    private void drawGraph() {
-	    	
-	    	int yBase = visualRatings.getGraphRect().bottom;
-	    	
+	    	drawHistogram();
+	    	//drawCurves();
+	    }
+	    
+	    private void drawHistogram() {
 	    	Path path = new Path();	 
         	Path contour = new Path();
-        	
-        	Point first = visualRatings.getPoints().get(0);
-        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
-        	
         	path.moveTo(0, visualRatings.getTimeline().getHeight());
-        	//path.lineTo(first.x, first.y);
-        	
-        	//contour.moveTo(0, 0);
-        	//contour.lineTo(first.x, first.y);
-        	
-        	for (int i=0; i<visualRatings.getPoints().size(); ++i) {
+        
+        	for (int i = 0; i < visualRatings.getPoints().size(); ++i) {
         		Point current = visualRatings.getPoints().get(i);
-        		//Point next = visualRatings.getPoints().get(i+1);
-        		//Point mid = MathUtils.getMiddle(current, next);
-        		
         		path.lineTo(current.x, current.y);
         		contour.lineTo(current.x, current.y);
-//        		Point controlPoint1 = new Point(mid.x, current.y);
-//        		Point controlPoint2 = new Point(mid.x, next.y);
-//        		
-//        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-//        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-//        		
-//        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-//        		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-        		
-        		//cachedCanvas.drawCircle(current.x, current.y, 4, contourPaint);
         	}
         	
-//        	path.lineTo(last.x, 0);
         	path.close();
-        	contour.close();
-//        	
-//        	contour.lineTo(last.x, yBase);
+        	contour.close();      	
         	
         	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
         	cachedCanvas.drawPath(contour, contourPaint);
+	    }
+	    
+	    private void drawCurves() {
+	    	int yBase = visualRatings.getGraphRect().bottom;
+        	Point first = visualRatings.getPoints().get(0);
+        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
+        	
+        	Path curve = new Path();
+        	Path contour = new Path();
+        	
+        	curve.moveTo(0, 0);
+        	curve.lineTo(0, visualRatings.getPoints().get(1).y);
+        	curve.lineTo(first.x, first.y);
+        	for (int i = 1; i < visualRatings.getPoints().size() - 3; i += 2) {
+        		Point periodStart = visualRatings.getPoints().get(i);
+        		Point periodEnd = visualRatings.getPoints().get(i + 1);
+        		Point nextPeriodStart = visualRatings.getPoints().get(i + 2);
+        		Point nextPeriodEnd = visualRatings.getPoints().get(i + 3);        	
+        		Point start = MathUtils.getMiddle(periodStart, periodEnd);
+        		Point end = MathUtils.getMiddle(nextPeriodStart, nextPeriodEnd);
+        		Point mid = MathUtils.getMiddle(start, end);
+        		Point controlPoint1 = new Point(mid.x, start.y);
+        		Point controlPoint2 = new Point(mid.x, end.y);
+        		
+        		curve.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+        		curve.quadTo(controlPoint2.x, controlPoint2.y, end.x, end.y);
+
+        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+        		contour.quadTo(controlPoint2.x, controlPoint2.y, end.x, end.y);
+        	}
+        	
+        	curve.lineTo(last.x, yBase);
+        	curve.lineTo(last.x, 0);
+        	    	
+        	curve.close();
+        	
+        	cachedCanvas.drawPath(contour, contourPaint);
+        	cachedCanvas.drawPath(curve, appBackground.getFadeOverlayPaint());
 	    }
 	    
 	    private void drawTimeline() {
@@ -214,7 +230,7 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    }
 	    
 	    private void drawGrid() {
-	    	for (Rect line : visualRatings.getGrid()) {
+	    	for (Rect line : visualRatings.getGrid().getLines()) {
 	    		cachedCanvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
 			}
 	    }
