@@ -96,8 +96,6 @@ public class VisualRatings {
 	public List<Rect> getGrid() {
 		
 		List<Rect> grid = new ArrayList<Rect>();
-		int verticalSpace = screen.height() - timeline.getHeight() * 2;
-		final int verticalGridSize = verticalSpace / (MoodRating.BEST_RATING + 1);
     	
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
@@ -105,7 +103,11 @@ public class VisualRatings {
 			grid.add(new Rect(x, graphRect.top + timeline.getHeight(), x, graphRect.bottom - timeline.getHeight()));
 		}
 		
-    	for (int y = timeline.getHeight() + verticalGridSize; y < screen.height() - timeline.getHeight() - verticalGridSize; y += verticalGridSize) {
+		int start = timeline.getHeight() * 2;
+		int end = screen.height() - timeline.getHeight() * 2;
+		int verticalSpace = screen.height() - timeline.getHeight() * 4;
+		final int intervalSize = verticalSpace / (MoodRating.BEST_RATING - 1);
+    	for (int y = start; y <= end; y += intervalSize) {
     		grid.add(new Rect(graphRect.left, y, graphRect.right, y));
     	}
     	
