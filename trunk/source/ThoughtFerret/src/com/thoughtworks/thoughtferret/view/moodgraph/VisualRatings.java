@@ -6,6 +6,7 @@ import java.util.List;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.Screen;
@@ -71,9 +72,7 @@ public class VisualRatings {
 	private int getY(RatingPeriod period) {
 		int bestY = timeline.getHeight() * 2;
 		int worstY = screen.height() - timeline.getHeight() * 2;
-		int interval = (worstY - bestY) / (MoodRating.BEST_RATING - 1);
-		double y = worstY - (period.getAverage().doubleValue() - 1) * interval;
-		return (int) y;
+		return (int) MathUtils.projectReversed(1, 5, worstY, bestY, period.getAverage().doubleValue());
 	}
 	
 	public Rect getGraphRect() {
