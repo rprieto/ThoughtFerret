@@ -38,27 +38,31 @@ public class RatingPeriod {
 		}
 		ratings.add(rating);
 	}
-
+	
 	public boolean hasRatings() {
 		return ratings.size() > 0;
 	}
 	
-	public int getAverageTimesTen() {
+	public RatingAverage getAverage() {
 		if (hasRatings()) {
-			int sum = 0;
+			double sum = 0;
 			for (MoodRating rating : ratings) {
 				sum += rating.getRating();
 			}
-			return sum * 10 / ratings.size();
+			return new RatingAverage(sum / ratings.size());
 		}
 		else {
-			return 0;
+			return new RatingAverage(0);
 		}
 	}
 	
 	public int getDays() {
 		return Days.daysBetween(startDate, endDate).getDays();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "RatingPeriod [avg=" + getAverage() + "]";
+	}
 }
 

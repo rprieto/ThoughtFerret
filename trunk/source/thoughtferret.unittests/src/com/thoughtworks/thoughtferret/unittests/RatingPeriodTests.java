@@ -2,13 +2,14 @@ package com.thoughtworks.thoughtferret.unittests;
 
 import static com.thoughtworks.thoughtferret.unittests.DateBuilder.date;
 import static com.thoughtworks.thoughtferret.unittests.DateBuilder.timestamp;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import static com.thoughtworks.thoughtferret.unittests.matchers.HasAverageMatcher.*;
 import com.thoughtworks.thoughtferret.view.moodgraph.RatingPeriod;
 
 public class RatingPeriodTests {
@@ -28,7 +29,7 @@ public class RatingPeriodTests {
 	public void shouldCalculateAverageWithNoRatings() {
 		RatingPeriod period = new RatingPeriod(date(13, 7, 2010), date(21, 8, 2010));
 		assertFalse(period.hasRatings());
-		assertEquals(0, period.getAverageTimesTen());
+		assertThat(period, hasAverage(0));
 	}
 	
 	@Test
@@ -36,7 +37,7 @@ public class RatingPeriodTests {
 		RatingPeriod period = new RatingPeriod(date(13, 7, 2010), date(21, 8, 2010));
 		period.addRating(new MoodRating(timestamp(4, 8, 2010), 3));
 		assertTrue(period.hasRatings());
-		assertEquals(30, period.getAverageTimesTen());
+		assertThat(period, hasAverage(3));
 	}
 	
 	@Test
@@ -47,7 +48,7 @@ public class RatingPeriodTests {
 		period.addRating(new MoodRating(timestamp(6, 8, 2010), 4));
 		period.addRating(new MoodRating(timestamp(12, 8, 2010), 2));
 		assertTrue(period.hasRatings());
-		assertEquals(32, period.getAverageTimesTen());
+		assertThat(period, hasAverage(3.3));
 	}
-	
+
 }

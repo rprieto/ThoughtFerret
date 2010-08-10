@@ -40,34 +40,40 @@ public class VisualRatings {
 	}
 	
 	private void calculateGraphSize() {
-		Point lastPoint = points.get(points.size() - 1);
-		graphRect = new Rect(0, 0, lastPoint.x, screen.height());
+		//Point lastPoint = points.get(points.size() - 1);
+		graphRect = new Rect(0, 0, timeline.getWidth(), screen.height());
 	}
 	
 	private void createPoints() {		
 		points = new ArrayList<Point>();
-		points.add(new Point(0, getY(averages.getFirst())));
-		Point lastPoint = null;
+		points.add(new Point(0, timeline.getHeight()));
+		//Point lastPoint = null;
 		
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
 			int periodSize = period.getDays() * getDaySize();
 			if (period.hasRatings()) {
 				int y = getY(period);
-				lastPoint = new Point(x + periodSize, y);
-				points.add(new Point(x + periodSize / 2, y));
+				//lastPoint = new Point(x + periodSize, y);
+				points.add(new Point(x, y));
+				points.add(new Point(x + periodSize, y));
+			} else {
+				points.add(new Point(x, screen.height() - timeline.getHeight()));
+				points.add(new Point(x + periodSize, screen.height() - timeline.getHeight()));
 			}
 			x += periodSize;
 		}
-
-		points.add(lastPoint);
+		
+		points.add(new Point(x, timeline.getHeight()));
+		//points.add(lastPoint);
 	}
 	
 	private int getY(RatingPeriod period) {
 		int bestY = timeline.getHeight() * 2;
 		int worstY = screen.height() - timeline.getHeight() * 2;
 		int interval = (worstY - bestY) / (MoodRating.BEST_RATING - 1);
-		return worstY - (period.getAverageTimesTen() - 10) * interval / 10;
+		double y = worstY - (period.getAverage().doubleValue() - 1) * interval;
+		return (int) y;
 	}
 	
 	public Rect getGraphRect() {
@@ -85,7 +91,8 @@ public class VisualRatings {
 	public List<Rect> getGrid() {
 		
 		List<Rect> grid = new ArrayList<Rect>();
-		final int verticalGridSize = 60;
+		int verticalSpace = screen.height() - timeline.getHeight() * 2;
+		final int verticalGridSize = verticalSpace / (MoodRating.BEST_RATING + 1);
     	
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
@@ -93,7 +100,7 @@ public class VisualRatings {
 			grid.add(new Rect(x, graphRect.top + timeline.getHeight(), x, graphRect.bottom - timeline.getHeight()));
 		}
 		
-    	for (int y = graphRect.top + timeline.getHeight(); y < graphRect.bottom - timeline.getHeight(); y += verticalGridSize) {
+    	for (int y = timeline.getHeight() + verticalGridSize; y < screen.height() - timeline.getHeight() - verticalGridSize; y += verticalGridSize) {
     		grid.add(new Rect(graphRect.left, y, graphRect.right, y));
     	}
     	

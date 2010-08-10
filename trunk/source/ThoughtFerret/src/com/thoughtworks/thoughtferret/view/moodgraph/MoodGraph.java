@@ -107,7 +107,7 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	       
 	        nopPaint = new Paint();
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
-			contourPaint = new LinePaint(0xFF000000, 2f);
+			contourPaint = new LinePaint(0xAA000000, 1f);
 			gridMinorPaint = new LinePaint(0x99AAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
 			bannerPaint = new FillPaint(0xAACCCCCC);
@@ -163,33 +163,36 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
         	Point first = visualRatings.getPoints().get(0);
         	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
         	
-        	path.moveTo(first.x, 0);
-        	path.lineTo(first.x, first.y);
+        	path.moveTo(0, visualRatings.getTimeline().getHeight());
+        	//path.lineTo(first.x, first.y);
         	
-        	contour.moveTo(first.x, yBase);
-        	contour.lineTo(first.x, first.y);
+        	//contour.moveTo(0, 0);
+        	//contour.lineTo(first.x, first.y);
         	
-        	for (int i=0; i<visualRatings.getPoints().size() - 1; ++i) {
+        	for (int i=0; i<visualRatings.getPoints().size(); ++i) {
         		Point current = visualRatings.getPoints().get(i);
-        		Point next = visualRatings.getPoints().get(i+1);
-        		Point mid = MathUtils.getMiddle(current, next);
+        		//Point next = visualRatings.getPoints().get(i+1);
+        		//Point mid = MathUtils.getMiddle(current, next);
         		
-        		Point controlPoint1 = new Point(mid.x, current.y);
-        		Point controlPoint2 = new Point(mid.x, next.y);
+        		path.lineTo(current.x, current.y);
+        		contour.lineTo(current.x, current.y);
+//        		Point controlPoint1 = new Point(mid.x, current.y);
+//        		Point controlPoint2 = new Point(mid.x, next.y);
+//        		
+//        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+//        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
+//        		
+//        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
+//        		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
         		
-        		path.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-        		path.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-        		
-        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-        		contour.quadTo(controlPoint2.x, controlPoint2.y, next.x, next.y);
-        		
-        		cachedCanvas.drawCircle(current.x, current.y, 4, contourPaint);
+        		//cachedCanvas.drawCircle(current.x, current.y, 4, contourPaint);
         	}
         	
-        	path.lineTo(last.x, 0);
+//        	path.lineTo(last.x, 0);
         	path.close();
-        	
-        	contour.lineTo(last.x, yBase);
+        	contour.close();
+//        	
+//        	contour.lineTo(last.x, yBase);
         	
         	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
         	cachedCanvas.drawPath(contour, contourPaint);
