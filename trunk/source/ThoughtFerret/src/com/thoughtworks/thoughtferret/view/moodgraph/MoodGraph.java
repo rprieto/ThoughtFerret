@@ -1,8 +1,7 @@
 package com.thoughtworks.thoughtferret.view.moodgraph;
 
-import java.util.HashMap;
-
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -13,17 +12,14 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnCreateContextMenuListener;
+import android.view.View.OnClickListener;
 
 import com.thoughtworks.thoughtferret.MathUtils;
-import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
@@ -34,7 +30,7 @@ import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
-public class MoodGraph extends Activity implements OnCreateContextMenuListener {
+public class MoodGraph extends Activity {
 
 	private Panel panel;
 	
@@ -44,26 +40,38 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		panel = new Panel(this);
 		setContentView(panel);
-		registerForContextMenu(panel);
+	}
+    
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Graph options");
+	    return super.onCreateOptionsMenu(menu);
 	}
 	
-    @Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-    	MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.graphzoom, menu);
-        menu.setHeaderTitle("Zoom level");        
-    }
-	
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-    	HashMap<Integer, ZoomLevel> zoomLevels = new HashMap<Integer, ZoomLevel>();
-    	zoomLevels.put(R.id.zoomMonth, ZoomLevel.MONTH);
-    	zoomLevels.put(R.id.zoomQuarter, ZoomLevel.QUARTER);
-    	zoomLevels.put(R.id.zoomSemester, ZoomLevel.SEMESTER);
-    	panel.setZoom(zoomLevels.get(item.getItemId()));
-		return true;
-    }
-    
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		final GraphOptions options = new GraphOptions(this, null);
+		options.setChartType(ChartType.LINE);
+		options.setDaysToShowOnScreen(340);
+		
+		final Dialog dialog = new Dialog(this);
+		dialog.setTitle("Graph options");
+		dialog.setContentView(options);
+		
+		options.setValidateListener(
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						options.getDaysToShowOnScreen();
+						options.getChartType();
+						dialog.dismiss();
+					}
+				});
+		
+		dialog.show();
+		return super.onMenuItemSelected(featureId, item);
+	}
+
 	@Override
 	public void onAttachedToWindow() {
 		super.onAttachedToWindow();
@@ -93,7 +101,7 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 		private Bitmap cachedBitmap;
 		private Canvas cachedCanvas;
 		private Screen screen;
-	    
+		
 	    public Panel(Context context) {
 	        super(context, null);
 	        
@@ -134,11 +142,6 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 	    	createCachedGraph();
 			invalidate();
 		}
-
-	    @Override
-	    protected void onContextMenu() {
-	    	openContextMenu(this);
-	    }
 	    
 	    @Override
 	    protected void drawFullCanvas(Canvas canvas, Rect visibleRect) {
@@ -154,11 +157,11 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
 		}
 	    
 	    private void drawGraph() {
-	    	drawHistogram();
-	    	//drawCurves();
+	    	drawBarChart();
+	    	if (false) { drawLineChart(); }
 	    }
 	    
-	    private void drawHistogram() {
+	    private void drawBarChart() {
 	    	Path path = new Path();	 
         	Path contour = new Path();
         	path.moveTo(0, visualRatings.getTimeline().getHeight());
@@ -170,13 +173,12 @@ public class MoodGraph extends Activity implements OnCreateContextMenuListener {
         	}
         	
         	path.close();
-        	contour.close();      	
         	
         	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
         	cachedCanvas.drawPath(contour, contourPaint);
 	    }
 	    
-	    private void drawCurves() {
+	    private void drawLineChart() {
 	    	int yBase = visualRatings.getGraphRect().bottom;
         	Point first = visualRatings.getPoints().get(0);
         	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
