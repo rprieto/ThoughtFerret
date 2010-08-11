@@ -169,6 +169,9 @@ public class MoodGraph extends Activity {
 	    private void drawBarChart() {
 	    	Path path = new Path();	 
         	Path contour = new Path();
+        	
+        	int yBase = visualRatings.getGraphRect().height() - visualRatings.getTimeline().getHeight();
+        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
         	path.moveTo(0, visualRatings.getTimeline().getHeight());
         
         	for (int i = 0; i < visualRatings.getPoints().size(); ++i) {
@@ -177,6 +180,14 @@ public class MoodGraph extends Activity {
         		contour.lineTo(current.x, current.y);
         	}
         	
+        	path.lineTo(last.x, last.y);
+        	path.lineTo(last.x, yBase);
+        	path.lineTo(visualRatings.getGraphRect().width(), yBase);
+        	path.lineTo(visualRatings.getGraphRect().width(), visualRatings.getTimeline().getHeight());
+        	
+        	contour.lineTo(last.x, last.y);
+        	contour.lineTo(last.x, yBase);
+        	
         	path.close();
         	
         	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
@@ -184,17 +195,24 @@ public class MoodGraph extends Activity {
 	    }
 	    
 	    private void drawLineChart() {
-	    	int yBase = visualRatings.getGraphRect().bottom;
+	    	int yBase = visualRatings.getGraphRect().height() - visualRatings.getTimeline().getHeight();
         	Point first = visualRatings.getPoints().get(0);
         	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
         	
         	Path curve = new Path();
         	Path contour = new Path();
         	
-        	curve.moveTo(0, 0);
-        	curve.lineTo(0, visualRatings.getPoints().get(1).y);
+        	curve.moveTo(0, visualRatings.getTimeline().getHeight());
+        	curve.lineTo(0, yBase);
+        	curve.lineTo(first.x, yBase);
         	curve.lineTo(first.x, first.y);
-        	for (int i = 1; i < visualRatings.getPoints().size() - 3; i += 2) {
+        	
+        	contour.moveTo(0, visualRatings.getTimeline().getHeight());
+        	contour.lineTo(0, yBase);
+        	contour.lineTo(first.x, yBase);
+        	contour.lineTo(first.x, first.y);
+        	
+        	for (int i = 0; i < visualRatings.getPoints().size() - 3; i += 2) {
         		Point periodStart = visualRatings.getPoints().get(i);
         		Point periodEnd = visualRatings.getPoints().get(i + 1);
         		Point nextPeriodStart = visualRatings.getPoints().get(i + 2);
@@ -212,9 +230,14 @@ public class MoodGraph extends Activity {
         		contour.quadTo(controlPoint2.x, controlPoint2.y, end.x, end.y);
         	}
         	
+        	curve.lineTo(last.x, last.y);
         	curve.lineTo(last.x, yBase);
-        	curve.lineTo(last.x, 0);
-        	    	
+        	curve.lineTo(visualRatings.getGraphRect().width(), yBase);
+        	curve.lineTo(visualRatings.getGraphRect().width(), visualRatings.getTimeline().getHeight());
+        	
+        	contour.lineTo(last.x, last.y);
+        	contour.lineTo(last.x, yBase);
+        	
         	curve.close();
         	
         	cachedCanvas.drawPath(contour, contourPaint);

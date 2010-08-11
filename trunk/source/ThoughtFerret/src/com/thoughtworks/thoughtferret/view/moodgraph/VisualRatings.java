@@ -44,7 +44,7 @@ public class VisualRatings {
 
 	private void createPoints() {		
 		points = new ArrayList<Point>();
-		points.add(new Point(0, timeline.getHeight()));
+		//points.add(new Point(0, timeline.getHeight()));
 		
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
@@ -60,7 +60,7 @@ public class VisualRatings {
 			x += periodSize;
 		}
 		
-		points.add(new Point(x, timeline.getHeight()));
+		//points.add(new Point(x, timeline.getHeight()));
 	}
 	
 	private int getY(RatingPeriod period) {
