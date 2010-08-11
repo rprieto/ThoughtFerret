@@ -1,9 +1,11 @@
 package com.thoughtworks.thoughtferret.view.moodgraph;
 
+import static com.thoughtworks.thoughtferret.DateUtils.endOfMonth;
+import static com.thoughtworks.thoughtferret.DateUtils.startOfMonth;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Seconds;
@@ -11,7 +13,6 @@ import org.joda.time.Seconds;
 import android.graphics.Rect;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
-import static com.thoughtworks.thoughtferret.DateUtils.*;
 
 public class Timeline {
 
