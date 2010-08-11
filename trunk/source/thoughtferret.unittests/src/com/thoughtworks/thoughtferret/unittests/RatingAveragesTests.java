@@ -19,7 +19,7 @@ public class RatingAveragesTests {
 				new MoodRating("17-08-2010 16:03", 1),
 				new MoodRating("09-09-2010 18:16", 2));
 		RatingAverages averages = new RatingAverages(ratings, 30);
-		assertEquals(5, averages.getAverages().size());
+		assertEquals(4, averages.getAverages().size());
 	}
 
 	@Test
@@ -29,9 +29,8 @@ public class RatingAveragesTests {
 				new MoodRating("17-08-2010 16:03", 1),
 				new MoodRating("09-09-2010 18:16", 2));
 		RatingAverages averages = new RatingAverages(ratings, 30);
-		assertEquals(5, averages.getAverages().size());
+		assertEquals(4, averages.getAverages().size());
 		assertFalse(averages.getAverages().get(1).hasRatings());
 	}
 
-	
 }

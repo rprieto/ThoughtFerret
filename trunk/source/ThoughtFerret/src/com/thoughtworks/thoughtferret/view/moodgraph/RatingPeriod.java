@@ -3,32 +3,32 @@ package com.thoughtworks.thoughtferret.view.moodgraph;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.LocalDateTime;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 
 public class RatingPeriod {
 	
-	private DateTime startDate;
-	private DateTime endDate;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 	private List<MoodRating> ratings;
 	
-	public RatingPeriod(DateTime startDate, DateTime endDate) {
+	public RatingPeriod(LocalDateTime startDate, LocalDateTime endDate) {
 		this.startDate = startDate;
 		this.endDate = endDate;
 		ratings = new ArrayList<MoodRating>();
 	}
 
-	public DateTime getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 
-	public DateTime getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 
-	public boolean contains(DateTime date) {
+	public boolean contains(LocalDateTime date) {
 		return date.isAfter(startDate) && date.isBefore(endDate);
 	}
 	

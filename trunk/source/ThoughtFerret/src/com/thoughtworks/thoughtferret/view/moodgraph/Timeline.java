@@ -5,10 +5,13 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.LocalDateTime;
+import org.joda.time.Seconds;
 
 import android.graphics.Rect;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import static com.thoughtworks.thoughtferret.DateUtils.*;
 
 public class Timeline {
 
@@ -38,10 +41,10 @@ public class Timeline {
 	
 	private void createTimeline(MoodRatings ratings, int top, int bottom) {
 		int x = 0;
-		DateTime current = startOfMonth(ratings.getFirst().getLoggedDate());
-		DateTime lastDate = startOfNextMonth(ratings.getLast().getLoggedDate());		
+		LocalDateTime current = startOfMonth(ratings.getFirst().getLoggedDate());
+		LocalDateTime lastDate = endOfMonth(ratings.getLast().getLoggedDate());		
 		while (current.isBefore(lastDate)) {
-			DateTime next = startOfNextMonth(current);
+			LocalDateTime next = endOfMonth(current).plus(Seconds.ONE);
 			String label = current.toString("MMMM yyyy");
 			int nbDays = Days.daysBetween(current, next).getDays();
 			int monthSize = nbDays * pixelsPerDay;
@@ -52,12 +55,6 @@ public class Timeline {
 		}
 	}
 	
-	private DateTime startOfMonth(DateTime date) {
-		return date.withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
-	}
-	
-	private DateTime startOfNextMonth(DateTime date) {
-		return date.plusMonths(1).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
-	}
+
 	
 }

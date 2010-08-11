@@ -48,7 +48,7 @@ public class MoodRatingDao {
 	
 	private void insertIntoDatabase(MoodRating moodRating, SQLiteDatabase database) {
 		ContentValues values = new ContentValues();
-		values.put("loggedDate", moodRating.getLoggedDate().getMillis());
+		values.put("loggedDate", moodRating.getLoggedDate().toDateTime().getMillis());
 		values.put("rating", moodRating.getRating());
 		database.insert("MoodRating", "loggedDate", values);
 	}
