@@ -1,5 +1,7 @@
 package com.thoughtworks.thoughtferret.view.moodgraph;
 
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -22,6 +24,9 @@ import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.Scroll;
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.BarChart;
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.Chart;
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.LineChart;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
@@ -88,7 +93,7 @@ public class MoodGraph extends Activity {
 
 		private Paint nopPaint;
 		private Paint textPaint;
-		private Paint contourPaint;
+		private Paint edgePaint;
 		private Paint bannerPaint;
 		private Paint gridMinorPaint;
 
@@ -96,6 +101,8 @@ public class MoodGraph extends Activity {
 		private Bitmap cachedBitmap;
 		private Canvas cachedCanvas;
 		private Screen screen;
+		
+		private HashMap<ChartType, Chart> charts;
 		
 	    public Panel(Context context) {
 	        super(context, null);
@@ -110,10 +117,14 @@ public class MoodGraph extends Activity {
 	       
 	        nopPaint = new Paint();
 			textPaint = new FontPaint(0xFF000000, 22, Paint.Align.CENTER);
-			contourPaint = new LinePaint(0xAA000000, 1f);
+			edgePaint = new LinePaint(0xAA000000, 1f);
 			gridMinorPaint = new LinePaint(0x99AAAAAA, 1f);
 			gridMinorPaint.setPathEffect(new DottedEffect());
 			bannerPaint = new FillPaint(0xAACCCCCC);
+			
+			charts = new HashMap<ChartType, Chart>();
+			charts.put(ChartType.BAR, new BarChart(appBackground.getFadeOverlayPaint(), edgePaint));
+			charts.put(ChartType.LINE, new LineChart(appBackground.getFadeOverlayPaint(), edgePaint));
 			
 			createCachedGraph();
 	    }
@@ -156,21 +167,8 @@ public class MoodGraph extends Activity {
 		}
 	    
 	    private void drawGraph() {
-	    	if (visualRatings.getOptions().getType() == ChartType.BAR) {
-	    		drawBarChart();
-	    	} else {
-	    		drawLineChart();
-	    	}
-	    }
-	    
-	    private void drawBarChart() {
-	    	BarChart barChart = new BarChart(appBackground.getFadeOverlayPaint(), contourPaint);
-	    	barChart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
-	    }
-	    
-	    private void drawLineChart() {
-	    	LineChart lineChart = new LineChart(appBackground.getFadeOverlayPaint(), contourPaint);
-	    	lineChart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
+	    	Chart chart = charts.get(visualRatings.getOptions().getType());
+	    	chart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
 	    }
 	    
 	    private void drawTimeline() {
@@ -184,7 +182,7 @@ public class MoodGraph extends Activity {
 	    
 	    private void drawTimeUnit(Rect rect, String text) {
     		cachedCanvas.drawRect(rect, bannerPaint);
-    		cachedCanvas.drawRect(rect, contourPaint);
+    		cachedCanvas.drawRect(rect, edgePaint);
     		cachedCanvas.drawText(text, rect.centerX(), rect.centerY() + 5, textPaint);
 	    }
 	    

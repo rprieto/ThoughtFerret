@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.view.moodgraph.charts;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public class BarChart {
+public class BarChart implements Chart {
 
 	private Paint chartPaint;
 	private Paint edgePaint;

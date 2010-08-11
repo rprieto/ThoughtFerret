@@ -5,10 +5,8 @@ import java.util.List;
 
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.thoughtworks.thoughtferret.MathUtils;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.Screen;
 
