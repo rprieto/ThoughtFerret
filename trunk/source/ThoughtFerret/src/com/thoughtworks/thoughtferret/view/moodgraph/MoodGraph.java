@@ -7,9 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,7 +17,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 
-import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
@@ -126,9 +123,9 @@ public class MoodGraph extends Activity {
 	    		cachedBitmap.recycle();
 	    		cachedBitmap = null;
 	    	}	    	
-	    	cachedBitmap = Bitmap.createBitmap(visualRatings.getGraphRect().width(), visualRatings.getGraphRect().height(), Bitmap.Config.ARGB_8888);
+	    	cachedBitmap = Bitmap.createBitmap(visualRatings.getFullRect().width(), visualRatings.getFullRect().height(), Bitmap.Config.ARGB_8888);
 	    	cachedCanvas = new Canvas(cachedBitmap);
-	    	setFullSize(visualRatings.getGraphRect());
+	    	setFullSize(visualRatings.getFullRect());
 	    	cachedBitmap.eraseColor(0x00000000);
 			drawGrid();
 	    	drawGraph();	    	
@@ -167,81 +164,13 @@ public class MoodGraph extends Activity {
 	    }
 	    
 	    private void drawBarChart() {
-	    	Path path = new Path();	 
-        	Path contour = new Path();
-        	
-        	int yBase = visualRatings.getGraphRect().height() - visualRatings.getTimeline().getHeight();
-        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
-        	path.moveTo(0, visualRatings.getTimeline().getHeight());
-        
-        	for (int i = 0; i < visualRatings.getPoints().size(); ++i) {
-        		Point current = visualRatings.getPoints().get(i);
-        		path.lineTo(current.x, current.y);
-        		contour.lineTo(current.x, current.y);
-        	}
-        	
-        	path.lineTo(last.x, last.y);
-        	path.lineTo(last.x, yBase);
-        	path.lineTo(visualRatings.getGraphRect().width(), yBase);
-        	path.lineTo(visualRatings.getGraphRect().width(), visualRatings.getTimeline().getHeight());
-        	
-        	contour.lineTo(last.x, last.y);
-        	contour.lineTo(last.x, yBase);
-        	
-        	path.close();
-        	
-        	cachedCanvas.drawPath(path, appBackground.getFadeOverlayPaint()); 
-        	cachedCanvas.drawPath(contour, contourPaint);
+	    	BarChart barChart = new BarChart(appBackground.getFadeOverlayPaint(), contourPaint);
+	    	barChart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
 	    }
 	    
 	    private void drawLineChart() {
-	    	int yBase = visualRatings.getGraphRect().height() - visualRatings.getTimeline().getHeight();
-        	Point first = visualRatings.getPoints().get(0);
-        	Point last = visualRatings.getPoints().get(visualRatings.getPoints().size() - 1);
-        	
-        	Path curve = new Path();
-        	Path contour = new Path();
-        	
-        	curve.moveTo(0, visualRatings.getTimeline().getHeight());
-        	curve.lineTo(0, yBase);
-        	curve.lineTo(first.x, yBase);
-        	curve.lineTo(first.x, first.y);
-        	
-        	contour.moveTo(0, visualRatings.getTimeline().getHeight());
-        	contour.lineTo(0, yBase);
-        	contour.lineTo(first.x, yBase);
-        	contour.lineTo(first.x, first.y);
-        	
-        	for (int i = 0; i < visualRatings.getPoints().size() - 3; i += 2) {
-        		Point periodStart = visualRatings.getPoints().get(i);
-        		Point periodEnd = visualRatings.getPoints().get(i + 1);
-        		Point nextPeriodStart = visualRatings.getPoints().get(i + 2);
-        		Point nextPeriodEnd = visualRatings.getPoints().get(i + 3);        	
-        		Point start = MathUtils.getMiddle(periodStart, periodEnd);
-        		Point end = MathUtils.getMiddle(nextPeriodStart, nextPeriodEnd);
-        		Point mid = MathUtils.getMiddle(start, end);
-        		Point controlPoint1 = new Point(mid.x, start.y);
-        		Point controlPoint2 = new Point(mid.x, end.y);
-        		
-        		curve.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-        		curve.quadTo(controlPoint2.x, controlPoint2.y, end.x, end.y);
-
-        		contour.quadTo(controlPoint1.x, controlPoint1.y, mid.x, mid.y);
-        		contour.quadTo(controlPoint2.x, controlPoint2.y, end.x, end.y);
-        	}
-        	
-        	curve.lineTo(last.x, last.y);
-        	curve.lineTo(last.x, yBase);
-        	curve.lineTo(visualRatings.getGraphRect().width(), yBase);
-        	curve.lineTo(visualRatings.getGraphRect().width(), visualRatings.getTimeline().getHeight());
-        	
-        	contour.lineTo(last.x, last.y);
-        	contour.lineTo(last.x, yBase);
-        	
-        	curve.close();
-        	
-        	cachedCanvas.drawPath(contour, contourPaint);
-        	cachedCanvas.drawPath(curve, appBackground.getFadeOverlayPaint());
+	    	LineChart lineChart = new LineChart(appBackground.getFadeOverlayPaint(), contourPaint);
+	    	lineChart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
 	    }
 	    
 	    private void drawTimeline() {

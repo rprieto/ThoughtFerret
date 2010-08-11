@@ -43,10 +43,8 @@ public class VisualRatings {
 	}
 
 	private void createPoints() {		
-		points = new ArrayList<Point>();
-		//points.add(new Point(0, timeline.getHeight()));
-		
 		int x = 0;
+		points = new ArrayList<Point>();
 		for (RatingPeriod period : averages.getAverages()) {
 			int periodSize = period.getDays() * getDaySize();
 			if (period.hasRatings()) {
@@ -59,8 +57,6 @@ public class VisualRatings {
 			}
 			x += periodSize;
 		}
-		
-		//points.add(new Point(x, timeline.getHeight()));
 	}
 	
 	private int getY(RatingPeriod period) {
@@ -69,8 +65,15 @@ public class VisualRatings {
 		return (int) MathUtils.projectReversed(1, 5, worstY, bestY, period.getAverage().doubleValue());
 	}
 	
-	public Rect getGraphRect() {
+	public Rect getFullRect() {
 		return graphRect;
+	}
+	
+	public Rect getChartArea() {
+		Rect chart = new Rect(graphRect);
+		chart.top += timeline.getHeight();
+		chart.bottom -= timeline.getHeight();
+		return chart;
 	}
 	
 	public List<Point> getPoints() {
