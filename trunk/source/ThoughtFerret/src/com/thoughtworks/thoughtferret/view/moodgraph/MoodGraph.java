@@ -50,9 +50,8 @@ public class MoodGraph extends Activity {
 	
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		final GraphOptions options = new GraphOptions(this, null);
-		options.setChartType(ChartType.LINE);
-		options.setDaysToShowOnScreen(340);
+		final OptionsPopup options = new OptionsPopup(this, null);
+		options.setOptions(panel.getChartOptions());
 		
 		final Dialog dialog = new Dialog(this);
 		dialog.setTitle("Graph options");
@@ -62,8 +61,7 @@ public class MoodGraph extends Activity {
 				new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						options.getDaysToShowOnScreen();
-						options.getChartType();
+						panel.setChartOptions(options.getOptions());
 						dialog.dismiss();
 					}
 				});
@@ -137,8 +135,12 @@ public class MoodGraph extends Activity {
 	    	drawTimeline();
 	    }
 	    
-		public void setZoom(ZoomLevel zoomLevel) {
-	    	visualRatings.setZoom(zoomLevel);
+		public ChartOptions getChartOptions() {
+			return visualRatings.getOptions();
+		}
+		
+		public void setChartOptions(ChartOptions options) {
+	    	visualRatings.setOptions(options);
 	    	createCachedGraph();
 			invalidate();
 		}
@@ -157,8 +159,11 @@ public class MoodGraph extends Activity {
 		}
 	    
 	    private void drawGraph() {
-	    	drawBarChart();
-	    	if (false) { drawLineChart(); }
+	    	if (visualRatings.getOptions().getType() == ChartType.BAR) {
+	    		drawBarChart();
+	    	} else {
+	    		drawLineChart();
+	    	}
 	    }
 	    
 	    private void drawBarChart() {

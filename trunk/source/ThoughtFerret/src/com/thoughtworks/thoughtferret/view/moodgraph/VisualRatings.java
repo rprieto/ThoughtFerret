@@ -16,29 +16,27 @@ public class VisualRatings {
 
 	private static final int PERIOD_IN_PIXELS = 100;
 	
+	private ChartOptions chartOptions;
 	private MoodRatings moodRatings;
 	private RatingAverages averages;
 	private Timeline timeline;
 	private Grid grid;
 	private List<Point> points;
 	
-	
 	private Rect graphRect;
 	private Screen screen;
 	
-	private ZoomLevel currentZoom = ZoomLevel.QUARTER;
-
 	public VisualRatings(MoodRatings ratings, Screen screen) {
 		this.screen = screen;	
 		this.moodRatings = ratings;
+		chartOptions = new ChartOptions(ChartType.BAR, 30 * 4);
 		refresh();
 	}
 
 	private void refresh() {
-        int daySize = currentZoom.getPixelsPerDay(screen.width());
-        int nbDaysInPeriod = PERIOD_IN_PIXELS / daySize;
+        int nbDaysInPeriod = PERIOD_IN_PIXELS / getDaySize();
         averages = new RatingAverages(moodRatings, nbDaysInPeriod);
-        timeline = new Timeline(moodRatings, daySize);
+        timeline = new Timeline(moodRatings, getDaySize());
         graphRect = new Rect(0, 0, timeline.getWidth(), screen.height());
         grid = new Grid(averages.getAverages(), timeline, graphRect, getDaySize());
 		createPoints();		
@@ -47,19 +45,12 @@ public class VisualRatings {
 	private void createPoints() {		
 		points = new ArrayList<Point>();
 		points.add(new Point(0, timeline.getHeight()));
-		//Point lastPoint = null;
-		
-		int bestY = timeline.getHeight() * 2;
-		int worstY = screen.height() - timeline.getHeight() * 2;
-		Log.i("Graph", "Graph min max = " + bestY + " , " + worstY);
 		
 		int x = 0;
 		for (RatingPeriod period : averages.getAverages()) {
 			int periodSize = period.getDays() * getDaySize();
 			if (period.hasRatings()) {
 				int y = getY(period);
-				Log.i("Graph", "Period average " + period.getAverage().doubleValue() + " = " + y + "px");
-				//lastPoint = new Point(x + periodSize, y);
 				points.add(new Point(x, y));
 				points.add(new Point(x + periodSize, y));
 			} else {
@@ -70,7 +61,6 @@ public class VisualRatings {
 		}
 		
 		points.add(new Point(x, timeline.getHeight()));
-		//points.add(lastPoint);
 	}
 	
 	private int getY(RatingPeriod period) {
@@ -94,14 +84,18 @@ public class VisualRatings {
 	public Grid getGrid() {
 		return grid;
 	}
-	
-	public void setZoom(ZoomLevel level) {
-		currentZoom = level;
-		refresh();
-	}
 
 	private int getDaySize() {
-		return currentZoom.getPixelsPerDay(screen.width());
+		return screen.width() / chartOptions.getDaysOnScreen();
+	}
+
+	public void setOptions(ChartOptions options) {
+		chartOptions = options;
+		refresh();
+	}
+	
+	public ChartOptions getOptions() {
+		return chartOptions;
 	}
 	
 }
