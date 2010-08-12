@@ -1,18 +1,14 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.unit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.moodgraph.RatingAverages;
 
-public class RatingAveragesTests {
+public class RatingAveragesTests extends TestCase {
 
-	@Test
-	public void shouldCalculateAveragesWhenAllPeriodsHaveRatings() {
+	public void testShouldCalculateAveragesWhenAllPeriodsHaveRatings() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating("04-06-2010 09:45", 3),
 				new MoodRating("22-07-2010 16:28", 3),
@@ -22,8 +18,7 @@ public class RatingAveragesTests {
 		assertEquals(4, averages.getAverages().size());
 	}
 
-	@Test
-	public void shouldCalculateAveragesWhenAPeriodHasNoRatings() {
+	public void testShouldCalculateAveragesWhenAPeriodHasNoRatings() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating("04-06-2010 09:45", 3),
 				new MoodRating("17-08-2010 16:03", 1),

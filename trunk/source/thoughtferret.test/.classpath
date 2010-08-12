@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ThoughtFerret"/>
 	<classpathentry kind="lib" path="libs/junit-4.9/junit-4.9-SNAPSHOT-20100512-0041.jar"/>
-	<classpathentry kind="lib" path="libs/joda-time-1.6/joda-time-1.6.jar"/>
-	<classpathentry kind="lib" path="/Users/rprieto/Documents/Dev/android-sdk_r06-mac_86/platforms/android-7/android.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,14 +1,13 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.unit;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.presenter.MoodTagsBuilder;
 
-public class KeywordsEditorPresenterTests {
+public class MoodTagsBuilderTests extends TestCase {
 	
-	@Test
 	public void testCanMergeForwardFromTheStart() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));
@@ -16,7 +15,6 @@ public class KeywordsEditorPresenterTests {
 		presenter.getKeywords().equals(Arrays.asList("one two", "three", "four"));
 	}
 
-	@Test
 	public void testCanMergeForwardInTheMiddle() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));
@@ -24,7 +22,6 @@ public class KeywordsEditorPresenterTests {
 		presenter.getKeywords().equals(Arrays.asList("one", "two three", "four"));
 	}
 
-	@Test
 	public void testCanMergeForwardAtTheEnd() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));
@@ -32,7 +29,6 @@ public class KeywordsEditorPresenterTests {
 		presenter.getKeywords().equals(Arrays.asList("one", "two", "three four"));
 	}
 	
-	@Test
 	public void testCanMergeBackwardsToTheStart() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));
@@ -40,7 +36,6 @@ public class KeywordsEditorPresenterTests {
 		presenter.getKeywords().equals(Arrays.asList("two one", "three", "four"));
 	}
 
-	@Test
 	public void testCanMergeBackwardsInTheMiddle() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));
@@ -48,7 +43,6 @@ public class KeywordsEditorPresenterTests {
 		presenter.getKeywords().equals(Arrays.asList("one", "three two", "four"));
 	}
 
-	@Test
 	public void testCanMergeBackwardsFromTheEnd() {
 		MoodTagsBuilder presenter = new MoodTagsBuilder();
 		presenter.addKeywords(Arrays.asList("one", "two", "three", "four"));

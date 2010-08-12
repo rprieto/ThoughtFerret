@@ -1,19 +1,16 @@
-package com.thoughtworks.thoughtferret.unittests;
-
-import static org.junit.Assert.assertEquals;
+package com.thoughtworks.thoughtferret.test.unit;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
-public class MoodRatingsTests {
+public class MoodRatingsTests extends TestCase {
 
-	@Test
-	public void shouldGetMonthsFromListOfRatings() {
+	public void testShouldGetMonthsFromListOfRatings() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating("16-07-2010 09:45", 3),
 				new MoodRating("18-07-2010 16:28", 3),

@@ -1,22 +1,18 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.unit;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
-public class MathUtilsTests {
+public class MathUtilsTests extends TestCase {
 
-	@Test
-	public void projectShouldCalculateInterpolatedValue() {
+	public void testProjectShouldCalculateInterpolatedValue() {
 		int result = MathUtils.project(1, 5, 10, 50, 2);
 		assertEquals(20, result);
 	}
 	
-	@Test
-	public void projectShouldRejectOutOfRangeValues() {
+	public void testProjectShouldRejectOutOfRangeValues() {
 		Ensure.thatBreaksContract(new Runnable() {
 			public void run() {
 				MathUtils.project(1, 5, 10, 50, 7);
@@ -24,8 +20,7 @@ public class MathUtilsTests {
 		});
 	}
 	
-	@Test
-	public void projectShouldRejectReversedRanges() {
+	public void testProjectShouldRejectReversedRanges() {
 		Ensure.thatBreaksContract(new Runnable() {
 			public void run() {
 				MathUtils.project(1, 5, 50, 10, 2);
@@ -33,14 +28,12 @@ public class MathUtilsTests {
 		});
 	}
 	
-	@Test
-	public void projectReverseShouldAcceptReversedRanges() {
+	public void testProjectReverseShouldAcceptReversedRanges() {
 		int result = MathUtils.projectReversed(1, 5, 50, 10, 2);
 		assertEquals(40, result);
 	}
 	
-	@Test
-	public void projectReversedShouldRejectNormalRanges() {
+	public void testProjectReversedShouldRejectNormalRanges() {
 		Ensure.thatBreaksContract(new Runnable() {
 			public void run() {
 				MathUtils.projectReversed(1, 5, 10, 50, 2);

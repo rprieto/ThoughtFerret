@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.unit;
 
 import org.joda.time.LocalDateTime;
 

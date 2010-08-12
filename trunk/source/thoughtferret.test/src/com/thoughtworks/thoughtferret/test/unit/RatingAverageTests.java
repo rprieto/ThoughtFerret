@@ -1,32 +1,27 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.unit;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.TestCase;
 
-import org.junit.Test;
-
+import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.view.moodgraph.RatingAverage;
-import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
-public class RatingAverageTests {
+public class RatingAverageTests extends TestCase {
 
-	@Test
-	public void ratingAveragesShouldBeEqualBasedOnOneDecimalDigit() {
+	public void testRatingAveragesShouldBeEqualBasedOnOneDecimalDigit() {
 		verifyRatingAverageEquals(3, 3, true);
 		verifyRatingAverageEquals(3.1, 3.12, true);
 		verifyRatingAverageEquals(3.99, 3.76, false);
 		verifyRatingAverageEquals(0.111, 0.123, true);
 	}
 
-	@Test
-	public void ratingAveragesShouldBeRoundedHalfUp() {
+	public void testRatingAveragesShouldBeRoundedHalfUp() {
 		verifyRatingAverageEquals(0.10, 0.19, false);
 		verifyRatingAverageEquals(0.16, 0.17, true);
 		verifyRatingAverageEquals(1.19, 1.21, true);
 	}
 	
-	@Test
-	public void ratingAverageShouldBeInTheBoundariesOfMoodRating() {
+	public void testRatingAverageShouldBeInTheBoundariesOfMoodRating() {
 		Ensure.thatBreaksContract(new Runnable() {
 			public void run() {	new RatingAverage(-1d);	}
 		});

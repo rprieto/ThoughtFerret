@@ -1,17 +1,14 @@
-package com.thoughtworks.thoughtferret.unittests;
+package com.thoughtworks.thoughtferret.test.integration;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
+import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
 import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.moodgraph.Timeline;
 
-public class TimelineTests {
+public class TimelineTests extends TestCase {
 
-	@Test
-	public void timelineShouldCreateOneUnitPerMonth() {
+	public void testTimelineShouldCreateOneUnitPerMonth() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating("05-06-2010 09:45", 1),
 				new MoodRating("20-09-2010 12:56", 1));
@@ -19,8 +16,7 @@ public class TimelineTests {
 		assertEquals(4, timeline.getUnits().size());
 	}
 	
-	@Test
-	public void timelineShouldCalculateTheRightSizeBasedOnTheNumberOfDaysInAMonth() {
+	public void testTimelineShouldCalculateTheRightSizeBasedOnTheNumberOfDaysInAMonth() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating("05-06-2010 09:45", 1),
 				new MoodRating("20-09-2010 12:56", 1));
