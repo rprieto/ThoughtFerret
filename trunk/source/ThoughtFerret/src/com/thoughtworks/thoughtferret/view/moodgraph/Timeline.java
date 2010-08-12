@@ -46,7 +46,7 @@ public class Timeline {
 		LocalDateTime lastDate = endOfMonth(ratings.getLast().getLoggedDate());		
 		while (current.isBefore(lastDate)) {
 			LocalDateTime next = endOfMonth(current).plus(Seconds.ONE);
-			String label = current.toString("MMMM yyyy");
+			String label = getMonthName(current);
 			int nbDays = Days.daysBetween(current, next).getDays();
 			int monthSize = nbDays * pixelsPerDay;
 			Rect rect = new Rect(x, top, x + monthSize, bottom);
@@ -56,6 +56,12 @@ public class Timeline {
 		}
 	}
 	
-
+	private String getMonthName(LocalDateTime date) {
+		if (pixelsPerDay * 30 > 150) {
+			return date.toString("MMM yyyy");
+		} else {
+			return date.toString("MM-yy");
+		}
+	}
 	
 }
