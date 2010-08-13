@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.view.moodgraph.graph;
 
 import static com.thoughtworks.thoughtferret.DateUtils.endOfMonth;
 import static com.thoughtworks.thoughtferret.DateUtils.startOfMonth;
@@ -6,7 +6,6 @@ import static com.thoughtworks.thoughtferret.DateUtils.startOfMonth;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Seconds;
 
@@ -16,15 +15,15 @@ import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 
 public class Timeline {
 
-	private static final int TIMELINE_HEIGHT = 50;
+	public static final int HEIGHT = 50;
 	
 	private List<TimeUnit> timeUnits;
-	private int pixelsPerDay;
+	private Chronology chronology;
 	
-	public Timeline(MoodRatings ratings, int pixelsPerDay) {
+	public Timeline(MoodRatings ratings, Chronology chronology) {
 		timeUnits = new ArrayList<TimeUnit>();
-		this.pixelsPerDay = pixelsPerDay;
-		createTimeline(ratings, 0, TIMELINE_HEIGHT);
+		this.chronology = chronology;
+		createTimeline(ratings, 0, HEIGHT);
 	}
 		
 	public List<TimeUnit> getUnits() {
@@ -37,31 +36,29 @@ public class Timeline {
 	}
 	
 	public int getHeight() {
-		return TIMELINE_HEIGHT;
+		return HEIGHT;
 	}
 	
 	private void createTimeline(MoodRatings ratings, int top, int bottom) {
-		int x = 0;
-		LocalDateTime current = startOfMonth(ratings.getFirst().getLoggedDate());
+		LocalDateTime start = startOfMonth(ratings.getFirst().getLoggedDate());
 		LocalDateTime lastDate = endOfMonth(ratings.getLast().getLoggedDate());		
-		while (current.isBefore(lastDate)) {
-			LocalDateTime next = endOfMonth(current).plus(Seconds.ONE);
-			String label = getMonthName(current);
-			int nbDays = Days.daysBetween(current, next).getDays();
-			int monthSize = nbDays * pixelsPerDay;
-			Rect rect = new Rect(x, top, x + monthSize, bottom);
+		while (start.isBefore(lastDate)) {
+			LocalDateTime end = endOfMonth(start).plus(Seconds.ONE);
+			String label = getMonthName(start);
+			int x1 = chronology.getX(start);
+			int x2 = chronology.getX(end);
+			Rect rect = new Rect(x1, top, x2, bottom);
 			timeUnits.add(new TimeUnit(rect, label));
-			current = next;
-			x += monthSize;
+			start = end;
 		}
 	}
 	
 	private String getMonthName(LocalDateTime date) {
-		if (pixelsPerDay * 30 > 150) {
+		//if (pixelsPerDay * 30 > 150) {
 			return date.toString("MMM yyyy");
-		} else {
-			return date.toString("MM-yy");
-		}
+		//} else {
+		//	return date.toString("MM-yy");
+		//}
 	}
 	
 }

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.view.moodgraph.RatingAverage;
+import com.thoughtworks.thoughtferret.model.mood.RatingAverage;
 
 public class RatingAverageTests extends TestCase {
 

@@ -31,8 +31,14 @@
 		<activity android:name=".view.DemoHacks"
 				  android:label="@string/app_name">
 		</activity>
+		<receiver android:name=".scheduler.AlarmReceiver">
+		</receiver>
+		<receiver android:name=".scheduler.BootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
 	</application>
-
-
-<uses-sdk android:minSdkVersion="7"></uses-sdk>
-</manifest> 
+	<uses-sdk android:minSdkVersion="7"></uses-sdk>
+</manifest>
+ 

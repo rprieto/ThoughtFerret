@@ -1,5 +1,7 @@
 package com.thoughtworks.thoughtferret.view.moodgraph;
 
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.ChartType;
+
 public class ChartOptions {
 
 	public static final int MONTH = 30;

@@ -7,7 +7,7 @@ import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.view.moodgraph.RatingPeriod;
+import com.thoughtworks.thoughtferret.model.mood.RatingPeriod;
 
 public class RatingPeriodTests extends TestCase {
 

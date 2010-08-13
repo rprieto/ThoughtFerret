@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.view.moodgraph.graph;
 
 import android.graphics.Rect;
 

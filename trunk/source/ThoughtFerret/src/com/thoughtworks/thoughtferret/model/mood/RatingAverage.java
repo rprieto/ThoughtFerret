@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.model.mood;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.model.mood;
 
 import java.util.ArrayList;
 import java.util.List;

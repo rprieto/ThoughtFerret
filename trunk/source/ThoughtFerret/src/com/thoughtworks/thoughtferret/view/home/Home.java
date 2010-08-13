@@ -46,10 +46,6 @@ public class Home extends Activity {
         LinearLayout starContainer = (LinearLayout) findViewById(R.id.starContainer); 
         FallingStars stars = new FallingStars(this, starContainer);
         stars.startAnimation();
-        
-//        Typeface typeFace = Typeface.createFromAsset(getAssets(), "fonts/handmadetypewriter.ttf");
-//        TextView homeUpdate = (TextView) findViewById(R.id.homeUpdate);
-//        homeUpdate.setTypeface(typeFace);
 	}
 	
 	public void updateClick(View view) {

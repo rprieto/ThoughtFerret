@@ -13,6 +13,7 @@ import android.widget.SeekBar;
 import com.google.common.collect.ImmutableBiMap;
 import com.thoughtworks.thoughtferret.MathUtils;
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.ChartType;
 
 public class OptionsPopup extends LinearLayout implements OnClickListener {
 	

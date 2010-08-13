@@ -26,7 +26,10 @@ import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.Scroll;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.BarChart;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.Chart;
+import com.thoughtworks.thoughtferret.view.moodgraph.charts.ChartType;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.LineChart;
+import com.thoughtworks.thoughtferret.view.moodgraph.graph.FullGraph;
+import com.thoughtworks.thoughtferret.view.moodgraph.graph.TimeUnit;
 import com.thoughtworks.thoughtferret.view.paints.DottedEffect;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
@@ -89,7 +92,8 @@ public class MoodGraph extends Activity {
 	
 	class Panel extends Scroll {
 		 
-		private VisualRatings visualRatings;
+		private FullGraph fullGraph;
+		private ChartOptions options;
 
 		private Paint nopPaint;
 		private Paint textPaint;
@@ -111,7 +115,8 @@ public class MoodGraph extends Activity {
 	        
 	        MoodRatingDao dao = new MoodRatingDao(context);
 	        MoodRatings ratings = dao.findAll();
-	        visualRatings = new VisualRatings(ratings, screen); 
+	        options = new ChartOptions(ChartType.BAR, ChartOptions.SEMESTER);
+	        fullGraph = new FullGraph(screen, ratings, options); 
 	        
 	        appBackground = new ApplicationBackground(context, ApplicationBackground.GradientDirection.VERTICAL, false);
 	       
@@ -134,9 +139,9 @@ public class MoodGraph extends Activity {
 	    		cachedBitmap.recycle();
 	    		cachedBitmap = null;
 	    	}	    	
-	    	cachedBitmap = Bitmap.createBitmap(visualRatings.getFullRect().width(), visualRatings.getFullRect().height(), Bitmap.Config.ARGB_8888);
+	    	cachedBitmap = Bitmap.createBitmap(fullGraph.getFullRect().width(), fullGraph.getFullRect().height(), Bitmap.Config.ARGB_8888);
 	    	cachedCanvas = new Canvas(cachedBitmap);
-	    	setFullSize(visualRatings.getFullRect());
+	    	setFullSize(fullGraph.getFullRect());
 	    	cachedBitmap.eraseColor(0x00000000);
 			drawGrid();
 	    	drawGraph();	    	
@@ -144,11 +149,11 @@ public class MoodGraph extends Activity {
 	    }
 	    
 		public ChartOptions getChartOptions() {
-			return visualRatings.getOptions();
+			return fullGraph.getOptions();
 		}
 		
 		public void setChartOptions(ChartOptions options) {
-	    	visualRatings.setOptions(options);
+			fullGraph.setOptions(options);
 	    	createCachedGraph();
 			invalidate();
 		}
@@ -167,12 +172,12 @@ public class MoodGraph extends Activity {
 		}
 	    
 	    private void drawGraph() {
-	    	Chart chart = charts.get(visualRatings.getOptions().getType());
-	    	chart.draw(cachedCanvas, visualRatings.getChartArea(), visualRatings.getPoints());
+	    	Chart chart = charts.get(fullGraph.getOptions().getType());
+	    	chart.draw(cachedCanvas, fullGraph.getChartRect(), fullGraph.getData().getPoints());
 	    }
 	    
 	    private void drawTimeline() {
-	    	for (TimeUnit unit : visualRatings.getTimeline().getUnits()) {
+	    	for (TimeUnit unit : fullGraph.getTimeline().getUnits()) {
 	    		Rect bottomRect = new Rect(unit.getRect());
 	    		bottomRect.offset(0, screen.height() - unit.getRect().height());
 	    		drawTimeUnit(unit.getRect(), unit.getText());
@@ -187,7 +192,7 @@ public class MoodGraph extends Activity {
 	    }
 	    
 	    private void drawGrid() {
-	    	for (Rect line : visualRatings.getGrid().getLines()) {
+	    	for (Rect line : fullGraph.getGrid().getLines()) {
 	    		cachedCanvas.drawLine(line.left, line.top, line.right, line.bottom, gridMinorPaint);
 			}
 	    }
