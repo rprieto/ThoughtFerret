@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import com.thoughtworks.thoughtferret.presenter.MoodTagsBuilder;
+import com.thoughtworks.thoughtferret.model.tags.MoodTagsBuilder;
 
 public class MoodTagsBuilderTests extends TestCase {
 	
