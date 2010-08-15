@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.presenter;
+package com.thoughtworks.thoughtferret.model.tags;
 
 import java.util.ArrayList;
 import java.util.Iterator;

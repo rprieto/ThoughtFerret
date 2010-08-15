@@ -7,7 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.thoughtworks.thoughtferret.view.preferences.FerretFrequency;
+import com.thoughtworks.thoughtferret.model.FerretFrequency;
 
 public class Scheduler {
 
@@ -33,7 +33,7 @@ public class Scheduler {
 	}
 	
 	public LocalDateTime getNextRandomDate(LocalDateTime current, FerretFrequency frequency) {
-		switch (frequency.getFrequency()) {
+		switch (frequency) {
 			case EVERY_DAY:
 				return current.plusDays(1);
 			case EVERY_FEW_DAYS:

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.model.FerretFrequency;
 import com.thoughtworks.thoughtferret.scheduler.Scheduler;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
@@ -38,7 +39,7 @@ public class EditPreferences extends PreferenceActivity {
 			scheduler.cancelPendingAlarms(this);
 			boolean agentEnabled = preferences.getBoolean(SavedPreferences.KEY_AGENT_ENABLED, false);
 			if (agentEnabled) {
-				FerretFrequency frequency = new FerretFrequency(this);
+				FerretFrequency frequency = FerretFrequency.fromSavedPreferences(this);
 				scheduler.registerNextRandom(this, frequency);
 				Toast.makeText(this, "Ferret agent enabled", Toast.LENGTH_SHORT).show();
 			} else {

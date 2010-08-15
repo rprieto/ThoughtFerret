@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
-import com.thoughtworks.thoughtferret.presenter.MoodTagsBuilder;
+import com.thoughtworks.thoughtferret.model.tags.MoodTagsBuilder;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class KeywordsEditor extends LinearLayout implements OnWordDeletionListener, OnDropListener {
