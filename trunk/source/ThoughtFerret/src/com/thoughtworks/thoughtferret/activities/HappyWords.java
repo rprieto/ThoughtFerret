@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.happywords;
+package com.thoughtworks.thoughtferret.activities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.Screen;
+import com.thoughtworks.thoughtferret.view.happywords.RenderedTag;
+import com.thoughtworks.thoughtferret.view.happywords.TagCloud;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 
 public class HappyWords extends Activity {

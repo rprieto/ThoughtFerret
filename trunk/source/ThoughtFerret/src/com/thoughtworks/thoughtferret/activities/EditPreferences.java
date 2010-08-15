@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.preferences;
+package com.thoughtworks.thoughtferret.activities;
 
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -11,12 +11,14 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.integration.Scheduler;
 import com.thoughtworks.thoughtferret.model.FerretFrequency;
-import com.thoughtworks.thoughtferret.scheduler.Scheduler;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
 public class EditPreferences extends PreferenceActivity {
 
+	public static final String KEY_AGENT_ENABLED = "agentEnabled";
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,10 +36,10 @@ public class EditPreferences extends PreferenceActivity {
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,	Preference preference) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if (preference.getKey().equals(SavedPreferences.KEY_AGENT_ENABLED)) {
+		if (preference.getKey().equals(KEY_AGENT_ENABLED)) {
 			Scheduler scheduler = new Scheduler();
 			scheduler.cancelPendingAlarms(this);
-			boolean agentEnabled = preferences.getBoolean(SavedPreferences.KEY_AGENT_ENABLED, false);
+			boolean agentEnabled = preferences.getBoolean(KEY_AGENT_ENABLED, false);
 			if (agentEnabled) {
 				FerretFrequency frequency = FerretFrequency.fromSavedPreferences(this);
 				scheduler.registerNextRandom(this, frequency);

@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.scheduler;
+package com.thoughtworks.thoughtferret.integration;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

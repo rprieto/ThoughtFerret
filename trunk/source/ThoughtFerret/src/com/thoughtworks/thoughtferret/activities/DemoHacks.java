@@ -1,13 +1,13 @@
-package com.thoughtworks.thoughtferret.view;
+package com.thoughtworks.thoughtferret.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.integration.Scheduler;
 import com.thoughtworks.thoughtferret.model.DatabaseHelper;
 import com.thoughtworks.thoughtferret.model.FakeData;
-import com.thoughtworks.thoughtferret.scheduler.Scheduler;
 
 public class DemoHacks extends Activity {
 

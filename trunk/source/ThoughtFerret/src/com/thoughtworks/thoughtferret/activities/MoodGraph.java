@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.moodgraph;
+package com.thoughtworks.thoughtferret.activities;
 
 import java.util.HashMap;
 
@@ -24,6 +24,8 @@ import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.Scroll;
+import com.thoughtworks.thoughtferret.view.moodgraph.ChartOptions;
+import com.thoughtworks.thoughtferret.view.moodgraph.OptionsPopup;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.BarChart;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.Chart;
 import com.thoughtworks.thoughtferret.view.moodgraph.charts.ChartType;

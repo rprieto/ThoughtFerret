@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.view.update;
+package com.thoughtworks.thoughtferret.activities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +22,7 @@ import com.thoughtworks.thoughtferret.model.mood.MoodRatingDao;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
+import com.thoughtworks.thoughtferret.view.update.KeywordsEditor;
 
 public class MoodUpdate extends Activity {
 	
