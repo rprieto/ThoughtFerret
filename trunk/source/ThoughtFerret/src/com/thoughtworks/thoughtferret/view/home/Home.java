@@ -65,6 +65,7 @@ public class Home extends Activity {
 	
 	public void preferencesClick(View view) {
 		startActivity(new Intent(this, EditPreferences.class));
+		overridePendingTransition(0, 0);
 	}
 	
 	private void setBackground() {

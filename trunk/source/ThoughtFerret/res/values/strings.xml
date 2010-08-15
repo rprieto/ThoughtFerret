@@ -8,15 +8,17 @@
 <string name="homeWords">Happy\nwords</string>
 <string name="homePreferences">Preferences</string>
 
-<string-array name="ferretFrequencies"><item>Never</item>
-<item>Demo mode</item>
-<item>Every few hours</item>
+<string-array name="ferretFrequencies">
+
+<item>Every day</item>
 <item>Every few days</item>
+<item>Every week</item>
 </string-array>
-<string-array name="ferretFrequenciesValues"><item>never</item>
-<item>demo</item>
-<item>everyfewhours</item>
+<string-array name="ferretFrequenciesValues">
+
+<item>everyday</item>
 <item>everyfewdays</item>
+<item>everyweek</item>
 </string-array>
 <string name="notificationHeader">Your ferret wants to know:</string>
 <string name="notificationGreeting">How\'s your afternoon going mate?</string>

@@ -9,6 +9,9 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -51,6 +54,11 @@ public class ApplicationBackground {
 		Canvas fullCanvas = new Canvas(cachedBitmap);
 		
 		prepare(fullCanvas, fadeOverlay);
+	}
+	
+	public void setBackground(View view) {
+        BitmapDrawable drawable = new BitmapDrawable(getBitmap());        
+        view.setBackgroundDrawable(drawable);
 	}
 	
 	private Shader getGradientShader(GradientDirection direction) {

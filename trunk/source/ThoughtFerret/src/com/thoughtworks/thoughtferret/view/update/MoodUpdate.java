@@ -45,11 +45,9 @@ public class MoodUpdate extends Activity {
         moodRatingDao = new MoodRatingDao(this);
         moodTagsDao = new MoodTagsDao(this);
         
+        LinearLayout root = (LinearLayout) findViewById(R.id.moodUpdateBackground);
         ApplicationBackground appBackground = new ApplicationBackground(this, ApplicationBackground.GradientDirection.HORIZONTAL, true);
-        BitmapDrawable drawable = new BitmapDrawable(appBackground.getBitmap());        
-
-        LinearLayout homeBackground = (LinearLayout) findViewById(R.id.moodUpdateBackground);
-        homeBackground.setBackgroundDrawable(drawable);
+        appBackground.setBackground(root);
     }
     
 	@Override
