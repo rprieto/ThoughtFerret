@@ -8,8 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.View;
 
+import com.thoughtworks.thoughtferret.integration.database.MoodTagsDao;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
-import com.thoughtworks.thoughtferret.model.tags.MoodTagsDao;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
