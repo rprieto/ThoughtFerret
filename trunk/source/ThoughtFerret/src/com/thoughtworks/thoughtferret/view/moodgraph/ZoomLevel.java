@@ -12,10 +12,6 @@ public enum ZoomLevel {
 		this.numberOfMonths = numberOfMonths;
 	}
 	
-	public int getMonthSize(int screenWidth) {
-		return screenWidth / numberOfMonths;
-	}
-	
 	public int getPixelsPerDay(int screenWidth) {
 		return screenWidth / numberOfMonths / 30;
 	}
