@@ -29,7 +29,7 @@ public class RatingAverages {
 
 		for (MoodRating rating : moodRatings.getValues()) {
 			while (!getLast().contains(rating.getLoggedDate())) {
-				current = current.plusDays(nbDaysInPeriod);
+				current = current.plusDays(nbDaysInPeriod).minus(Seconds.ONE);
 				addPeriod(current, nbDaysInPeriod);
 			}
 			getLast().addRating(rating);

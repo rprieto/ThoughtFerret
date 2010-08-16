@@ -23,9 +23,6 @@ public class Data {
 				int y = getY(period, surface);
 				points.add(new Point(x1, y));
 				points.add(new Point(x2, y));
-			} else {
-				//points.add(new Point(x1, surface.bottom));
-				//points.add(new Point(x2, surface.bottom));
 			}
 		}
 	}
