@@ -17,6 +17,14 @@ public class MathUtils {
 		return value;
 	}
 
+	public static int wrap(int value, int max) {
+		if (value <= max) {
+			return value; 
+		} else {
+			return value - max;
+		}
+	}
+	
 	public static Point getMiddle(Point a, Point b) {
 		Point mid = new Point((a.x + b.x) / 2, (a.y + b.y) / 2);
 		return mid;
