@@ -19,7 +19,7 @@ import android.widget.RatingBar;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
 import com.thoughtworks.thoughtferret.integration.database.MoodTagsDao;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 import com.thoughtworks.thoughtferret.view.update.KeywordsEditor;

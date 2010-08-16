@@ -8,7 +8,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.thoughtworks.thoughtferret.model.DatabaseHelper;
 import com.thoughtworks.thoughtferret.model.tags.MoodTag;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 

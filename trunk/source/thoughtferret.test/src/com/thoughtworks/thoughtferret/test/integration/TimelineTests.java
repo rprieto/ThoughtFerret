@@ -2,8 +2,8 @@ package com.thoughtworks.thoughtferret.test.integration;
 
 import junit.framework.TestCase;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.view.moodgraph.graph.Chronology;
 import com.thoughtworks.thoughtferret.view.moodgraph.graph.Timeline;
 import static com.thoughtworks.thoughtferret.DateUtils.*;

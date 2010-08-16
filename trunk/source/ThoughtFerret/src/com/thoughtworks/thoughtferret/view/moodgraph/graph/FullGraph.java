@@ -2,8 +2,8 @@ package com.thoughtworks.thoughtferret.view.moodgraph.graph;
 
 import android.graphics.Rect;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
-import com.thoughtworks.thoughtferret.model.mood.RatingAverages;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.RatingAverages;
 import com.thoughtworks.thoughtferret.view.Screen;
 import com.thoughtworks.thoughtferret.view.moodgraph.ChartOptions;
 

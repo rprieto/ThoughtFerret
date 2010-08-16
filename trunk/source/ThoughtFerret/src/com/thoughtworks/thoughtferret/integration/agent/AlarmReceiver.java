@@ -1,6 +1,6 @@
-package com.thoughtworks.thoughtferret.integration;
+package com.thoughtworks.thoughtferret.integration.agent;
 
-import com.thoughtworks.thoughtferret.model.FerretFrequency;
+import com.thoughtworks.thoughtferret.model.agent.FerretFrequency;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

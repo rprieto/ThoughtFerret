@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 import org.joda.time.LocalDateTime;
 
-import com.thoughtworks.thoughtferret.model.FerretFrequency;
+import com.thoughtworks.thoughtferret.model.agent.FerretFrequency;
 
 public class FerretFrequencyTests extends TestCase {
 

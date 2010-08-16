@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model;
+package com.thoughtworks.thoughtferret.integration.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

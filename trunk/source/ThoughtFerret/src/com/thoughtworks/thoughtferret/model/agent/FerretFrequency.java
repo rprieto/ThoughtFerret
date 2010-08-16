@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model;
+package com.thoughtworks.thoughtferret.model.agent;
 
 import org.joda.time.LocalDateTime;
 

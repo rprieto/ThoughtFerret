@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model.mood;
+package com.thoughtworks.thoughtferret.model.ratings;
 
 import static com.thoughtworks.thoughtferret.DateUtils.startOfMonth;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Seconds;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
 public class RatingAverages {
 	
@@ -22,8 +22,6 @@ public class RatingAverages {
 	
 	private void calculatePeriods(MoodRatings moodRatings, int nbDaysInPeriod) {
 		LocalDateTime startMonth = startOfMonth(moodRatings.getFirst().getLoggedDate());
-		//DateTime endMonth = endOfMonth(moodRatings.getLast().getLoggedDate());
-		
 		LocalDateTime current = startMonth;
 		addPeriod(current, nbDaysInPeriod);
 

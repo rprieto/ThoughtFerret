@@ -1,9 +1,9 @@
-package com.thoughtworks.thoughtferret.model.mood;
+package com.thoughtworks.thoughtferret.model.ratings;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ensure.Ensure;
 
 public class RatingAverage {

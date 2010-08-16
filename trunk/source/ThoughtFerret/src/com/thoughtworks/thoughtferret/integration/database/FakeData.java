@@ -1,10 +1,9 @@
-package com.thoughtworks.thoughtferret.model;
+package com.thoughtworks.thoughtferret.integration.database;
 
 import android.content.Context;
 
-import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
 public class FakeData {
 	

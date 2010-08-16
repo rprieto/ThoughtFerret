@@ -3,8 +3,8 @@ package com.thoughtworks.thoughtferret.test.unit;
 import junit.framework.TestCase;
 
 import com.thoughtworks.thoughtferret.model.ensure.Ensure;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.RatingAverage;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class RatingAverageTests extends TestCase {
 

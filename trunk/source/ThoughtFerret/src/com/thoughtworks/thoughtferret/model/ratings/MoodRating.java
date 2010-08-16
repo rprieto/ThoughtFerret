@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model.mood;
+package com.thoughtworks.thoughtferret.model.ratings;
 
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;

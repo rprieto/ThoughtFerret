@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.integration.Scheduler;
-import com.thoughtworks.thoughtferret.model.DatabaseHelper;
-import com.thoughtworks.thoughtferret.model.FakeData;
+import com.thoughtworks.thoughtferret.integration.agent.Scheduler;
+import com.thoughtworks.thoughtferret.integration.database.DatabaseHelper;
+import com.thoughtworks.thoughtferret.integration.database.FakeData;
 
 public class DemoHacks extends Activity {
 

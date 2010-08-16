@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model.mood;
+package com.thoughtworks.thoughtferret.model.ratings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 
 public class RatingPeriod {
 	

@@ -5,8 +5,8 @@ import static com.thoughtworks.thoughtferret.test.unit.matchers.HasAverageMatche
 import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.RatingPeriod;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.RatingPeriod;
 
 public class RatingPeriodTests extends TestCase {
 

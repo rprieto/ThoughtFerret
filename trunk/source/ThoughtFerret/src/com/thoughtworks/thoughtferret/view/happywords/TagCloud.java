@@ -7,7 +7,7 @@ import android.graphics.Point;
 import android.util.Log;
 
 import com.thoughtworks.thoughtferret.MathUtils;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.tags.MoodTag;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.view.Screen;

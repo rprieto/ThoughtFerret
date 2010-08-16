@@ -7,8 +7,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import com.thoughtworks.thoughtferret.MathUtils;
-import com.thoughtworks.thoughtferret.model.mood.RatingAverages;
-import com.thoughtworks.thoughtferret.model.mood.RatingPeriod;
+import com.thoughtworks.thoughtferret.model.ratings.RatingAverages;
+import com.thoughtworks.thoughtferret.model.ratings.RatingPeriod;
 
 public class Data {
 

@@ -31,9 +31,9 @@
 		<activity android:name=".activities.DemoHacks"
 				  android:label="@string/app_name">
 		</activity>
-		<receiver android:name=".integration.AlarmReceiver">
+		<receiver android:name=".integration.agent.AlarmReceiver">
 		</receiver>
-		<receiver android:name=".integration.BootReceiver">
+		<receiver android:name=".integration.agent.BootReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.BOOT_COMPLETED" />
 			</intent-filter>

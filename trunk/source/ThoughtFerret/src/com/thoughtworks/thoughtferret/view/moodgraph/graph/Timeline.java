@@ -11,7 +11,7 @@ import org.joda.time.Seconds;
 
 import android.graphics.Rect;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
 public class Timeline {
 

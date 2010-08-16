@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.integration;
+package com.thoughtworks.thoughtferret.integration.agent;
 
 import org.joda.time.LocalDateTime;
 
@@ -7,7 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.thoughtworks.thoughtferret.model.FerretFrequency;
+import com.thoughtworks.thoughtferret.model.agent.FerretFrequency;
 
 public class Scheduler {
 

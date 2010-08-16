@@ -11,8 +11,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.thoughtworks.thoughtferret.R;
-import com.thoughtworks.thoughtferret.integration.Scheduler;
-import com.thoughtworks.thoughtferret.model.FerretFrequency;
+import com.thoughtworks.thoughtferret.integration.agent.Scheduler;
+import com.thoughtworks.thoughtferret.model.agent.FerretFrequency;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
 public class EditPreferences extends PreferenceActivity {

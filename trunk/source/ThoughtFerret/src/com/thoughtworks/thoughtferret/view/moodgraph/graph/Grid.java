@@ -5,8 +5,8 @@ import java.util.List;
 
 import android.graphics.Rect;
 
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.RatingPeriod;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.RatingPeriod;
 
 public class Grid {
 

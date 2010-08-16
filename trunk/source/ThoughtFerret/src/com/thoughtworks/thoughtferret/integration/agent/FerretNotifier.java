@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.integration;
+package com.thoughtworks.thoughtferret.integration.agent;
 
 import android.app.Notification;
 import android.app.NotificationManager;

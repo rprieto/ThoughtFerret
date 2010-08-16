@@ -3,9 +3,8 @@ package com.thoughtworks.thoughtferret.integration.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.thoughtworks.thoughtferret.model.DatabaseHelper;
-import com.thoughtworks.thoughtferret.model.mood.MoodRating;
-import com.thoughtworks.thoughtferret.model.mood.MoodRatings;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
+import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.thoughtworks.thoughtferret.model.mood;
+package com.thoughtworks.thoughtferret.model.ratings;
 
 import java.util.Arrays;
 import java.util.List;
