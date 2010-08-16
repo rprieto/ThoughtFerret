@@ -60,15 +60,19 @@ public class FakeData {
 		MoodTags tags = new MoodTags(
 				new MoodTag("android", 		15, (int) (15 * 4.6)),
 				new MoodTag("coaching", 	12, (int) (12 * 3.8)),
+				new MoodTag("3g modem", 	12, (int) (12 * 1.7)),
 				new MoodTag("open source", 	10, (int) (10 * 4.2)),
 				new MoodTag("agile", 		9,  (int) ( 9 * 3.9)),
+				new MoodTag("qantas", 		9,  (int) ( 9 * 2.8)),
 				new MoodTag("java", 		8,  (int) ( 8 * 3.0)),
 				new MoodTag("debugging", 	7,  (int) ( 7 * 1.3)),
 				new MoodTag("brisbane", 	5,  (int) ( 5 * 4.1)),
 				new MoodTag("macbook", 		4,  (int) ( 4 * 3.2)),
 				new MoodTag("travelling", 	3,  (int) ( 3 * 2.5)),
 				new MoodTag("weather", 		2,  (int) ( 2 * 3.7)),
-				new MoodTag("twitter", 		2,  (int) ( 2 * 2.4)));
+				new MoodTag("twitter", 		2,  (int) ( 2 * 2.4)),
+				new MoodTag("nandos", 		1,  (int) ( 1 * 4.7)));
+		
 		
 		tagsDao.deleteAll();
 		tagsDao.persist(tags);
