@@ -14,6 +14,8 @@ import com.thoughtworks.thoughtferret.view.Screen;
 
 public class TagCloud {
 
+	private static final int TOP_BOTTOM_MARGIN = 50;
+	private static final int LEFT_RIGHT_MARGIN = 80;
 	public static final int SIZE_LEVELS = 5;
 
 	private List<RenderedTag> renderedTags;
@@ -38,8 +40,10 @@ public class TagCloud {
 	}
 	
 	private Point getTagPosition(MoodTag moodTag) {
-		int x = (int) (moodTag.getRatingAverage() * screen.width() / MoodRating.BEST_RATING);
-		int y = MathUtils.getRandom(0, screen.height());
+		int xMin = LEFT_RIGHT_MARGIN;
+		int xMax = screen.width() - LEFT_RIGHT_MARGIN;
+		int x = (int) MathUtils.project(1, MoodRating.BEST_RATING, xMin, xMax, moodTag.getRatingAverage());
+		int y = MathUtils.getRandom(TOP_BOTTOM_MARGIN, screen.height() - TOP_BOTTOM_MARGIN);
 		return new Point(x, y);
 	}
 	

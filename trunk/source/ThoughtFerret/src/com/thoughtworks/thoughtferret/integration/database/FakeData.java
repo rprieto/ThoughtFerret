@@ -4,13 +4,17 @@ import android.content.Context;
 
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
+import com.thoughtworks.thoughtferret.model.tags.MoodTag;
+import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 
 public class FakeData {
 	
-	MoodRatingDao dao;
+	MoodRatingDao ratingsDao;
+	MoodTagsDao tagsDao;
 	
 	public FakeData(Context context) {
-		dao = new MoodRatingDao(context);
+		ratingsDao = new MoodRatingDao(context);
+		tagsDao = new MoodTagsDao(context);
 	}
 	
 	public void createHistory() {
@@ -49,8 +53,25 @@ public class FakeData {
 				new MoodRating("12-12-2010 09:08", 4),
 				new MoodRating("17-12-2010 13:17", 2),
 				new MoodRating("20-12-2010 12:56", 4));
-		dao.deleteAll();
-		dao.persist(ratings);
+		
+		ratingsDao.deleteAll();
+		ratingsDao.persist(ratings);
+		
+		MoodTags tags = new MoodTags(
+				new MoodTag("android", 		15, (int) (15 * 4.6)),
+				new MoodTag("coaching", 	12, (int) (12 * 3.8)),
+				new MoodTag("open source", 	10, (int) (10 * 4.2)),
+				new MoodTag("agile", 		9,  (int) ( 9 * 3.9)),
+				new MoodTag("java", 		8,  (int) ( 8 * 3.0)),
+				new MoodTag("debugging", 	7,  (int) ( 7 * 1.3)),
+				new MoodTag("brisbane", 	5,  (int) ( 5 * 4.1)),
+				new MoodTag("macbook", 		4,  (int) ( 4 * 3.2)),
+				new MoodTag("travelling", 	3,  (int) ( 3 * 2.5)),
+				new MoodTag("weather", 		2,  (int) ( 2 * 3.7)),
+				new MoodTag("twitter", 		2,  (int) ( 2 * 2.4)));
+		
+		tagsDao.deleteAll();
+		tagsDao.persist(tags);
 	}
 	
 }
