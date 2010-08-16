@@ -1,12 +1,11 @@
 package com.thoughtworks.thoughtferret.test.unit;
 
-import org.joda.time.LocalDateTime;
-
+import static com.thoughtworks.thoughtferret.DateUtils.date;
 import junit.framework.TestCase;
 
-import com.thoughtworks.thoughtferret.model.FerretFrequency;
+import org.joda.time.LocalDateTime;
 
-import static com.thoughtworks.thoughtferret.test.unit.DateBuilder.*;
+import com.thoughtworks.thoughtferret.model.FerretFrequency;
 
 public class FerretFrequencyTests extends TestCase {
 

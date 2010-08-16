@@ -1,7 +1,6 @@
 package com.thoughtworks.thoughtferret.test.unit;
 
-import static com.thoughtworks.thoughtferret.test.unit.DateBuilder.date;
-import static com.thoughtworks.thoughtferret.test.unit.DateBuilder.timestamp;
+import static com.thoughtworks.thoughtferret.DateUtils.*;
 import static com.thoughtworks.thoughtferret.test.unit.matchers.HasAverageMatcher.hasAverage;
 import static org.junit.Assert.assertThat;
 import junit.framework.TestCase;

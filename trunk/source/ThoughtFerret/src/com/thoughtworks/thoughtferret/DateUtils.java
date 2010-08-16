@@ -23,8 +23,12 @@ public final class DateUtils {
 				   .minus(Seconds.ONE);
 	}
 	
-//	public static DateTime startOfNextMonth(DateTime date) {
-//		return date.plusMonths(1).withDayOfMonth(1).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0);
-//	}
+	public static LocalDateTime date(int day, int month, int year) {
+		return new LocalDateTime(year, month, day, 0, 0, 0, 0);
+	}
+
+	public static long timestamp(int day, int month, int year) {
+		return new LocalDateTime(year, month, day, 0, 0, 0, 0).toDateTime().getMillis();
+	}
 	
 }
