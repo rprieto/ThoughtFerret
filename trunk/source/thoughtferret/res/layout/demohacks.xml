@@ -22,5 +22,14 @@
 	    android:text="Populate database with demo data"
 	    android:onClick="populateDatabaseClick"
 		/>
+	<TextView
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+	    android:text="Next ferret will pop up on:"
+		/>
+	<TextView
+		android:id="@+id/nextFerretDate"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content"
+		/>
 </LinearLayout>
-

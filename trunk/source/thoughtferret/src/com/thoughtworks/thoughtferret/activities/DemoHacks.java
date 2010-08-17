@@ -1,10 +1,14 @@
 package com.thoughtworks.thoughtferret.activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.integration.Preferences;
 import com.thoughtworks.thoughtferret.integration.agent.Scheduler;
 import com.thoughtworks.thoughtferret.integration.database.DatabaseHelper;
 import com.thoughtworks.thoughtferret.integration.database.FakeData;
@@ -15,11 +19,11 @@ public class DemoHacks extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demohacks);
+        loadNextFerretDate();
 	}
 	
 	public void triggerFerretClick(View view) {
-		Scheduler scheduler = new Scheduler();
-		scheduler.registerNextVerySoon(this);
+		new Scheduler(this).registerNextVerySoon();
 	}
 	
 	public void deleteDatabaseClick(View view) {
@@ -29,6 +33,13 @@ public class DemoHacks extends Activity {
 	public void populateDatabaseClick(View view) {
 		FakeData fakeData = new FakeData(this);
 		fakeData.createHistory();
+	}
+	
+	private void loadNextFerretDate() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		String date = preferences.getString(Preferences.KEY_AGENT_NEXTALARM, "");
+        TextView nextFerretDate = (TextView) findViewById(R.id.nextFerretDate);
+        nextFerretDate.setText(date);
 	}
 	
 }

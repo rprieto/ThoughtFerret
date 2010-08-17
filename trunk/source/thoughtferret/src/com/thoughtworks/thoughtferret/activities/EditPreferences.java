@@ -10,13 +10,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.integration.Preferences;
 import com.thoughtworks.thoughtferret.integration.agent.Scheduler;
 import com.thoughtworks.thoughtferret.model.agent.FerretFrequency;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
 
 public class EditPreferences extends PreferenceActivity {
-
-	public static final String KEY_AGENT_ENABLED = "agentEnabled";
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,13 +33,13 @@ public class EditPreferences extends PreferenceActivity {
 	@Override
 	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,	Preference preference) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if (preference.getKey().equals(KEY_AGENT_ENABLED)) {
-			Scheduler scheduler = new Scheduler();
-			scheduler.cancelPendingAlarms(this);
-			boolean agentEnabled = preferences.getBoolean(KEY_AGENT_ENABLED, false);
+		if (preference.getKey().equals(Preferences.KEY_AGENT_ENABLED)) {
+			Scheduler scheduler = new Scheduler(this);
+			scheduler.cancelPendingAlarms();
+			boolean agentEnabled = preferences.getBoolean(Preferences.KEY_AGENT_ENABLED, false);
 			if (agentEnabled) {
 				FerretFrequency frequency = FerretFrequency.fromSavedPreferences(this);
-				scheduler.registerNextRandom(this, frequency);
+				scheduler.registerNextRandom(frequency);
 				Toast.makeText(this, "Ferret agent enabled", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(this, "Ferret agent disabled", Toast.LENGTH_SHORT).show();

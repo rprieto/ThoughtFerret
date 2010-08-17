@@ -12,7 +12,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		FerretFrequency frenquency = FerretFrequency.fromSavedPreferences(context);
 		new FerretNotifier().show(context);
-		new Scheduler().registerNextRandom(context, frenquency);
+		new Scheduler(context).registerNextRandom(frenquency);
 	}
 	
 }

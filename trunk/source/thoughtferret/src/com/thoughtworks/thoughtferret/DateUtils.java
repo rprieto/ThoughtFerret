@@ -30,5 +30,9 @@ public final class DateUtils {
 	public static long timestamp(int day, int month, int year) {
 		return new LocalDateTime(year, month, day, 0, 0, 0, 0).toDateTime().getMillis();
 	}
+
+	public static String asReadable(LocalDateTime date) {
+		return date.toString("dd/MM/yyyy hh:mm:ss");
+	}
 	
 }
