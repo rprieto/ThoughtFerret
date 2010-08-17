@@ -7,8 +7,9 @@
     android:padding="5dp"
     >
 	<TextView  
-    	android:layout_width="fill_parent" 
+    	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
+    	android:layout_gravity="center"
     	android:textSize="25sp"
     	android:text="@string/moodQuestion"
     	android:textColor="#FF000000"
@@ -17,11 +18,11 @@
     	android:id="@+id/moodRate"
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
+    	android:layout_gravity="center"
     	android:numStars="5"
     	android:stepSize="1"
     	android:rating="3"
     	android:background="@null"
-    	android:paddingBottom="10dp"
     	/>
     <LinearLayout
         android:orientation="horizontal"

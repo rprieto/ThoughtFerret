@@ -3,7 +3,6 @@ package com.thoughtworks.thoughtferret.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,8 +12,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 
-import com.thoughtworks.thoughtferret.view.moodgraph.Panel;
 import com.thoughtworks.thoughtferret.view.moodgraph.OptionsPopup;
+import com.thoughtworks.thoughtferret.view.moodgraph.Panel;
 
 public class MoodGraph extends Activity {
 
@@ -23,7 +22,6 @@ public class MoodGraph extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		panel = new Panel(this);
 		setContentView(panel);
 	}
