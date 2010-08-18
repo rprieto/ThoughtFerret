@@ -32,7 +32,7 @@ public final class DateUtils {
 	}
 
 	public static String asReadable(LocalDateTime date) {
-		return date.toString("dd/MM/yyyy hh:mm:ss");
+		return date.toString("dd/MM/yyyy hh:mm:ss aa");
 	}
 	
 }
