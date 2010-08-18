@@ -8,11 +8,17 @@ import android.preference.PreferenceManager;
 
 public enum FerretFrequency {
 	
-	EVERY_DAY,
-	EVERY_FEW_DAYS,
-	EVERY_WEEK;
+	EVERY_DAY(new EveryDay()),
+	EVERY_FEW_DAYS(new EveryDay()),
+	EVERY_WEEK(new EveryDay());
 
 	public static final String KEY_AGENT_FREQUENCY = "agentFrequency";
+	
+	private ReminderStrategy strategy;
+	
+	private FerretFrequency(ReminderStrategy strategy) {
+		this.strategy = strategy;
+	}
 	
 	public static FerretFrequency fromSavedPreferences(Context context) {
 		SharedPreferences savedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -21,7 +27,7 @@ public enum FerretFrequency {
 	}
 
 	public LocalDateTime getNext(LocalDateTime date) {
-		return null;
+		return strategy.getNext(date);
 	}
 	
 }

@@ -25,12 +25,12 @@ public class Scheduler {
 	
 	public void registerNextRandom(FerretFrequency frequency) {
 		LocalDateTime current = new LocalDateTime();
-		LocalDateTime next = getNextRandomDate(current, frequency);
+		LocalDateTime next = frequency.getNext(current);
 		registerNext(next);
 	}
 
 	public void registerNextVerySoon() {
-		LocalDateTime next = new LocalDateTime().plusSeconds(10);
+		LocalDateTime next = new LocalDateTime().plusSeconds(20);
 		registerNext(next);
 	}
 	
@@ -41,19 +41,6 @@ public class Scheduler {
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(context, REQUEST_CODE, intent, 0);
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.set(AlarmManager.RTC_WAKEUP, timestamp, pendingIntent);
-	}
-	
-	public LocalDateTime getNextRandomDate(LocalDateTime current, FerretFrequency frequency) {
-		switch (frequency) {
-			case EVERY_DAY:
-				return current.plusDays(1);
-			case EVERY_FEW_DAYS:
-				return current.plusDays(3);
-			case EVERY_WEEK:
-				return current.plusDays(7);
-			default:
-				throw new IllegalArgumentException("Invalid ferret frequency");
-		}
 	}
 	
 	public void cancelPendingAlarms() {
