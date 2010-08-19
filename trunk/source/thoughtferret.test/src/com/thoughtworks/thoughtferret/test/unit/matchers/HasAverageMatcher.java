@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.thoughtworks.thoughtferret.test.unit.matchers;
 
 import org.hamcrest.Description;

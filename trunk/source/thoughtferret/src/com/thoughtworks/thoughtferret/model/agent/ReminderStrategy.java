@@ -9,5 +9,5 @@ public interface ReminderStrategy {
 	public static final LocalTime MAX_TIME = new LocalTime(18, 30);
 	
 	LocalDateTime getNext(LocalDateTime current);
-	
+
 }
