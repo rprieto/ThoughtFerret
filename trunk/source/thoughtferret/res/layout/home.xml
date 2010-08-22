@@ -164,13 +164,13 @@
 		   			android:layout_height="fill_parent"
 		   			android:layout_weight="1"
 		   			android:gravity="center"
-		   			android:text="@string/homePreferences"
+		   			android:text="@string/homeMap"
 		   			android:textColor="#FF000000"
 		   			android:textSize="18sp"
 		   			android:padding="0dp"
 		   			android:layout_margin="0dp"
 		   			android:background="@drawable/homebutton"
-		   			android:onClick="preferencesClick"
+		   			android:onClick="mapClick"
 		   			/>
 		   	</LinearLayout>
 	   		<View

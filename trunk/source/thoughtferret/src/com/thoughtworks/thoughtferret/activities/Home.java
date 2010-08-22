@@ -63,6 +63,11 @@ public class Home extends Activity {
 		startActivity(new Intent(this, EditPreferences.class));
 		overridePendingTransition(0, 0);
 	}
+
+	public void mapClick(View view) {
+		startActivity(new Intent(this, Map.class));
+		overridePendingTransition(0, 0);
+	}
 	
 	private void setBackground() {
 		ApplicationBackground appBackground = new ApplicationBackground(this, ApplicationBackground.GradientDirection.HORIZONTAL, true);

@@ -5,9 +5,16 @@ import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class Office {
 
-	Coordinates office;
+	private static final int RADIUS_IN_METERS = 100 * 1000;
+
+	private String name;
+	private Coordinates coords;
+	private MoodRatings ratings;
 	
-	MoodRatings ratings;
+	public Office(String name, Coordinates coords) {
+		this.name = name;
+		this.coords = coords;
+	}
 	
 	public RatingAverage getAverage() {
 		return new RatingAverage(3.0);

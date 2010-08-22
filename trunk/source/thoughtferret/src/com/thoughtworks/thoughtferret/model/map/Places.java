@@ -12,4 +12,6 @@ public class Places {
 	
 	public static Coordinates MELBOURNE_OFFICE = new Coordinates(-37.816, 144.963);
 	
+	public static Coordinates PERTH_OFFICE = new Coordinates(-31.954, 115.859);
+	
 }
