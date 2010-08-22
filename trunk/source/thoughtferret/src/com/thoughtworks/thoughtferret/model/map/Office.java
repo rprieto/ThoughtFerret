@@ -3,9 +3,9 @@ package com.thoughtworks.thoughtferret.model.map;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
-public class OfficeAverage {
+public class Office {
 
-	GeoZone office;
+	Coordinates office;
 	
 	MoodRatings ratings;
 	

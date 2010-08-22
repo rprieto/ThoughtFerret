@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Offices {
 
-	private List<OfficeAverage> offices;
+	private List<Office> offices;
 	
 	public Offices() {
 		
