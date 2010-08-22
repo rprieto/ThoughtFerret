@@ -10,6 +10,7 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.thoughtworks.thoughtferret.R;
+import com.thoughtworks.thoughtferret.model.map.Places;
 
 public class Map extends MapActivity {
 	
@@ -25,17 +26,10 @@ public class Map extends MapActivity {
         zoomLayout.addView(zoomView, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)); 
         mapView.displayZoomControls(true);
         
-        MapController mc = mapView.getController();
-        String coordinates[] = {"1.352566007", "103.78921587"};
-        double lat = Double.parseDouble(coordinates[0]);
-        double lng = Double.parseDouble(coordinates[1]);
- 
-        GeoPoint p = new GeoPoint(
-            (int) (lat * 1E6), 
-            (int) (lng * 1E6));
- 
-        mc.animateTo(p);
-        mc.setZoom(17); 
+        MapController mc = mapView.getController();        
+        mc.animateTo(getMapCenter());
+        mc.setZoom(5);
+        
         mapView.invalidate();
         
 //        TelephonyManager tm  = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE); 
@@ -47,6 +41,12 @@ public class Map extends MapActivity {
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
+	}
+	
+	private GeoPoint getMapCenter() {
+		int lat = (int) (Places.CENTER_AUSTRALIA.getLatitude() * 1E6);
+		int lon = (int) (Places.CENTER_AUSTRALIA.getLongitude() * 1E6);
+		return new GeoPoint(lat, lon);
 	}
 
 }

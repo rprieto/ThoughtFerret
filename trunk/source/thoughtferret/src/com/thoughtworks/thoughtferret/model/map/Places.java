@@ -2,6 +2,8 @@ package com.thoughtworks.thoughtferret.model.map;
 
 public class Places {
 	
+	public static Coordinates CENTER_AUSTRALIA = new Coordinates(-25.500, 134.100);
+	
 	public static Coordinates SYDNEY_OFFICE = new Coordinates(-33.862, 151.209);
 	public static Coordinates SYDNEY_ETRADE = new Coordinates(-33.868, 151.204);
 	public static Coordinates SYDNEY_AIRPORT = new Coordinates(-33.934, 151.166);
