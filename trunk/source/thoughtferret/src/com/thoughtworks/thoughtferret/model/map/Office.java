@@ -16,6 +16,10 @@ public class Office {
 		this.coords = coords;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public Coordinates getCoordinates() {
 		return coords;
 	}

@@ -5,7 +5,12 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -21,6 +26,9 @@ import com.thoughtworks.thoughtferret.model.map.Office;
 import com.thoughtworks.thoughtferret.model.map.Offices;
 import com.thoughtworks.thoughtferret.model.map.Places;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
+import com.thoughtworks.thoughtferret.view.paints.FillPaint;
+import com.thoughtworks.thoughtferret.view.paints.FontPaint;
+import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class Map extends MapActivity {
 	
@@ -33,8 +41,8 @@ public class Map extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         
         MapController mc = mapView.getController();        
-        mc.animateTo(Places.CENTER_AUSTRALIA.toGeoPoint());
-        mc.setZoom(5);
+        mc.animateTo(Places.SYDNEY_OFFICE.toGeoPoint());
+        mc.setZoom(6);
         
         MoodRatingDao dao = new MoodRatingDao(this);
         MoodRatings ratings = dao.findAll();
@@ -65,6 +73,9 @@ public class Map extends MapActivity {
 	class OfficeOverlay extends Overlay
     {
 		Office office;
+		Paint markerEdge = new LinePaint(0xFF000000, 3);
+		Paint markerFill = new FillPaint(0XFFFFFFFF);
+		Paint textPaint = new FontPaint(0xFF000000, 20, Align.CENTER);
 		
 		public OfficeOverlay(Office office) {
 			this.office = office;
@@ -75,11 +86,36 @@ public class Map extends MapActivity {
         {
             super.draw(canvas, mapView, shadow);                   
  
-            Point screenPts = new Point();
-            mapView.getProjection().toPixels(office.getCoordinates().toGeoPoint(), screenPts);
+            Point target = new Point();
+            mapView.getProjection().toPixels(office.getCoordinates().toGeoPoint(), target);
  
-            Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.icon);            
-            canvas.drawBitmap(bmp, screenPts.x, screenPts.y, null);         
+            int triangleHeight = 20;
+            int triangleWidth = 25;
+            int boxHeight = 70;
+            int boxWidth = 150;
+            int ovalHeight = 15;
+            int ovalWidth = 40;
+
+            Rect box = new Rect(target.x - boxWidth / 2, target.y - triangleHeight - boxHeight, target.x + boxWidth / 2, target.y - triangleHeight);
+            RectF oval = new RectF(target.x - ovalWidth / 2, target.y - ovalHeight / 2, target.x + ovalWidth / 2, target.y + ovalHeight / 2);
+            
+            Path triangle = new Path();
+            triangle.moveTo(target.x, target.y);
+            triangle.lineTo(target.x - triangleWidth /  2, target.y - triangleHeight);
+            triangle.lineTo(target.x + triangleWidth /  2, target.y - triangleHeight);
+            triangle.close();
+            
+            String average = String.format("%.1f", office.getAverage().doubleValue());
+            
+            canvas.drawOval(oval, markerEdge);
+            canvas.drawOval(oval, markerFill);
+            canvas.drawPath(triangle, markerEdge);
+            canvas.drawPath(triangle, markerFill);
+            canvas.drawRect(box, markerEdge);
+            canvas.drawRect(box, markerFill);
+            canvas.drawText(office.getName(), box.centerX(), box.top + 25, textPaint);
+            canvas.drawText(average, box.centerX(), box.bottom - 10, textPaint);
+            
             return true;
         }
     } 
