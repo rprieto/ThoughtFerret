@@ -73,7 +73,7 @@ public class Map extends MapActivity {
 	class OfficeOverlay extends Overlay
     {
 		Office office;
-		Paint markerEdge = new LinePaint(0xFF000000, 3);
+		Paint markerEdge = new LinePaint(0xFF000000, 4);
 		Paint markerFill = new FillPaint(0XFFFFFFFF);
 		Paint textPaint = new FontPaint(0xFF000000, 20, Align.CENTER);
 		
@@ -89,32 +89,34 @@ public class Map extends MapActivity {
             Point target = new Point();
             mapView.getProjection().toPixels(office.getCoordinates().toGeoPoint(), target);
  
-            int triangleHeight = 20;
-            int triangleWidth = 25;
+            int triangleHeight = 12;
+            int triangleWidth = 15;
             int boxHeight = 70;
             int boxWidth = 150;
-            int ovalHeight = 15;
-            int ovalWidth = 40;
+            int ovalHeight = 10;
+            int ovalWidth = 20;
 
+            Path marker = new Path();
+            marker.moveTo(target.x - boxWidth / 2, target.y - triangleHeight - boxHeight);
+            marker.lineTo(target.x + boxWidth / 2, target.y - triangleHeight - boxHeight);
+            marker.lineTo(target.x + boxWidth / 2, target.y - triangleHeight);
+            marker.lineTo(target.x + triangleWidth / 2, target.y - triangleHeight);
+            marker.lineTo(target.x, target.y);
+            marker.lineTo(target.x - triangleWidth / 2, target.y - triangleHeight);
+            marker.lineTo(target.x - boxWidth / 2, target.y - triangleHeight);
+            marker.close();
+            
             Rect box = new Rect(target.x - boxWidth / 2, target.y - triangleHeight - boxHeight, target.x + boxWidth / 2, target.y - triangleHeight);
             RectF oval = new RectF(target.x - ovalWidth / 2, target.y - ovalHeight / 2, target.x + ovalWidth / 2, target.y + ovalHeight / 2);
-            
-            Path triangle = new Path();
-            triangle.moveTo(target.x, target.y);
-            triangle.lineTo(target.x - triangleWidth /  2, target.y - triangleHeight);
-            triangle.lineTo(target.x + triangleWidth /  2, target.y - triangleHeight);
-            triangle.close();
             
             String average = String.format("%.1f", office.getAverage().doubleValue());
             
             canvas.drawOval(oval, markerEdge);
             canvas.drawOval(oval, markerFill);
-            canvas.drawPath(triangle, markerEdge);
-            canvas.drawPath(triangle, markerFill);
-            canvas.drawRect(box, markerEdge);
-            canvas.drawRect(box, markerFill);
-            canvas.drawText(office.getName(), box.centerX(), box.top + 25, textPaint);
-            canvas.drawText(average, box.centerX(), box.bottom - 10, textPaint);
+            canvas.drawPath(marker, markerEdge);
+            canvas.drawPath(marker, markerFill);
+            canvas.drawText(office.getName(), box.centerX(), box.top + 30, textPaint);
+            canvas.drawText(average, box.centerX(), box.bottom - 15, textPaint);
             
             return true;
         }
