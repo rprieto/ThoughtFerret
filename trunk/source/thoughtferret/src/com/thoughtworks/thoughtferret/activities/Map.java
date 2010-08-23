@@ -30,11 +30,7 @@ public class Map extends MapActivity {
         setContentView(R.layout.map);
         
         MapView mapView = (MapView) findViewById(R.id.mapview);
-        LinearLayout zoomLayout = (LinearLayout)findViewById(R.id.zoom);  
-        View zoomView = mapView.getZoomControls(); 
- 
-        zoomLayout.addView(zoomView, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)); 
-        mapView.displayZoomControls(true);
+        mapView.setBuiltInZoomControls(true);
         
         MapController mc = mapView.getController();        
         mc.animateTo(Places.CENTER_AUSTRALIA.toGeoPoint());

@@ -102,7 +102,10 @@ public class Home extends Activity {
         	case R.id.demoHacks:
         		startActivity(new Intent(this, DemoHacks.class));
         		break;
-		}
+        	case R.id.preferences:
+        		startActivity(new Intent(this, EditPreferences.class));
+        		break;
+        }
 		return true;
 	}
 
