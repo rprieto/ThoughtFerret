@@ -16,6 +16,10 @@ public class Office {
 		this.coords = coords;
 	}
 	
+	public Coordinates getCoordinates() {
+		return coords;
+	}
+	
 	public RatingAverage getAverage() {
 		return new RatingAverage(3.0);
 	}

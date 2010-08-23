@@ -1,5 +1,7 @@
 package com.thoughtworks.thoughtferret.model.map;
 
+import com.google.android.maps.GeoPoint;
+
 import android.location.Location;
 
 public class Coordinates {
@@ -24,6 +26,12 @@ public class Coordinates {
 		float[] results = new float[3];
 		Location.distanceBetween(latitude, longitude, target.latitude, target.longitude, results);
 		return results[0];
+	}
+	
+	public GeoPoint toGeoPoint() {
+		int lat = (int) (latitude * 1E6);
+		int lon = (int) (longitude * 1E6);
+		return new GeoPoint(lat, lon);
 	}
 	
 }

@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
@@ -88,6 +87,12 @@ public class MoodUpdate extends Activity {
     }
  
     public void okClick(View view) {
+    	
+//      TelephonyManager tm  = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE); 
+//      GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
+//      int cellId = location.getCid();
+//      location.getLac();
+    	
     	int rating = (int)moodRate.getRating();
 		MoodRating moodRating = new MoodRating(rating);
     	MoodTags moodTags = keywordsEditor.getMoodTags(rating);
