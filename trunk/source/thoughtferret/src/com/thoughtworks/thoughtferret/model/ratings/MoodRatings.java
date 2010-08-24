@@ -1,7 +1,15 @@
 package com.thoughtworks.thoughtferret.model.ratings;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+
+import org.joda.time.LocalDateTime;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 
 public class MoodRatings {
 
@@ -25,6 +33,26 @@ public class MoodRatings {
 	
 	public MoodRating getLast() {
 		return ratings.get(ratings.size() - 1);
+	}
+	
+	public RatingAverage getAverage() {
+		double sum = 0;
+		for (MoodRating rating : ratings) {
+			sum += rating.getRating();
+		}
+		double average = sum / ratings.size();
+		return new RatingAverage(average);
+	}
+	
+	public MoodRatings getSubset(final LocalDateTime start, final LocalDateTime end) {
+		Collection<MoodRating> subset = Collections2.filter(ratings, new Predicate<MoodRating>() {
+			@Override
+			public boolean apply(MoodRating rating) {
+				return rating.getLoggedDate().isAfter(start)
+					&& rating.getLoggedDate().isBefore(end);
+			}
+		});
+		return new MoodRatings(new ArrayList<MoodRating>(subset));
 	}
 	
 }

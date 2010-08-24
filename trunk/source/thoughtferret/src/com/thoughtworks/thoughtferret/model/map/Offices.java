@@ -1,25 +1,22 @@
 package com.thoughtworks.thoughtferret.model.map;
 
+import java.util.Arrays;
 import java.util.List;
-
-import org.joda.time.LocalDateTime;
-import org.joda.time.Months;
 
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
-public abstract class Offices {
+public class Offices {
 
-	private List<Office> offices;
+	private final List<Office> offices;
 	
-	public Offices(MoodRatings ratings) {
-		offices = createOffices();
+	protected Offices(MoodRatings ratings, Office ... offices) {
+		this.offices = Arrays.asList(offices);
 		for (MoodRating rating : ratings.getValues()) {
 			Office closest = getClosestOffice(rating);
+			//closest.addRating(rating);
 		}
 	}
-	
-	protected abstract List<Office> createOffices();
 	
 	public List<Office> getOffices() {
 		return offices;

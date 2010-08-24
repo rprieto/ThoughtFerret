@@ -17,7 +17,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
-import com.thoughtworks.thoughtferret.model.map.CityOffices;
+import com.thoughtworks.thoughtferret.model.map.OfficesFactory;
 import com.thoughtworks.thoughtferret.model.map.Office;
 import com.thoughtworks.thoughtferret.model.map.Offices;
 import com.thoughtworks.thoughtferret.model.map.locations.Cities;
@@ -45,18 +45,18 @@ public class Map extends MapActivity {
         mc.animateTo(Cities.SYDNEY.toGeoPoint());
         mc.setZoom(6);
         
-        MoodRatingDao dao = new MoodRatingDao(this);
-        MoodRatings ratings = dao.findAll();
-        Offices offices = new CityOffices(ratings);
-        
-        List<Overlay> listOfOverlays = mapView.getOverlays();
-        listOfOverlays.clear();
-        for (Office office : offices.getOffices()) {
-        	OfficeOverlay overlay = new OfficeOverlay(office);
-        	listOfOverlays.add(overlay);
-        }
-        
-        mapView.invalidate();
+//        MoodRatingDao dao = new MoodRatingDao(this);
+//        MoodRatings ratings = dao.findAll();
+//        Offices offices = new OfficesFactory(ratings);
+//        
+//        List<Overlay> listOfOverlays = mapView.getOverlays();
+//        listOfOverlays.clear();
+//        for (Office office : offices.getOffices()) {
+//        	OfficeOverlay overlay = new OfficeOverlay(office);
+//        	listOfOverlays.add(overlay);
+//        }
+//        
+//        mapView.invalidate();
 	}
 	
 	@Override

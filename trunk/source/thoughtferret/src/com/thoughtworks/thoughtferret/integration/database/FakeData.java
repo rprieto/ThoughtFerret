@@ -1,6 +1,6 @@
 package com.thoughtworks.thoughtferret.integration.database;
 
-import static com.thoughtworks.thoughtferret.DateUtils.date;
+import static com.thoughtworks.thoughtferret.DateUtils.dateAndTime;
 import android.content.Context;
 
 import com.thoughtworks.thoughtferret.model.map.locations.Cities;
@@ -22,40 +22,40 @@ public class FakeData {
 	
 	public void createHistory() {
 		MoodRatings ratings = new MoodRatings(
-				new MoodRating(date("05-06-2010 09:45"), 3, Cities.SYDNEY),
-				new MoodRating(date("17-06-2010 16:28"), 5, Cities.SYDNEY),
-				new MoodRating(date("26-06-2010 11:45"), 5, Cities.SYDNEY),
-				new MoodRating(date("27-06-2010 08:39"), 4, Cities.SYDNEY),
-				new MoodRating(date("16-07-2010 09:45"), 5, Cities.SYDNEY),
-				new MoodRating(date("18-07-2010 16:28"), 3, Cities.SYDNEY),
-				new MoodRating(date("19-07-2010 11:45"), 4, Cities.SYDNEY),
-				new MoodRating(date("25-07-2010 08:39"), 4, Cities.SYDNEY),
-				new MoodRating(date("26-07-2010 15:20"), 2, Cities.SYDNEY),
-				new MoodRating(date("29-07-2010 12:11"), 1, Cities.SYDNEY),
-				new MoodRating(date("01-08-2010 17:43"), 2, Cities.SYDNEY),
-				new MoodRating(date("02-08-2010 09:18"), 2, Cities.SYDNEY),
-				new MoodRating(date("06-08-2010 11:59"), 3, Cities.SYDNEY),
-				new MoodRating(date("17-08-2010 17:04"), 3, Cities.SYDNEY),
-				new MoodRating(date("23-08-2010 12:38"), 4, Cities.SYDNEY),
-				new MoodRating(date("24-08-2010 10:41"), 4, Cities.SYDNEY),
-				new MoodRating(date("29-08-2010 16:03"), 5, Cities.SYDNEY),
-				new MoodRating(date("02-09-2010 18:16"), 2, Cities.SYDNEY),
-				new MoodRating(date("07-09-2010 17:04"), 3, Cities.SYDNEY),
-				new MoodRating(date("08-09-2010 12:38"), 3, Cities.SYDNEY),
-				new MoodRating(date("18-09-2010 10:41"), 4, Cities.SYDNEY),
-				new MoodRating(date("24-09-2010 16:03"), 5, Cities.SYDNEY),
-				new MoodRating(date("01-10-2010 04:53"), 3, Cities.SYDNEY),
-				new MoodRating(date("05-10-2010 12:27"), 2, Cities.SYDNEY),
-				new MoodRating(date("20-10-2010 16:31"), 1, Cities.SYDNEY),
-				new MoodRating(date("22-10-2010 11:05"), 4, Cities.SYDNEY),
-				new MoodRating(date("16-11-2010 20:09"), 3, Cities.SYDNEY),
-				new MoodRating(date("16-11-2010 02:22"), 3, Cities.SYDNEY),
-				new MoodRating(date("04-12-2010 08:35"), 5, Cities.SYDNEY),
-				new MoodRating(date("05-12-2010 13:06"), 4, Cities.SYDNEY),
-				new MoodRating(date("10-12-2010 14:04"), 3, Cities.SYDNEY),
-				new MoodRating(date("12-12-2010 09:08"), 4, Cities.SYDNEY),
-				new MoodRating(date("17-12-2010 13:17"), 2, Cities.SYDNEY),
-				new MoodRating(date("20-12-2010 12:56"), 4, Cities.SYDNEY));
+				new MoodRating(dateAndTime("05/06/2010 09:45"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("17/06/2010 16:28"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("26/06/2010 11:45"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("27/06/2010 08:39"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("16/07/2010 09:45"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("18/07/2010 16:28"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("19/07/2010 11:45"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("25/07/2010 08:39"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("26/07/2010 15:20"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("29/07/2010 12:11"), 1, Cities.SYDNEY),
+				new MoodRating(dateAndTime("01/08/2010 17:43"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("02/08/2010 09:18"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("06/08/2010 11:59"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("17/08/2010 17:04"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("23/08/2010 12:38"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("24/08/2010 10:41"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("29/08/2010 16:03"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("02/09/2010 18:16"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("07/09/2010 17:04"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("08/09/2010 12:38"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("18/09/2010 10:41"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("24/09/2010 16:03"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("01/10/2010 04:53"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("05/10/2010 12:27"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("20/10/2010 16:31"), 1, Cities.SYDNEY),
+				new MoodRating(dateAndTime("22/10/2010 11:05"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("16/11/2010 20:09"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("16/11/2010 02:22"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("04/12/2010 08:35"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("05/12/2010 13:06"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("10/12/2010 14:04"), 3, Cities.SYDNEY),
+				new MoodRating(dateAndTime("12/12/2010 09:08"), 4, Cities.SYDNEY),
+				new MoodRating(dateAndTime("17/12/2010 13:17"), 2, Cities.SYDNEY),
+				new MoodRating(dateAndTime("20/12/2010 12:56"), 4, Cities.SYDNEY));
 		
 		ratingsDao.deleteAll();
 		ratingsDao.persist(ratings);

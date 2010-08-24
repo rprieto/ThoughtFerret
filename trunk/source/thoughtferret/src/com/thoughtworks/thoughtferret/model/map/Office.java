@@ -2,25 +2,22 @@ package com.thoughtworks.thoughtferret.model.map;
 
 import static com.thoughtworks.thoughtferret.DateUtils.oneMonthAgo;
 import static com.thoughtworks.thoughtferret.DateUtils.today;
+import static com.thoughtworks.thoughtferret.DateUtils.twoMonthsAgo;
 
 import org.joda.time.LocalDateTime;
 
-import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class Office {
 
-	private String name;
-	private Coordinates coords;
-	private MoodRatings ratings;
+	private final String name;
+	private final Coordinates coords;
+	private final MoodRatings ratings;
 	
-	public Office(String name, Coordinates coords) {
+	public Office(String name, Coordinates coords, MoodRatings ratings) {
 		this.name = name;
 		this.coords = coords;
-	}
-	
-	public void setRatings(MoodRatings ratings) {
 		this.ratings = ratings;
 	}
 	
@@ -37,8 +34,8 @@ public class Office {
 	}
 	
 	public Trend getTrend() {
-		RatingAverage previous = getAverage(oneMonthAgo(), today());
-		RatingAverage current = getAverage();
+		RatingAverage previous = getAverage(twoMonthsAgo(), oneMonthAgo());
+		RatingAverage current = getAverage(oneMonthAgo(), today());
 		if (previous.doubleValue() < current.doubleValue()) {
 			return Trend.UP;
 		} else if (previous.equals(current)) {
@@ -49,14 +46,8 @@ public class Office {
 	}
 	
 	private RatingAverage getAverage(LocalDateTime start, LocalDateTime end) {
-		int sum = 0;
-		for (MoodRating rating : ratings.getValues()) {
-			if (rating.getLoggedDate().isAfter(start) && rating.getLoggedDate().isBefore(end)) {
-				sum += rating.getRating();
-			}
-		}
-		double average = sum / (double) ratings.getValues().size();
-		return new RatingAverage(average);
+		MoodRatings subset = ratings.getSubset(start, end);
+		return subset.getAverage();
 	}
 	
 }

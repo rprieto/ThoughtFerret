@@ -8,8 +8,6 @@ import org.joda.time.Seconds;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.thoughtworks.thoughtferret.model.map.Coordinates;
-
 public final class DateUtils {
 
 	public static LocalDateTime startOfMonth(LocalDateTime date) {
@@ -35,7 +33,12 @@ public final class DateUtils {
 	}
 
 	public static LocalDateTime date(String dateAndTime) {
-		DateTimeFormatter parser = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+		DateTimeFormatter parser = DateTimeFormat.forPattern("dd/MM/yyyy");
+		return new LocalDateTime(parser.parseDateTime(dateAndTime));
+	}
+
+	public static LocalDateTime dateAndTime(String dateAndTime) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm");
 		return new LocalDateTime(parser.parseDateTime(dateAndTime));
 	}
 	
@@ -71,7 +74,7 @@ public final class DateUtils {
 	}
 	
 	public static LocalDateTime twoMonthsAgo() {
-		return new LocalDateTime().minus(Months.ONE);	
+		return new LocalDateTime().minus(Months.TWO);	
 	}
 	
 }
