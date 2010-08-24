@@ -29,5 +29,9 @@ public class RatingAverage {
 	public double doubleValue() {
 		return value.doubleValue();
 	}
+	
+	public String stringValue() {
+		return String.format("%.1f", value.doubleValue());
+	}
 
 }

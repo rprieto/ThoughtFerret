@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;

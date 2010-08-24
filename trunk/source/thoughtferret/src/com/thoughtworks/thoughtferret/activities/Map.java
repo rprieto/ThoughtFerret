@@ -17,9 +17,9 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
-import com.thoughtworks.thoughtferret.model.map.OfficesFactory;
 import com.thoughtworks.thoughtferret.model.map.Office;
 import com.thoughtworks.thoughtferret.model.map.Offices;
+import com.thoughtworks.thoughtferret.model.map.OfficesFactory;
 import com.thoughtworks.thoughtferret.model.map.locations.Cities;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
@@ -45,18 +45,18 @@ public class Map extends MapActivity {
         mc.animateTo(Cities.SYDNEY.toGeoPoint());
         mc.setZoom(6);
         
-//        MoodRatingDao dao = new MoodRatingDao(this);
-//        MoodRatings ratings = dao.findAll();
-//        Offices offices = new OfficesFactory(ratings);
-//        
-//        List<Overlay> listOfOverlays = mapView.getOverlays();
-//        listOfOverlays.clear();
-//        for (Office office : offices.getOffices()) {
-//        	OfficeOverlay overlay = new OfficeOverlay(office);
-//        	listOfOverlays.add(overlay);
-//        }
-//        
-//        mapView.invalidate();
+        MoodRatingDao dao = new MoodRatingDao(this);
+        MoodRatings ratings = dao.findAll();
+        Offices offices = new OfficesFactory().cityOffices(ratings);
+        
+        List<Overlay> overlays = mapView.getOverlays();
+        overlays.clear();
+        for (Office office : offices.getOffices()) {
+        	OfficeOverlay overlay = new OfficeOverlay(office);
+        	overlays.add(overlay);
+        }
+        
+        mapView.invalidate();
 	}
 	
 	@Override
@@ -88,7 +88,7 @@ public class Map extends MapActivity {
             super.draw(canvas, mapView, shadow);                   
  
             Point target = new Point();
-            mapView.getProjection().toPixels(office.getCoordinates().toGeoPoint(), target);
+            mapView.getProjection().toPixels(office.getLocation().getCoordinates().toGeoPoint(), target);
  
             int triangleHeight = 12;
             int triangleWidth = 15;
@@ -110,14 +110,12 @@ public class Map extends MapActivity {
             Rect box = new Rect(target.x - boxWidth / 2, target.y - triangleHeight - boxHeight, target.x + boxWidth / 2, target.y - triangleHeight);
             RectF oval = new RectF(target.x - ovalWidth / 2, target.y - ovalHeight / 2, target.x + ovalWidth / 2, target.y + ovalHeight / 2);
             
-            String average = String.format("%.1f", office.getAverage().doubleValue());
-            
             canvas.drawOval(oval, markerEdge);
             canvas.drawOval(oval, markerFill);
             canvas.drawPath(marker, markerEdge);
             canvas.drawPath(marker, markerFill);
-            canvas.drawText(office.getName(), box.centerX(), box.top + 30, textPaint);
-            canvas.drawText(average, box.centerX(), box.bottom - 15, textPaint);
+            canvas.drawText(office.getLocation().getName(), box.centerX(), box.top + 30, textPaint);
+            canvas.drawText(office.getAverage().stringValue(), box.centerX(), box.bottom - 15, textPaint);
             
             return true;
         }

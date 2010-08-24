@@ -4,7 +4,6 @@ import static com.thoughtworks.thoughtferret.DateUtils.dateAndTime;
 import android.content.Context;
 
 import com.thoughtworks.thoughtferret.model.map.locations.Cities;
-import com.thoughtworks.thoughtferret.model.map.locations.Landmarks;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.model.tags.MoodTag;

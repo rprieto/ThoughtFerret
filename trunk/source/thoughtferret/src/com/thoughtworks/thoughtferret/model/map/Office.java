@@ -11,22 +11,16 @@ import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class Office {
 
-	private final String name;
-	private final Coordinates coords;
+	private Location location;
 	private final MoodRatings ratings;
 	
-	public Office(String name, Coordinates coords, MoodRatings ratings) {
-		this.name = name;
-		this.coords = coords;
+	public Office(Location location, MoodRatings ratings) {
+		this.location = location;
 		this.ratings = ratings;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public Coordinates getCoordinates() {
-		return coords;
+	public Location getLocation() {
+		return location;
 	}
 	
 	public RatingAverage getAverage() {
