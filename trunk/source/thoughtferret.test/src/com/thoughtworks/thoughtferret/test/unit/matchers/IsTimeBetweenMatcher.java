@@ -4,6 +4,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
+import org.joda.time.Minutes;
 import org.junit.internal.matchers.TypeSafeMatcher;
 
 public class IsTimeBetweenMatcher {
@@ -17,10 +18,9 @@ public class IsTimeBetweenMatcher {
 			
 			@Override
 			public boolean matchesSafely(LocalDateTime other) {
-				return other.getHourOfDay() >= start.getHourOfDay()
-					&& other.getMinuteOfHour() >= start.getMinuteOfHour()
-					&& other.getHourOfDay() <= end.getHourOfDay()
-					&& other.getMinuteOfHour() <= end.getMinuteOfHour();
+				Minutes maxMinutes = Minutes.minutesBetween(start, end);
+				Minutes actualMinutes = Minutes.minutesBetween(start, other.toLocalTime());
+				return actualMinutes.isLessThan(maxMinutes);
 			}
 		};
 	}

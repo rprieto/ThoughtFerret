@@ -3,7 +3,12 @@ package com.thoughtworks.thoughtferret;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.joda.time.Minutes;
+import org.joda.time.Months;
 import org.joda.time.Seconds;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import com.thoughtworks.thoughtferret.model.map.Coordinates;
 
 public final class DateUtils {
 
@@ -29,6 +34,11 @@ public final class DateUtils {
 		return new LocalDateTime(year, month, day, 0, 0, 0, 0);
 	}
 
+	public static LocalDateTime date(String dateAndTime) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("dd-MM-yyyy HH:mm");
+		return new LocalDateTime(parser.parseDateTime(dateAndTime));
+	}
+	
 	public static long timestamp(int day, int month, int year) {
 		return new LocalDateTime(year, month, day, 0, 0, 0, 0).toDateTime().getMillis();
 	}
@@ -52,4 +62,17 @@ public final class DateUtils {
 		return date.toString("dd/MM/yyyy hh:mm:ss aa");
 	}
 	
+	public static LocalDateTime today() {
+		return new LocalDateTime();
+	}
+	
+	public static LocalDateTime oneMonthAgo() {
+		return new LocalDateTime().minus(Months.ONE);	
+	}
+	
+	public static LocalDateTime twoMonthsAgo() {
+		return new LocalDateTime().minus(Months.ONE);	
+	}
+	
 }
+

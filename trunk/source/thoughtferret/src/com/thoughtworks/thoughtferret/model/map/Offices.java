@@ -1,6 +1,5 @@
 package com.thoughtworks.thoughtferret.model.map;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
@@ -9,24 +8,18 @@ import org.joda.time.Months;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
-public class Offices {
+public abstract class Offices {
 
 	private List<Office> offices;
 	
 	public Offices(MoodRatings ratings) {
-		offices = Arrays.asList(
-				new Office("Sydney", Places.SYDNEY_OFFICE),
-				new Office("Melbourne", Places.MELBOURNE_OFFICE),
-				new Office("Brisbane", Places.BRISBANE_OFFICE),
-				new Office("Perth", Places.PERTH_OFFICE)
-				);
-		
+		offices = createOffices();
 		for (MoodRating rating : ratings.getValues()) {
-			if (inLastTwoMonths(rating)) {
-				assignRatingToOffice(rating);
-			}
+			Office closest = getClosestOffice(rating);
 		}
 	}
+	
+	protected abstract List<Office> createOffices();
 	
 	public List<Office> getOffices() {
 		return offices;
@@ -36,17 +29,17 @@ public class Offices {
 		
 	}
 
-	private boolean inLastTwoMonths(MoodRating rating) {
-		LocalDateTime twoMonthsAgo = new LocalDateTime().minus(Months.TWO);
-		return rating.getLoggedDate().isAfter(twoMonthsAgo);
-	}
-
-	private void assignRatingToOffice(MoodRating rating) {
+	public Office getClosestOffice(MoodRating rating) {
+		Office closest = null;
+		float minDistance = Integer.MAX_VALUE;
 		for (Office office : offices) {
-//			if (office.contains(rating)) {
-//				office.add(rating);
-//			}
+			float distance = office.getCoordinates().getDistanceTo(rating.getCoordinates());
+			if (distance < minDistance) {
+				minDistance = distance;
+				closest = office;
+			}
 		}
+		return closest;
 	}
 	
 }

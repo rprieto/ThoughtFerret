@@ -2,8 +2,6 @@ package com.thoughtworks.thoughtferret.activities;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -12,9 +10,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.LinearLayout;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -22,15 +17,21 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
+import com.thoughtworks.thoughtferret.model.map.CityOffices;
 import com.thoughtworks.thoughtferret.model.map.Office;
 import com.thoughtworks.thoughtferret.model.map.Offices;
-import com.thoughtworks.thoughtferret.model.map.Places;
+import com.thoughtworks.thoughtferret.model.map.locations.Cities;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.view.paints.FillPaint;
 import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class Map extends MapActivity {
+	
+	public enum MarkerMode {
+		COUNTRIES,
+		CITIES,
+	}
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,12 @@ public class Map extends MapActivity {
         mapView.setBuiltInZoomControls(true);
         
         MapController mc = mapView.getController();        
-        mc.animateTo(Places.SYDNEY_OFFICE.toGeoPoint());
+        mc.animateTo(Cities.SYDNEY.toGeoPoint());
         mc.setZoom(6);
         
         MoodRatingDao dao = new MoodRatingDao(this);
         MoodRatings ratings = dao.findAll();
-        Offices offices = new Offices(ratings);
+        Offices offices = new CityOffices(ratings);
         
         List<Overlay> listOfOverlays = mapView.getOverlays();
         listOfOverlays.clear();

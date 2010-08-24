@@ -5,9 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
@@ -18,6 +21,7 @@ import android.widget.RatingBar;
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.database.MoodRatingDao;
 import com.thoughtworks.thoughtferret.integration.database.MoodTagsDao;
+import com.thoughtworks.thoughtferret.model.map.Coordinates;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.view.ApplicationBackground;
@@ -87,17 +91,19 @@ public class MoodUpdate extends Activity {
     }
  
     public void okClick(View view) {
-    	
-//      TelephonyManager tm  = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE); 
-//      GsmCellLocation location = (GsmCellLocation) tm.getCellLocation();
-//      int cellId = location.getCid();
-//      location.getLac();
-    	
-    	int rating = (int)moodRate.getRating();
-		MoodRating moodRating = new MoodRating(rating);
+    	int rating = (int) moodRate.getRating();
+		MoodRating moodRating = new MoodRating(rating, getCurrentLocation());
     	MoodTags moodTags = keywordsEditor.getMoodTags(rating);
     	moodRatingDao.persist(moodRating);
     	moodTagsDao.persist(moodTags);
     }
+
+	private Coordinates getCurrentLocation() {
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    	Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    	return new Coordinates(location);
+	}
+    
+    
     
 }

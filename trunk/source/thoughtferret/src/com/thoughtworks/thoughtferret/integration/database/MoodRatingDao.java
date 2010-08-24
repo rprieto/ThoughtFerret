@@ -3,6 +3,7 @@ package com.thoughtworks.thoughtferret.integration.database;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.thoughtworks.thoughtferret.model.map.Coordinates;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 
@@ -51,16 +52,19 @@ public class MoodRatingDao {
 		ContentValues values = new ContentValues();
 		values.put("loggedDate", moodRating.getLoggedDate().toDateTime().getMillis());
 		values.put("rating", moodRating.getRating());
+		values.put("latitude", moodRating.getCoordinates().getLatitude());
+		values.put("longitude", moodRating.getCoordinates().getLongitude());
 		database.insert("MoodRating", "loggedDate", values);
 	}
 	
 	public MoodRatings findAll() {
 		List<MoodRating> ratings = new ArrayList<MoodRating>();
 		SQLiteDatabase database = databaseHelper.getReadableDatabase();
-		Cursor cursor = database.rawQuery("select loggedDate, rating from MoodRating", null);
+		Cursor cursor = database.rawQuery("select loggedDate, rating, latitude, longitude from MoodRating", null);
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			ratings.add(new MoodRating(cursor.getLong(0), cursor.getInt(1)));
+			Coordinates coords = new Coordinates(cursor.getDouble(2), cursor.getDouble(3));
+			ratings.add(new MoodRating(cursor.getLong(0), cursor.getInt(1), coords));
 			cursor.moveToNext();
 		}
 		cursor.close();

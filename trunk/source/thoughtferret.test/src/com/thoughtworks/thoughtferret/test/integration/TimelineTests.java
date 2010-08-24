@@ -1,19 +1,20 @@
 package com.thoughtworks.thoughtferret.test.integration;
 
+import static com.thoughtworks.thoughtferret.DateUtils.date;
 import junit.framework.TestCase;
 
+import com.thoughtworks.thoughtferret.model.map.locations.Cities;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRating;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.view.moodgraph.graph.Chronology;
 import com.thoughtworks.thoughtferret.view.moodgraph.graph.Timeline;
-import static com.thoughtworks.thoughtferret.DateUtils.*;
 
 public class TimelineTests extends TestCase {
 
 	public void testTimelineShouldCreateOneUnitPerMonth() {
 		MoodRatings ratings = new MoodRatings(
-				new MoodRating("05-06-2010 09:45", 1),
-				new MoodRating("20-09-2010 12:56", 1));
+				new MoodRating(date("05-06-2010 09:45"), 1, Cities.SYDNEY),
+				new MoodRating(date("20-09-2010 12:56"), 1, Cities.SYDNEY));
 		Chronology chronology = new Chronology(date(1, 6, 2010), 1);
 		Timeline timeline = new Timeline(ratings, chronology);
 		assertEquals(4, timeline.getUnits().size());
@@ -21,8 +22,8 @@ public class TimelineTests extends TestCase {
 	
 	public void testTimelineShouldCalculateTheRightSizeBasedOnTheNumberOfDaysInAMonth() {
 		MoodRatings ratings = new MoodRatings(
-				new MoodRating("05-06-2010 09:45", 1),
-				new MoodRating("20-09-2010 12:56", 1));
+				new MoodRating(date("05-06-2010 09:45"), 1, Cities.SYDNEY),
+				new MoodRating(date("20-09-2010 12:56"), 1, Cities.SYDNEY));
 		Chronology chronology = new Chronology(date(1, 6, 2010), 1);
 		Timeline timeline = new Timeline(ratings, chronology);
 		int expectedWidth = 30 + 31 + 31 + 30;
@@ -31,8 +32,8 @@ public class TimelineTests extends TestCase {
 	
 	public void testTimelineShouldCalculateTheRightSizeInARealisticScreenSize() {
 		MoodRatings ratings = new MoodRatings(
-				new MoodRating("05-06-2010 09:45", 1),
-				new MoodRating("20-09-2010 12:56", 1));
+				new MoodRating(date("05-06-2010 09:45"), 1, Cities.SYDNEY),
+				new MoodRating(date("20-09-2010 12:56"), 1, Cities.SYDNEY));
 		int screenSize = 800;
 		int pixelsPerDay = screenSize / (4 * 30);
 		Chronology chronology = new Chronology(date(1, 6, 2010), pixelsPerDay);

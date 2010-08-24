@@ -14,13 +14,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("create table MoodRating (loggedDate integer primary key, rating integer)");
+		db.execSQL("create table MoodRating (loggedDate integer primary key, rating integer, latitude double, longitude double)");
 		db.execSQL("create table MoodTag (text string primary key, count integer, ratingSum integer)");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
 	}
 
 }
