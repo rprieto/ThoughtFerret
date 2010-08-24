@@ -17,7 +17,25 @@ public class OfficesFactory {
 				new Location("Sydney", Cities.SYDNEY),
 				new Location("Melbourne", Cities.MELBOURNE),
 				new Location("Brisbane", Cities.BRISBANE),
-				new Location("Perth", Cities.PERTH));
+				new Location("Perth", Cities.PERTH),
+				new Location("Porto Alegre", Cities.PORTO_ALEGRE),
+				new Location("Calgary", Cities.CALGARY),
+				new Location("Toronto", Cities.TORONTO),
+				new Location("Beijing", Cities.BEIJING),
+				new Location("Hamburg", Cities.HAMBURG),
+				new Location("Bangalore", Cities.BANGALORE),
+				new Location("Chennai", Cities.CHENNAI),
+				new Location("Delhi", Cities.DELHI),
+				new Location("Pune", Cities.PUNE),
+				new Location("Stockholm", Cities.STOCKHOLM),
+				new Location("London", Cities.LONDON),
+				new Location("Manchester", Cities.MANCHESTER),
+				new Location("Chicago", Cities.CHICAGO),
+				new Location("Atlanta", Cities.ATLANTA),
+				new Location("San Francisco", Cities.SAN_FRANCISCO),
+				new Location("New York", Cities.NEW_YORK),
+				new Location("Dallas", Cities.DALLAS)
+				);
 		return createOffices(locations, ratings);
 	}
 	
@@ -25,12 +43,14 @@ public class OfficesFactory {
 		List<Location> locations = Arrays.asList(
 				new Location("Australia", Countries.AUSTRALIA),
 				new Location("Brazil", Countries.BRAZIL),
+				new Location("Canada", Countries.CANADA),
 				new Location("China", Countries.CHINA),
-				new Location("India", Countries.INDIA),
-				new Location("UK", Countries.UK),
-				new Location("USA", Countries.USA),
 				new Location("Germany", Countries.GERMANY),
-				new Location("Canada", Countries.CANADA));
+				new Location("India", Countries.INDIA),
+				new Location("Sweden", Countries.SWEDEN),
+				new Location("UK", Countries.UK),
+				new Location("USA", Countries.USA)
+				);
 		return createOffices(locations, ratings);
 	}
 	

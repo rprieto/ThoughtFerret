@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class OfficeFactoryTests extends TestCase {
 
 	public void testShouldAllocateRatingsToTheRightOffice() {
-
+		assertFalse(true);
 	}
 	
 }

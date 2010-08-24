@@ -10,6 +10,11 @@ import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class MoodRatingsTests extends TestCase {
 
+	public void testShouldReturnAnAverageOfZeroWhenItDoesntHaveAnyRatings() {
+		MoodRatings ratings = new MoodRatings();
+		assertEquals(new RatingAverage(0d), ratings.getAverage());
+	}
+	
 	public void testShouldCalculateAverageOfMultipleRatings() {
 		MoodRatings ratings = new MoodRatings(
 				new MoodRating(today(), 3, Cities.SYDNEY),

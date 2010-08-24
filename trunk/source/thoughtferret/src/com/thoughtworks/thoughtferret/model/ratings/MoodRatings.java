@@ -35,12 +35,16 @@ public class MoodRatings {
 	}
 	
 	public RatingAverage getAverage() {
-		double sum = 0;
-		for (MoodRating rating : ratings) {
-			sum += rating.getRating();
+		if (ratings.size() > 0) {
+			double sum = 0;
+			for (MoodRating rating : ratings) {
+				sum += rating.getRating();
+			}
+			double average = sum / ratings.size();
+			return new RatingAverage(average);
+		} else {
+			return new RatingAverage(0d);
 		}
-		double average = sum / ratings.size();
-		return new RatingAverage(average);
 	}
 	
 	public MoodRatings getSubset(final LocalDateTime start, final LocalDateTime end) {
