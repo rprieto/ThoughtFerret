@@ -11,23 +11,23 @@ public class Cities {
 	public static Coordinates PERTH = new Coordinates(-31.954, 115.859);
 	
 	// Brazil
-	public static Coordinates PORTO_ALEGRE = new Coordinates(0, 0);
+	public static Coordinates PORTO_ALEGRE = new Coordinates(-30.013, -51.228);
 	
 	// Canada
-	public static Coordinates CALGARY = new Coordinates(0, 0);
-	public static Coordinates TORONTO = new Coordinates(0, 0);
+	public static Coordinates CALGARY = new Coordinates(51.053, -114.054);
+	public static Coordinates TORONTO = new Coordinates(43.664, -79.381);
 
 	// China
-	public static Coordinates BEIJING = new Coordinates(0, 0);
+	public static Coordinates BEIJING = new Coordinates(39.928, 116.407);
 
 	// Germany
-	public static Coordinates HAMBURG = new Coordinates(0, 0);
+	public static Coordinates HAMBURG = new Coordinates(53.574, 9.992);
 	
 	// India
-	public static Coordinates BANGALORE = new Coordinates(0, 0);
-	public static Coordinates CHENNAI = new Coordinates(0, 0);
-	public static Coordinates DELHI = new Coordinates(0, 0);
-	public static Coordinates PUNE = new Coordinates(0, 0);
+	public static Coordinates BANGALORE = new Coordinates(12.989, 77.593);
+	public static Coordinates CHENNAI = new Coordinates(13.077, 80.249);
+	public static Coordinates DELHI = new Coordinates(28.650, 77.224);
+	public static Coordinates PUNE = new Coordinates(18.528, 73.856);
 
 	// Sweden
 	public static Coordinates STOCKHOLM = new Coordinates(59.341, 18.065);
