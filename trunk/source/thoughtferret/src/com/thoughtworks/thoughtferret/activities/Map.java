@@ -17,7 +17,7 @@ import com.thoughtworks.thoughtferret.model.map.locations.Cities;
 import com.thoughtworks.thoughtferret.model.ratings.MoodRatings;
 import com.thoughtworks.thoughtferret.view.map.Markers;
 
-public class Map extends MapActivity /*implements OnZoomListener*/ {
+public class Map extends MapActivity {
 	
 	private MapView mapView;
 	private Markers markers;
@@ -34,9 +34,6 @@ public class Map extends MapActivity /*implements OnZoomListener*/ {
         MoodRatings ratings = dao.findAll();
         markers = new Markers(mapView, ratings);
 
-//        ZoomButtonsController zoomButton = mapView.getZoomButtonsController();
-//		zoomButton.setOnZoomListener(this);
-        
         MapController mc = mapView.getController();
         mc.animateTo(Cities.SYDNEY.toGeoPoint());
         mc.setZoom(6);
@@ -48,15 +45,6 @@ public class Map extends MapActivity /*implements OnZoomListener*/ {
 	protected boolean isRouteDisplayed() {
 		return false;
 	}
-	
-//	@Override
-//	public void onVisibilityChanged(boolean visible) {
-//	}
-
-//	@Override
-//	public void onZoom(boolean zoomIn) {
-//		markers.setZoom(mapView.getZoomLevel());
-//	} 
 	
 	@Override
     public void onBackPressed() {

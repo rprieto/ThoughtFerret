@@ -2,10 +2,6 @@ package com.thoughtworks.thoughtferret.view.map;
 
 import java.util.List;
 
-import android.graphics.Canvas;
-import android.os.Handler;
-import android.util.Log;
-
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.thoughtworks.thoughtferret.model.map.Office;
@@ -25,19 +21,14 @@ public class Markers {
 	private Mode currentMode;
 	private MapView mapView;
 	private MoodRatings ratings;
+	private ZoomDetector zoomDetector;
 	
 	public Markers(MapView mapView, MoodRatings ratings) {
 		this.mapView = mapView;
 		this.ratings = ratings;
+		this.zoomDetector = new ZoomDetector(zoomChanged);
 		mapView.getOverlays().clear();
-		mapView.getOverlays().add(new ZoomDetector());	
-	}
-	
-	public void setZoom(int zoomLevel) {
-		if (getMode(zoomLevel) != currentMode) {
-			currentMode = getMode(zoomLevel);
-	        createMarkers(createOffices());
-		}
+		mapView.getOverlays().add(zoomDetector);	
 	}
 	
 	public Mode getMode(int zoomLevel) {
@@ -55,31 +46,22 @@ public class Markers {
 	private void createMarkers(Offices offices) {
 		List<Overlay> overlays = mapView.getOverlays();
         overlays.clear();
-        overlays.add(new ZoomDetector());
+        overlays.add(zoomDetector);
         for (Office office : offices.getOffices()) {
         	OfficeOverlay overlay = new OfficeOverlay(office);
         	overlays.add(overlay);
         }
 	}
 	
-	public class ZoomDetector extends Overlay
-	{
-		int currentZoom = -1;
-		
-		public void draw(Canvas canvas, MapView mapView, boolean shadow) {
-			if (mapView.getZoomLevel() != currentZoom) {
-				Log.i("Markers", String.format("Changed zoom! Was %d, now %d", currentZoom, mapView.getZoomLevel()));
-				currentZoom = mapView.getZoomLevel();
-				
-				new Handler().post(new Runnable() {
-					@Override
-					public void run() {
-						setZoom(currentZoom);
-					}
-				});
-				
+	private Runnable zoomChanged = new Runnable() {
+		@Override
+		public void run() {
+			Mode newMode = getMode(mapView.getZoomLevel());
+			if (newMode != currentMode) {
+				currentMode = newMode;
+		        createMarkers(createOffices());
 			}
 		}
-	}
+	};
 	
 }
