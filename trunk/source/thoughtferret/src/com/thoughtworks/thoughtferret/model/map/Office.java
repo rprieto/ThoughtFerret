@@ -23,6 +23,10 @@ public class Office {
 		return location;
 	}
 	
+	public boolean hasAverage() {
+		return ratings.getValues().size() > 0;
+	}
+	
 	public RatingAverage getAverage() {
 		return getAverage(oneMonthAgo(), today());
 	}

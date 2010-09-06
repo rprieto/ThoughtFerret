@@ -14,7 +14,7 @@ import com.thoughtworks.thoughtferret.model.ratings.RatingAverage;
 
 public class OfficeTests extends TestCase {
 
-	private Location sydney = new Location("Sydney", Cities.SYDNEY);
+	private Location sydney = new Location("Sydney", "SYD", Cities.SYDNEY);
 	
 	public void testShouldCalculateAverageBasedOnTheLastMonth() {
 		MoodRatings ratings = new MoodRatings(

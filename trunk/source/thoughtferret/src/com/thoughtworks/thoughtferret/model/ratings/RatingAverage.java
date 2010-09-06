@@ -31,12 +31,11 @@ public class RatingAverage {
 	}
 	
 	public String stringValue() {
-		if (value.intValue() != 0) {
-			return String.format("%.1f", value.doubleValue());
-		}
-		else {
-			return "unknown";
-		}
+		return String.format("%.1f", value.doubleValue());
+	}
+
+	public int getRounded() {
+		return (int) Math.round(doubleValue());
 	}
 
 }

@@ -48,7 +48,7 @@ public class Markers {
         overlays.clear();
         overlays.add(zoomDetector);
         for (Office office : offices.getOffices()) {
-        	OfficeOverlay overlay = new OfficeOverlay(office);
+        	OfficeOverlay overlay = new OfficeOverlay(mapView.getContext(), office);
         	overlays.add(overlay);
         }
 	}
