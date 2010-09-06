@@ -9,8 +9,6 @@ import junit.framework.TestCase;
 import org.joda.time.LocalDateTime;
 
 import com.thoughtworks.thoughtferret.model.agent.EveryDay;
-import com.thoughtworks.thoughtferret.model.agent.EveryFewDays;
-import com.thoughtworks.thoughtferret.model.agent.EveryWeek;
 import com.thoughtworks.thoughtferret.model.agent.ReminderStrategy;
 
 public class EveryDayTests extends TestCase {
@@ -29,8 +27,8 @@ public class EveryDayTests extends TestCase {
 	public void testShouldReturnADateInTheNextDayAtMonthBoundaries() {
 		LocalDateTime today = date(30, 9, 2010);
 		for (int i=0; i<MAX_RANDOM_TRIES; ++i) {
-			LocalDateTime next = new EveryFewDays().getNext(today);
-			assertFalse("not implemented", true);
+			LocalDateTime next = new EveryDay().getNext(today);
+			assertThat(next, isSameDateAs(1, 10, 2010));
 			assertThat(next, isTimeBetween(ReminderStrategy.MIN_TIME, ReminderStrategy.MAX_TIME));
 		}
 	}
@@ -38,8 +36,8 @@ public class EveryDayTests extends TestCase {
 	public void testShouldReturnADateInTheNextDayAtYearBoundaries() {
 		LocalDateTime today = date(31, 12, 2010);
 		for (int i=0; i<MAX_RANDOM_TRIES; ++i) {
-			LocalDateTime next = new EveryWeek().getNext(today);
-			assertFalse("not implemented", true);
+			LocalDateTime next = new EveryDay().getNext(today);
+			assertThat(next, isSameDateAs(1, 1, 2011));
 			assertThat(next, isTimeBetween(ReminderStrategy.MIN_TIME, ReminderStrategy.MAX_TIME));
 		}
 	}

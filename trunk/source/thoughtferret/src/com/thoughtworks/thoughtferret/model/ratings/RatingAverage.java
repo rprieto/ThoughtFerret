@@ -31,7 +31,12 @@ public class RatingAverage {
 	}
 	
 	public String stringValue() {
-		return String.format("%.1f", value.doubleValue());
+		if (value.intValue() != 0) {
+			return String.format("%.1f", value.doubleValue());
+		}
+		else {
+			return "unknown";
+		}
 	}
 
 }
