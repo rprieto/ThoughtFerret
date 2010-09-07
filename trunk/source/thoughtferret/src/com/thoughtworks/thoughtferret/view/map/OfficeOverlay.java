@@ -21,19 +21,18 @@ import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class OfficeOverlay extends Overlay
 {
-	Office office;
+	private static final int BOX_HEIGHT = 90;
+	private static final int BOX_WIDTH = 130;
+	
+	private Office office;
+	private HashMap<Trend, Bitmap> trendImages;
 	
 	private Paint nopPaint = new Paint();
 	private Paint markerEdge = new LinePaint(0xFF444444, 1);
 	private Paint shadowedEdge = new LinePaint(0xFF000000, 2);
 	private Paint textPaint = new FontPaint(0xFF000000, 20, Align.CENTER);
-	private Paint fillPaint = new FillPaint(0XFFFAFAFA);
-	
-	private HashMap<Trend, Bitmap> trendImages;
+	private Paint fillPaint = new FillPaint(0XFFFAFAFA);	
 
-	private static final int BOX_HEIGHT = 80;
-	private static final int BOX_WIDTH = 130;
-	
 	public OfficeOverlay(Context context, Office office) {
 		this.office = office;
 		trendImages = new HashMap<Trend, Bitmap>();
@@ -60,9 +59,9 @@ public class OfficeOverlay extends Overlay
         MoodWeather weather = new MoodWeather(office.getAverage());
         Bitmap weatherImage = BitmapFactory.decodeResource(mapView.getResources(), weather.getResourceId());
         
-        canvas.drawText(office.getLocation().getShortName(), box.left + 25, box.top + 20, textPaint);        
+        canvas.drawText(office.getLocation().getShortName(), box.left + 25, box.top + 25, textPaint);        
         canvas.drawBitmap(weatherImage, box.centerX() - 32, box.centerY() - 32, nopPaint);
-        canvas.drawBitmap(trendImages.get(office.getTrend()), box.right - 30, box.bottom - 30, nopPaint);
+        canvas.drawBitmap(trendImages.get(office.getTrend()), box.right - 30, box.bottom - 35, nopPaint);
     }
     
 }
