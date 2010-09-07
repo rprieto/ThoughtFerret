@@ -24,7 +24,7 @@ public class OfficeOverlay extends Overlay
 	Office office;
 	
 	private Paint nopPaint = new Paint();
-	private Paint markerEdge = new LinePaint(0xFF333333, 1);
+	private Paint markerEdge = new LinePaint(0xFF444444, 1);
 	private Paint shadowedEdge = new LinePaint(0xFF000000, 2);
 	private Paint textPaint = new FontPaint(0xFF000000, 20, Align.CENTER);
 	private Paint fillPaint = new FillPaint(0XFFFAFAFA);
@@ -41,8 +41,8 @@ public class OfficeOverlay extends Overlay
 		trendImages.put(Trend.DOWN, BitmapFactory.decodeResource(context.getResources(), Trend.DOWN.getResourceId()));
 		trendImages.put(Trend.STABLE, BitmapFactory.decodeResource(context.getResources(), Trend.STABLE.getResourceId()));
 		
-        shadowedEdge.setShadowLayer(2f, 1.5f, 2.5f, 0xFF333333);
-        fillPaint.setShadowLayer(2f, 1.5f, 2.5f, 0xFFDDDDDD);
+        shadowedEdge.setShadowLayer(2f, 3f, 3f, 0xFF000000);
+        fillPaint.setShadowLayer(2f, 3f, 3f, 0xFFDDDDDD);
 	}
 	
     @Override

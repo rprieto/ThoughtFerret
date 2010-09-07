@@ -21,6 +21,6 @@
 <item>EVERY_WEEK</item>
 </string-array>
 <string name="notificationHeader">Your ferret wants to know:</string>
-<string name="notificationGreeting">How\'s your afternoon going mate?</string>
+<string name="notificationGreeting">How\'s your arvo going mate?</string>
 
 </resources>

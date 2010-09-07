@@ -1,12 +1,6 @@
 package com.thoughtworks.thoughtferret.activities;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.ZoomButtonsController;
-import android.widget.ZoomButtonsController.OnZoomListener;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -20,7 +14,6 @@ import com.thoughtworks.thoughtferret.view.map.Markers;
 public class Map extends MapActivity {
 	
 	private MapView mapView;
-	private Markers markers;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +25,7 @@ public class Map extends MapActivity {
         
         MoodRatingDao dao = new MoodRatingDao(this);
         MoodRatings ratings = dao.findAll();
-        markers = new Markers(mapView, ratings);
+        new Markers(mapView, ratings);
 
         MapController mc = mapView.getController();
         mc.animateTo(Cities.SYDNEY.toGeoPoint());

@@ -28,29 +28,11 @@ public class Markers {
 		this.ratings = ratings;
 		this.zoomDetector = new ZoomDetector(zoomChanged);
 		mapView.getOverlays().clear();
-		mapView.getOverlays().add(zoomDetector);	
+		mapView.getOverlays().add(zoomDetector);
 	}
 	
 	public Mode getMode(int zoomLevel) {
 		return zoomLevel > SWITCH_LEVEL ? Mode.CITIES : Mode.COUNTRIES;
-	}
-	
-	public Offices createOffices() {
-		if (currentMode == Mode.COUNTRIES) {
-			return new OfficesFactory().countryOffices(ratings);
-		} else {
-			return new OfficesFactory().cityOffices(ratings);
-		}
-	}
-	
-	private void createMarkers(Offices offices) {
-		List<Overlay> overlays = mapView.getOverlays();
-        overlays.clear();
-        overlays.add(zoomDetector);
-        for (Office office : offices.getOffices()) {
-        	OfficeOverlay overlay = new OfficeOverlay(mapView.getContext(), office);
-        	overlays.add(overlay);
-        }
 	}
 	
 	private Runnable zoomChanged = new Runnable() {
@@ -64,4 +46,22 @@ public class Markers {
 		}
 	};
 	
+	private void createMarkers(Offices offices) {
+		List<Overlay> overlays = mapView.getOverlays();
+		overlays.clear();
+		overlays.add(zoomDetector);
+		for (Office office : offices.getOffices()) {
+			OfficeOverlay overlay = new OfficeOverlay(mapView.getContext(), office);
+			overlays.add(overlay);
+		}
+	}
+
+	private Offices createOffices() {
+		if (currentMode == Mode.COUNTRIES) {
+			return new OfficesFactory().countryOffices(ratings);
+		} else {
+			return new OfficesFactory().cityOffices(ratings);
+		}
+	}
+
 }
