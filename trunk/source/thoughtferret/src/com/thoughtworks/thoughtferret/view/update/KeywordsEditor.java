@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -74,8 +75,9 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		if (dragDropListener.getDraggedView() != null) {
-			canvas.drawRect(dragDropListener.getDragFeedback(), new LinePaint(0xFF00FF00, 2f));
-			//canvas.drawLine(startX, startY, stopX, stopY, paint)
+			RectF feedback = new RectF(dragDropListener.getDragFeedback());
+			feedback.offset(getPaddingLeft(), getPaddingTop());
+			canvas.drawRoundRect(feedback, 10f, 10f, new LinePaint(0xFF666666, 2f));
 		}
 	}
 	

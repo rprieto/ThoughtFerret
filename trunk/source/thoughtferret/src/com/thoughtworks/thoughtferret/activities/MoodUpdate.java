@@ -96,6 +96,8 @@ public class MoodUpdate extends Activity {
     	MoodTags moodTags = keywordsEditor.getMoodTags(rating);
     	moodRatingDao.persist(moodRating);
     	moodTagsDao.persist(moodTags);
+    	finish();
+    	overridePendingTransition(0, 0);
     }
 
 	private Coordinates getCurrentLocation() {

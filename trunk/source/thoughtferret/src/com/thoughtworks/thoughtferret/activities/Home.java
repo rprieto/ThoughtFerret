@@ -71,13 +71,21 @@ public class Home extends Activity {
 	
 	private void setBackground() {
 		ApplicationBackground appBackground = new ApplicationBackground(this, ApplicationBackground.GradientDirection.HORIZONTAL, true);
-        Bitmap ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homeferret);       
-        Bitmap smallFerret = Bitmap.createScaledBitmap(ferretBitmap, 200, 200, true);
-        
         Bitmap fullBackground = Bitmap.createBitmap(screen.width(), screen.height(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(fullBackground);
         appBackground.draw(canvas);
+                
+		drawFerret(canvas);
+        drawLogo(canvas);
         
+        BitmapDrawable drawable = new BitmapDrawable(fullBackground);        
+        homeBackground.setBackgroundDrawable(drawable);
+	}
+
+	private void drawFerret(Canvas canvas) {
+        Bitmap ferretBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.homeferret);       
+        Bitmap smallFerret = Bitmap.createScaledBitmap(ferretBitmap, 200, 200, true);
+
         Paint paint = new Paint(); 
         paint.setXfermode(new PorterDuffXfermode(Mode.MULTIPLY)); 
 
@@ -85,10 +93,15 @@ public class Home extends Activity {
         int top = (screen.height() - smallFerret.getHeight()) / 2;
         Point topLeft = new Point(left, top);
         canvas.drawBitmap(smallFerret, topLeft.x, topLeft.y, paint);
-        
-        BitmapDrawable drawable = new BitmapDrawable(fullBackground);        
-        homeBackground.setBackgroundDrawable(drawable);
 	}
+
+	private void drawLogo(Canvas canvas) {
+		Paint logoPaint = new Paint();
+        logoPaint.setAlpha(110);
+        Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
+        canvas.drawBitmap(logo, screen.width() - logo.getWidth(), 0, logoPaint);
+	}
+
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

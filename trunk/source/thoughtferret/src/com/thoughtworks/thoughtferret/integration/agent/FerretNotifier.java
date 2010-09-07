@@ -32,6 +32,7 @@ public class FerretNotifier {
 		notification.contentView = contentView;
 		
 		Intent notificationIntent = new Intent(context, MoodUpdate.class);
+		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 		notification.contentIntent = contentIntent;
 

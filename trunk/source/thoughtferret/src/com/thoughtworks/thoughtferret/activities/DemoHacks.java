@@ -22,8 +22,17 @@ public class DemoHacks extends Activity {
         loadNextFerretDate();
 	}
 	
+	@Override
+    public void onBackPressed() {
+		this.finish();
+		overridePendingTransition(0, 0);
+		return;
+    }
+	
 	public void triggerFerretClick(View view) {
 		new Scheduler(this).registerNextVerySoon();
+		finish();
+		overridePendingTransition(0, 0);
 	}
 	
 	public void deleteDatabaseClick(View view) {
