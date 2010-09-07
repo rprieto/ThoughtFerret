@@ -77,7 +77,7 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 		if (dragDropListener.getDraggedView() != null) {
 			RectF feedback = new RectF(dragDropListener.getDragFeedback());
 			feedback.offset(getPaddingLeft(), getPaddingTop());
-			canvas.drawRoundRect(feedback, 10f, 10f, new LinePaint(0xFF666666, 2f));
+			canvas.drawRoundRect(feedback, 15f, 15f, new LinePaint(0xFF666666, 2f));
 		}
 	}
 	
