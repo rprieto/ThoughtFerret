@@ -51,12 +51,13 @@ public class FakeData {
 				new MoodRating(dateAndTime("02/08/2010 09:18"), 2, Cities.BRISBANE),
 				new MoodRating(dateAndTime("06/08/2010 11:59"), 3, Cities.BRISBANE),
 				new MoodRating(dateAndTime("17/08/2010 17:04"), 4, Cities.BRISBANE),
-				new MoodRating(dateAndTime("23/08/2010 12:38"), 5, Cities.SYDNEY),
+				new MoodRating(dateAndTime("23/08/2010 12:38"), 4, Cities.SYDNEY),
 				new MoodRating(dateAndTime("24/08/2010 10:41"), 4, Cities.BRISBANE),
 				new MoodRating(dateAndTime("29/08/2010 16:03"), 3, Cities.BRISBANE),
-				new MoodRating(dateAndTime("02/09/2010 18:16"), 2, Cities.BRISBANE),
-				new MoodRating(dateAndTime("07/09/2010 17:04"), 3, Cities.BRISBANE),
-				new MoodRating(dateAndTime("08/09/2010 12:38"), 2, Cities.BRISBANE)
+				new MoodRating(dateAndTime("02/09/2010 18:16"), 1, Cities.BRISBANE),
+				new MoodRating(dateAndTime("06/09/2010 17:04"), 3, Cities.BRISBANE),
+				new MoodRating(dateAndTime("07/09/2010 12:38"), 2, Cities.BRISBANE),
+				new MoodRating(dateAndTime("07/09/2010 16:15"), 5, Cities.MELBOURNE)
 				);
 		
 		ratingsDao.deleteAll();
