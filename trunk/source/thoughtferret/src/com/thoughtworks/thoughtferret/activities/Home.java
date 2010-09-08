@@ -97,7 +97,7 @@ public class Home extends Activity {
 
 	private void drawLogo(Canvas canvas) {
 		Paint logoPaint = new Paint();
-        logoPaint.setAlpha(110);
+        logoPaint.setAlpha(120);
         Bitmap logo = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         canvas.drawBitmap(logo, screen.width() - logo.getWidth(), 0, logoPaint);
 	}
