@@ -14,7 +14,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
-import android.widget.ImageButton;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 
@@ -31,7 +32,7 @@ public class MoodUpdate extends Activity {
 	
 	private static final int VOICE_RECOGNITION_REQUEST_CODE = 1234;
 
-	private ImageButton speakButton;
+	private Button speakButton;
     private KeywordsEditor keywordsEditor;
     private MoodRatingDao moodRatingDao;
     private MoodTagsDao moodTagsDao;
@@ -41,7 +42,7 @@ public class MoodUpdate extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.moodupdate);
-        speakButton = (ImageButton) findViewById(R.id.speakButton);
+        speakButton = (Button) findViewById(R.id.speakButton);
         keywordsEditor = (KeywordsEditor) findViewById(R.id.keywordsEditor);
         moodRate = (RatingBar) findViewById(R.id.moodRate);
         setupVoiceRecognition();
@@ -73,6 +74,12 @@ public class MoodUpdate extends Activity {
         startVoiceRecognitionActivity();
     }
 
+    public void typeClick(View v) {
+    	InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    	//mgr.showSoftInput(keywordsEditor, InputMethodManager.SHOW_FORCED);
+    	mgr.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+    }
+    
     private void startVoiceRecognitionActivity() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);

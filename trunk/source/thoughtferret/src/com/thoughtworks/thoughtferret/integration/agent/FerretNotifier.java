@@ -18,7 +18,7 @@ public class FerretNotifier {
 		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		
 		int icon = R.drawable.icon;
-		CharSequence tickerText = "Hello";
+		CharSequence tickerText = "ThoughtFerret";
 		long when = System.currentTimeMillis();
 
 		Notification notification = new Notification(icon, tickerText, when);

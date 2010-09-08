@@ -8,9 +8,11 @@ import android.view.ViewGroup;
 
 class WrappingLayout extends ViewGroup  {
 
+	private static final int MIN_HEIGHT = 100;
+	private static final int HORIZONTAL_SPACING = 10;
+	private static final int VERTICAL_SPACING = 10;
+
 	private int rowHeight;
-	private int horizontalSpacing = 10;
-	private int verticalSpacing = 10;
 
 	public WrappingLayout(Context context) {
 		super(context, null);
@@ -27,6 +29,9 @@ class WrappingLayout extends ViewGroup  {
 		
 		mesureChildren(width, height);
 		int totalHeight = calculateTotalHeight(width);
+		if (totalHeight < MIN_HEIGHT) {
+			totalHeight = MIN_HEIGHT;
+		}
 		
 		setMeasuredDimension(width, totalHeight);
     }
@@ -45,7 +50,7 @@ class WrappingLayout extends ViewGroup  {
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
             calculateChildPosition(child, currentPos, maxWidth);
-            currentPos.offset(child.getMeasuredWidth() + horizontalSpacing, 0);
+            currentPos.offset(child.getMeasuredWidth() + HORIZONTAL_SPACING, 0);
 		}
 		return currentPos.y + rowHeight;
 	}
@@ -57,14 +62,14 @@ class WrappingLayout extends ViewGroup  {
 			View child = getChildAt(i);			
 			calculateChildPosition(child, currentPos, right - left);
 			layoutChild(child, currentPos);
-            currentPos.offset(child.getMeasuredWidth() + horizontalSpacing, 0);
+            currentPos.offset(child.getMeasuredWidth() + HORIZONTAL_SPACING, 0);
 		}
 	}
 	
 	private void calculateChildPosition(View child, Point suggested, int maxWidth) {
 		if (suggested.x + child.getMeasuredWidth() > maxWidth) {
 			suggested.x = 0;
-			suggested.y += rowHeight + verticalSpacing;
+			suggested.y += rowHeight + VERTICAL_SPACING;
 		}
 	}
 	
