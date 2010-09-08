@@ -2,14 +2,10 @@ package com.thoughtworks.thoughtferret.activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.thoughtworks.thoughtferret.R;
 import com.thoughtworks.thoughtferret.integration.Preferences;
@@ -24,28 +20,6 @@ public class DemoHacks extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demohacks);
         loadNextFerretDate();
-        
-        Uri path = Uri.parse("android.resource://com.thoughtworks.thoughtferret/" + R.raw.jumpingferret);
-        final VideoView video = (VideoView) findViewById(R.id.ferretVideo);
-        
-		video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-			@Override
-			public void onPrepared(MediaPlayer mp) {
-				Log.i("Demo", "Duration = " + video.getDuration());
-				video.requestFocus();
-				video.start();
-			}
-		});
-        
-		video.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				video.start();
-			}
-		});
-		
-        video.setVideoURI(path);
-
 	}
 
 	@Override
