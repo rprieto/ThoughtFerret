@@ -10,24 +10,16 @@
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
     	android:layout_gravity="center"
+    	android:layout_margin="10dp"
     	android:textSize="20sp"
-    	android:text="Rate your current mood"
+    	android:text="How are you feeling today?"
     	android:textColor="#FF000000"
     	/>
-	<TextView  
-    	android:layout_width="wrap_content" 
-    	android:layout_height="wrap_content" 
-    	android:layout_gravity="center"
-    	android:textSize="20sp"
-    	android:text="and enter a few tags explaining why"
-    	android:textColor="#FF000000"
-    	/>
-    <RatingBar 
+	<RatingBar 
     	android:id="@+id/moodRate"
     	android:layout_width="wrap_content" 
     	android:layout_height="wrap_content" 
     	android:layout_gravity="center"
-    	android:layout_margin="5dp"
     	android:numStars="5"
     	android:stepSize="1"
     	android:rating="3"
@@ -37,6 +29,8 @@
     	android:id="@+id/keywordsEditor"
     	android:layout_width="fill_parent" 
     	android:layout_height="wrap_content" 
+    	android:layout_marginTop="15dp"
+    	android:layout_marginBottom="15dp"
     	android:background="@drawable/homebutton"
     	android:padding="10dp"
     	/>
@@ -44,14 +38,13 @@
         android:orientation="horizontal"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:layout_marginTop="10dp"
     	>
 	    <Button
 	    	android:id="@+id/speakButton"
 	    	android:layout_width="wrap_content" 
 	    	android:layout_height="wrap_content" 
 	    	android:background="@drawable/homebutton"
-	    	android:text="Speak"
+	    	android:text="Add tags"
 	    	android:onClick="speakClick"
 			android:paddingLeft="30dp"
 			android:paddingRight="30dp"

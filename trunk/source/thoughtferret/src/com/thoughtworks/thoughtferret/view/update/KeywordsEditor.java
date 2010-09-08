@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Paint.Align;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.thoughtworks.thoughtferret.model.tags.MoodTags;
 import com.thoughtworks.thoughtferret.model.tags.MoodTagsBuilder;
+import com.thoughtworks.thoughtferret.view.paints.FontPaint;
 import com.thoughtworks.thoughtferret.view.paints.LinePaint;
 
 public class KeywordsEditor extends LinearLayout implements OnWordDeletionListener, OnDropListener {
@@ -74,6 +76,10 @@ public class KeywordsEditor extends LinearLayout implements OnWordDeletionListen
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		if (moodTagsBuilder.getKeywords().isEmpty()) {
+			FontPaint textPaint = new FontPaint(0xFF000000, 24, Align.CENTER);
+			canvas.drawText("...and don't forget to add a few tags!", getWidth() / 2, getHeight() / 2, textPaint);
+		}
 		if (dragDropListener.getDraggedView() != null) {
 			RectF feedback = new RectF(dragDropListener.getDragFeedback());
 			feedback.offset(getPaddingLeft(), getPaddingTop());
